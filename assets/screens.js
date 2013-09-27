@@ -47,10 +47,58 @@ Game.Screen.startScreen = {
     },
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
-//        if (inputType === 'keydown') {
-//            if (inputData.keyCode === ROT.VK_RETURN) {
-//                Game.switchScreen(Game.Screen.playScreen);
-//            }
-//        }
+        if (inputData.keyCode === ROT.VK_RETURN) {
+            Game.switchScreen(Game.Screen.playScreen);
+        }
+    }
+}
+
+/**
+ * Current standin for main game screen.
+ */
+// Define our playing screen
+Game.Screen.playScreen = {
+    _level: null,
+    enter: function() {
+        console.log("Entered play screen.");
+        console.log("Generating level...");
+
+
+        // Create our level from the tiles
+        this._player = {
+            getX: function() { return 0; },
+            getY: function() { return 0; }
+        };
+        this._level = new Game.Level();
+    },
+    exit: function() { console.log("Exited play screen."); },
+    render: function(display) {
+        var screenWidth = Game.getScreenWidth();
+        var screenHeight = Game.getScreenHeight();
+        // Make sure the x-axis doesn't go to the left of the left bound
+        var topLeftX = Math.max(0, this._player.getX() - (screenWidth / 2));
+        // Make sure we still have enough space to fit an entire game screen
+        topLeftX = Math.min(topLeftX, this._level.getWidth() - screenWidth);
+        // Make sure the y-axis doesn't above the top bound
+        var topLeftY = Math.max(0, this._player.getY() - (screenHeight / 2));
+        // Make sure we still have enough space to fit an entire game screen
+        topLeftY = Math.min(topLeftY, this._level.getHeight() - screenHeight);
+
+        // Iterate through all visible level cells
+        for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
+            for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
+                // Fetch the glyph for the tile and render it to the screen
+                // at the offset position.
+                var glyph = this._level.getTileAt(x, y);
+                display.draw(
+                    x - topLeftX,
+                    y - topLeftY,
+                    glyph.getChar(),
+                    glyph.getForeground(),
+                    glyph.getBackground());
+            }
+        }
+    },
+    handleInput: function(inputType, inputData) {
     }
 }
