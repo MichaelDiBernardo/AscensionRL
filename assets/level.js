@@ -1,10 +1,12 @@
-Game.Level = function() {
-    this._generateRandomLevel();
+Game.Level = function(player) {
+    this._entities = [player];
+    this._width = 0;
+    this._height = 0;
+    this._generateRandomLevel(player);
 };
 
-Game.Level.prototype._generateRandomLevel = function() {
-    //var possibleDimensions = [[300, 200], [600, 400], [420, 250]];
-    var possibleDimensions = [[300, 200]];
+Game.Level.prototype._generateRandomLevel = function(player) {
+    var possibleDimensions = [[300, 200], [600, 400], [420, 250]];
     var dimensions = possibleDimensions.random();
     this._width = dimensions[0];
     this._height = dimensions[1];
@@ -19,9 +21,12 @@ Game.Level.prototype._generateRandomLevel = function() {
         }
     }
 
-    var generator = new ROT.Map.Digger(this._width, this._height);
+    var generator = new ROT.Map.Digger(this._width, this._height, {
+        roomWidth: [3, 20],
+        roomHeight: [3, 15],
+        corridorLength: [3, 20],
+    });
 
-    // Smoothen it one last time and then update our level
     generator.create(function(x, y, v) {
         if (v === 0) {
             map[x][y] = Game.Tile.floorTile;
@@ -34,6 +39,16 @@ Game.Level.prototype._generateRandomLevel = function() {
             map[x][y] = Game.Tile.doorTile;
         });
     }
+
+    // Put player in random room.
+    var randomRoom = rooms[ROT.RNG.getUniformInt(0, rooms.length - 1)];
+    var playerX = randomRoom.getLeft() +
+        Math.floor((randomRoom.getRight() - randomRoom.getLeft()) / 2);
+    var playerY = randomRoom.getTop() +
+        Math.floor((randomRoom.getBottom() - randomRoom.getTop()) / 2);
+
+    player.setX(playerX);
+    player.setY(playerY);
 
     this._map = map;
 };
@@ -54,4 +69,8 @@ Game.Level.prototype.getWidth = function() {
 
 Game.Level.prototype.getHeight = function() {
     return this._height;
+};
+
+Game.Level.prototype.getEntities= function() {
+    return this._entities;
 };

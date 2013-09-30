@@ -65,11 +65,8 @@ Game.Screen.playScreen = {
 
 
         // Create our level from the tiles
-        this._player = {
-            getX: function() { return 0; },
-            getY: function() { return 0; }
-        };
-        this._level = new Game.Level();
+        this._player = new Game.Entity(Game.PlayerTemplate);
+        this._level = new Game.Level(this._player);
     },
     exit: function() { console.log("Exited play screen."); },
     render: function(display) {
@@ -98,7 +95,42 @@ Game.Screen.playScreen = {
                     glyph.getBackground());
             }
         }
+
+        // Render the entities
+        var entities = this._level.getEntities();
+        for (var i = 0; i < entities.length; i++) {
+            var entity = entities[i];
+            // Only render the entity if they would show up on the screen
+            if (entity.getX() >= topLeftX && entity.getY() >= topLeftY &&
+                entity.getX() < topLeftX + screenWidth &&
+                entity.getY() < topLeftY + screenHeight) {
+                display.draw(
+                    entity.getX() - topLeftX,
+                    entity.getY() - topLeftY,
+                    entity.getChar(),
+                    entity.getForeground(),
+                    entity.getBackground()
+                );
+            }
+        }
+    },
+    move: function(dX, dY) {
+        var newX = this._player.getX() + dX;
+        var newY = this._player.getY() + dY;
+        // Try to move to the new cell
+        this._player.tryMove(newX, newY, this._level);
     },
     handleInput: function(inputType, inputData) {
+        // Movement
+        if (inputData.keyCode === ROT.VK_LEFT) {
+            this.move(-1, 0);
+        } else if (inputData.keyCode === ROT.VK_RIGHT) {
+            this.move(1, 0);
+        } else if (inputData.keyCode === ROT.VK_UP) {
+            this.move(0, -1);
+        } else if (inputData.keyCode === ROT.VK_DOWN) {
+            this.move(0, 1);
+        }
+        Game.refresh();
     }
 }
