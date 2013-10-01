@@ -1,8 +1,9 @@
-Game.Stats = function() {
-    this._str = 0;
-    this._dex = 0;
-    this._con = 0;
-    this._gra = 0;
+Game.Stats = function(properties) {
+    var properties = properties || {};
+    this._str = properties['str'] || 0;
+    this._dex = properties['dex'] || 0;
+    this._con = properties['con'] || 0;
+    this._gra = properties['gra'] || 0;
 };
 
 Game.Stats.prototype.str = function() {
