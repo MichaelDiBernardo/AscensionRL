@@ -1,0 +1,19 @@
+ - Actors have stats
+ - Actors have skills
+ - Actors have a "battler view"
+ - Simple melee / evade with fists
+ - Equipment can be generated on the ground
+ - Actors have equipment (monsters?)
+ - Monsters can be configured in file
+ - Player has inventory
+ - Dungeon has multiple floors
+ - Monsters get a native height
+ - Player gains XP from killing monsters
+ - Items can be generated on the ground
+ - Player can pick up items
+ - Items stack in inventory
+ - Player can use items
+ - Inventory is limited by space
+ - Inventory is limited by weight?
+ - Actors can drop items
+ - Items don't stack on the ground but distribute
