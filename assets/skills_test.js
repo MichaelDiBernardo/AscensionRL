@@ -1,5 +1,5 @@
 test("Default skills are 0", function() {
-    var sut = new Game.Skills(new Game.Stats());
+    var sut = new Game.Skills();
 
     // Dex skills
     strictEqual(sut.melee(), 0);
@@ -13,9 +13,9 @@ test("Default skills are 0", function() {
 });
 
 test("Giving default skill investments", function() {
-    var sut = new Game.Skills(new Game.Stats(), {
-        baseMelee: 4,
-        baseWill: 1
+    var sut = new Game.Skills({
+        melee: 4,
+        will: 1
     });
 
     strictEqual(sut.melee(), 4);
@@ -26,27 +26,27 @@ test("Giving default skill investments", function() {
     strictEqual(sut.magic(), 0);
 });
 
-test("Stats effect skills", function() {
-    var stats = new Game.Stats({
-        str: 2,
-        dex: 4,
-        con: 3,
-        gra: 1
-    });
-
-    var sut = new Game.Skills(stats, {
-        baseMelee: 1,
-        baseRanged: 2,
-        baseEvasion: 3,
-        baseWill: 4,
-        basePerception: 5,
-        baseMagic: 6
-    });
-
-    strictEqual(sut.melee(), 5);
-    strictEqual(sut.ranged(), 6);
-    strictEqual(sut.evasion(), 7);
-    strictEqual(sut.will(), 5);
-    strictEqual(sut.perception(), 6);
-    strictEqual(sut.magic(), 7);
-});
+//test("Stats effect skills", function() {
+//    var stats = new Game.Stats({
+//        str: 2,
+//        dex: 4,
+//        con: 3,
+//        gra: 1
+//    });
+//
+//    var sut = new Game.Skills(stats, {
+//        baseMelee: 1,
+//        baseRanged: 2,
+//        baseEvasion: 3,
+//        baseWill: 4,
+//        basePerception: 5,
+//        baseMagic: 6
+//    });
+//
+//    strictEqual(sut.melee(), 5);
+//    strictEqual(sut.ranged(), 6);
+//    strictEqual(sut.evasion(), 7);
+//    strictEqual(sut.will(), 5);
+//    strictEqual(sut.perception(), 6);
+//    strictEqual(sut.magic(), 7);
+//});
