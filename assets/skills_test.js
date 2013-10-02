@@ -25,28 +25,3 @@ test("Giving default skill investments", function() {
     strictEqual(sut.perception(), 0);
     strictEqual(sut.magic(), 0);
 });
-
-//test("Stats effect skills", function() {
-//    var stats = new Game.Stats({
-//        str: 2,
-//        dex: 4,
-//        con: 3,
-//        gra: 1
-//    });
-//
-//    var sut = new Game.Skills(stats, {
-//        baseMelee: 1,
-//        baseRanged: 2,
-//        baseEvasion: 3,
-//        baseWill: 4,
-//        basePerception: 5,
-//        baseMagic: 6
-//    });
-//
-//    strictEqual(sut.melee(), 5);
-//    strictEqual(sut.ranged(), 6);
-//    strictEqual(sut.evasion(), 7);
-//    strictEqual(sut.will(), 5);
-//    strictEqual(sut.perception(), 6);
-//    strictEqual(sut.magic(), 7);
-//});
