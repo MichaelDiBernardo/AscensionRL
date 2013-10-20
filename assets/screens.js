@@ -107,9 +107,9 @@ Game.Screen.playScreen = {
                 display.draw(
                     entity.getX() - topLeftX,
                     entity.getY() - topLeftY,
-                    entity.getChar(),
-                    entity.getForeground(),
-                    entity.getBackground()
+                    entity.getGlyph().getChar(),
+                    entity.getGlyph().getForeground(),
+                    entity.getGlyph.getBackground()
                 );
             }
         }

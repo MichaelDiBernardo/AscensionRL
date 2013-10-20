@@ -1,12 +1,12 @@
 Game.Entity = function(properties) {
     properties = properties || {};
     // Call the glyph's constructor with our set of properties
-    Game.Glyph.call(this, properties);
     // Instantiate any properties from the passed object
     this._name = properties['name'] || '';
     this._x = properties['x'] || 0;
     this._y = properties['y'] || 0;
     this._map = null;
+    this._glyph = properties['glyph'] || Game.Glyph.NullGlyph;
 
     // Create an object which will keep track what mixins we have
     // attached to this entity based on the name property
@@ -38,10 +38,6 @@ Game.Entity = function(properties) {
     }
 }
 
-
-// Make entities inherit all the functionality from glyphs
-Game.Entity.extend(Game.Glyph);
-
 Game.Entity.prototype.setName = function(name) {
     this._name = name;
 }
@@ -59,6 +55,9 @@ Game.Entity.prototype.getX = function() {
 }
 Game.Entity.prototype.getY   = function() {
     return this._y;
+}
+Game.Entity.prototype.getGlyph = function() {
+    return this._glyph;
 }
 Game.Entity.prototype.hasMixin = function(obj) {
     // Allow passing the mixin itself or the name / group name as a string

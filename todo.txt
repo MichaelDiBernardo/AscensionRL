@@ -17,3 +17,5 @@
  - Inventory is limited by weight?
  - Actors can drop items
  - Items don't stack on the ground but distribute
+ - Make entities hold a glyph, not inherit from them -- and templates will have a glyph member instead of exploded properties
+ - Make tiles hold a glyph instead of inheriting from them

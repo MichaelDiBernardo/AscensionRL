@@ -28,8 +28,10 @@ Game.Mixins.PlayerActor = {
 
 // Player template
 Game.PlayerTemplate = {
-    character: '@',
-    foreground: 'white',
-    background: 'black',
+    glyph: new Glyph({
+        character: '@',
+        foreground: 'white',
+        background: 'black',
+    }),
     mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor]
 }
