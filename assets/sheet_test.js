@@ -1,3 +1,4 @@
+module("sheet");
 test("Stats effect skills", function() {
     var stats = new Game.Stats({
         str: 2,

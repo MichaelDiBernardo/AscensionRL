@@ -19,6 +19,4 @@
         attacker.attack(defender);
         equal(defender.curHP(), 19);
     });
-
-    module();
 })();

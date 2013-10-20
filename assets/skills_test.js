@@ -1,3 +1,4 @@
+module("skills");
 test("Default skills are 0", function() {
     var sut = new Game.Skills();
 

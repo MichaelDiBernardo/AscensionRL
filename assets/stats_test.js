@@ -1,3 +1,4 @@
+module("stats");
 test("Default stats are 0", function() {
     var sut = new Game.Stats();
     strictEqual(sut.str(), 0);
