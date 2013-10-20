@@ -28,7 +28,7 @@ Game.Mixins.PlayerActor = {
 
 // Player template
 Game.PlayerTemplate = {
-    glyph: new Glyph({
+    glyph: new Game.Glyph({
         character: '@',
         foreground: 'white',
         background: 'black',

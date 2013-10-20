@@ -1,30 +1,38 @@
 Game.Tile = function(properties) {
     properties = properties || {};
-    Game.Glyph.call(this, properties);
     this._isWalkable = properties['isWalkable'] || false;
     this._isDiggable = properties['isDiggable'] || false;
+    this._glyph = properties['glyph'] || Game.Glyph.NullGlyph;
 };
 
-Game.Tile.extend(Game.Glyph);
 Game.Tile.prototype.isWalkable = function() {
     return this._isWalkable;
 }
 Game.Tile.prototype.isDiggable = function() {
     return this._isDiggable;
 }
+Game.Tile.prototype.getGlyph = function() {
+    return this._glyph;
+}
 
 Game.Tile.nullTile = new Game.Tile();
 Game.Tile.floorTile = new Game.Tile({
-    character: '.',
+    glyph: new Game.Glyph({
+        character: '.'
+    }),
     isWalkable: true
 });
 Game.Tile.doorTile = new Game.Tile({
-    character: '+',
-    isWalkable: true,
-    foreground: 'red'
+    glyph: new Game.Glyph({
+        character: '+',
+        foreground: 'red'
+    }),
+    isWalkable: true
 });
 Game.Tile.wallTile = new Game.Tile({
-    character: '#',
-    foreground: 'goldenrod',
+    glyph: new Game.Glyph({
+        character: '#',
+        foreground: 'goldenrod',
+    }),
     isDiggable: true
 });

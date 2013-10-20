@@ -86,13 +86,13 @@ Game.Screen.playScreen = {
             for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
                 // Fetch the glyph for the tile and render it to the screen
                 // at the offset position.
-                var glyph = this._level.getTileAt(x, y);
+                var tile = this._level.getTileAt(x, y);
                 display.draw(
                     x - topLeftX,
                     y - topLeftY,
-                    glyph.getChar(),
-                    glyph.getForeground(),
-                    glyph.getBackground());
+                    tile.getGlyph().getChar(),
+                    tile.getGlyph().getForeground(),
+                    tile.getGlyph().getBackground());
             }
         }
 
@@ -109,7 +109,7 @@ Game.Screen.playScreen = {
                     entity.getY() - topLeftY,
                     entity.getGlyph().getChar(),
                     entity.getGlyph().getForeground(),
-                    entity.getGlyph.getBackground()
+                    entity.getGlyph().getBackground()
                 );
             }
         }

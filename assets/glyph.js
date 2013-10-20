@@ -15,7 +15,7 @@ Game.Glyph.prototype.getForeground = function(){
     return this._foreground;
 }
 
-Game.Glyph.NullGlyph = new Glyph({
+Game.Glyph.NullGlyph = new Game.Glyph({
     character: 'Ø',
     foreground: 'white',
     background: 'red'
