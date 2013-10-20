@@ -1,15 +1,24 @@
-T.AttackTest = {}
+(function() {
+    var attacker;
+    var defender;
 
-T.AttackTest.FighterTemplate = {
-    curHP: 20,
-    maxHP: 20,
-    mixins: [Game.Mixins.Fighter]
-}
+    module("attack", {
+        setup: function() {
+            var fighterTemplate = {
+                curHP: 20,
+                maxHP: 20,
+                mixins: [Game.Mixins.Fighter]
+            };
 
-T.AttackTest.attacker = new Game.Entity(T.AttackTest.FighterTemplate);
-T.AttackTest.defender = new Game.Entity(T.AttackTest.FighterTemplate);
+            attacker = new Game.Entity(fighterTemplate);
+            defender = new Game.Entity(fighterTemplate);
+        }
+    });
 
-test("Test simple attack", function() {
-    T.AttackTest.attacker.attack(T.AttackTest.defender);
-    equal(T.AttackTest.defender.curHP(), 19);
-});
+    test("Test simple attack", function() {
+        attacker.attack(defender);
+        equal(defender.curHP(), 19);
+    });
+
+    module();
+})();
