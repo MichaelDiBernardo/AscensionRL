@@ -26,6 +26,23 @@ Game.Mixins.PlayerActor = {
     }
 }
 
+Game.Mixins.Fighter = {
+    name: 'Fighter',
+    groupName: 'Fighter',
+    init: function(properties) {
+        this._curHP = properties.curHP || 1;
+        this._maxHP = properties.maxHP || 1;
+    },
+
+    curHP: function() {
+        return this._curHP;
+    },
+
+    attack: function(defender) {
+        defender._curHP -= 1;
+    },
+}
+
 // Player template
 Game.PlayerTemplate = {
     glyph: new Game.Glyph({
