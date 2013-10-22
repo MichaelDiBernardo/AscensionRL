@@ -45,3 +45,7 @@ Game.Sheet.prototype.perceptionBonus = function() {
 Game.Sheet.prototype.magicBonus = function() {
     return this._stats.gra();
 };
+
+Game.Sheet.prototype.maxHP = function() {
+    return this._stats.maxHP();
+};

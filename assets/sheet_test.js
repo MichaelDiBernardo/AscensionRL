@@ -28,3 +28,48 @@ test("Stats effect skills", function() {
     strictEqual(sut.perception(), 6);
     strictEqual(sut.magic(), 7);
 });
+
+test("Test max HP at 0", function() {
+    var stats = new Game.Stats({
+        con: 0,
+    });
+
+    var skills = new Game.Skills();
+
+    var sut = new Game.Sheet({
+        stats: stats,
+        skills: skills
+    });
+
+    strictEqual(sut.maxHP(), 20);
+});
+
+test("Test max HP at 6", function() {
+    var stats = new Game.Stats({
+        con: 6,
+    });
+
+    var skills = new Game.Skills();
+
+    var sut = new Game.Sheet({
+        stats: stats,
+        skills: skills
+    });
+
+    strictEqual(sut.maxHP(), 59);
+});
+
+test("Test max HP at -2", function() {
+    var stats = new Game.Stats({
+        con: -2,
+    });
+
+    var skills = new Game.Skills();
+
+    var sut = new Game.Sheet({
+        stats: stats,
+        skills: skills
+    });
+
+    strictEqual(sut.maxHP(), 13);
+});

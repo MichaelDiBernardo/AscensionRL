@@ -9,12 +9,19 @@ Game.Stats = function(properties) {
 Game.Stats.prototype.str = function() {
     return this._str;
 };
+
 Game.Stats.prototype.dex = function() {
     return this._dex;
 };
+
 Game.Stats.prototype.con = function() {
     return this._con;
 };
+
 Game.Stats.prototype.gra = function() {
     return this._gra;
+};
+
+Game.Stats.prototype.maxHP = function() {
+    return Math.floor(20 * Math.pow(1.2, this.con()));
 };
