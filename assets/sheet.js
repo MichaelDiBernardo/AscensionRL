@@ -1,7 +1,7 @@
 Game.Sheet = function(properties) {
     var properties = properties || {};
-    this._stats = properties['stats'] || new Game.Stats();
-    this._skills = properties['skills'] || new Game.Skills();
+    this._stats = properties.stats || new Game.Stats();
+    this._skills = properties.skills || new Game.Skills();
     this._curHP = this.maxHP();
 };
 

@@ -1,8 +1,8 @@
 Game.Glyph = function(properties) {
     properties = properties || {};
-    this._char = properties.character || ' ';
-    this._foreground = properties.foreground || 'white';
-    this._background = properties.background || 'black';
+    this._char = properties.character || " ";
+    this._foreground = properties.foreground || "white";
+    this._background = properties.background || "black";
 };
 
 Game.Glyph.prototype.getChar = function(){
@@ -16,7 +16,7 @@ Game.Glyph.prototype.getForeground = function(){
 }
 
 Game.Glyph.NullGlyph = new Game.Glyph({
-    character: 'Ø',
-    foreground: 'white',
-    background: 'red'
+    character: "Ø",
+    foreground: "white",
+    background: "red"
 })

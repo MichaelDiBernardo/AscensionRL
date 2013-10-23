@@ -9,18 +9,18 @@
 Game.SplashScreenLoader = {
     loadFromUrl: function(screenUrl) {
         // Add random cruft to querystring to bypass browser cache.
-        var params = {
-           c: ROT.RNG.getUniform() /* bypass cache */
-        };
+        var screenData = ["... couldn't load screen!"],
+            params = {
+                c: ROT.RNG.getUniform() /* bypass cache */
+            };
 
-        var screenData = ["... couldn't load screen!"];
         $.ajax({
             url: screenUrl,
             data: params,
             async: false,
             success: function(data) {
                 // Deal with Unix-style linebreaks in screens.
-                screenData = data.replace(/\r\n/g, '\n').split("\n");
+                screenData = data.replace(/\r\n/g, "\n").split("\n");
             }
         });
         return screenData;

@@ -16,15 +16,17 @@ Game.Screen.Renderer.splashScreenRenderer = {
         // Helper function to find the actual start point of a line that begins
         // with leading whitespace.
         var findStartIndex = function(line) {
-            var startIndex = 0;
-            while (startIndex < line.length && line[startIndex] == " ") {
+            var startIndex = 0,
+                length = line.length;
+            while (startIndex < length && line[startIndex] == " ") {
                 startIndex++;
             }
             return startIndex;
         }
 
         // Render the rows.
-        for (var rowIndex = 0; rowIndex < rowsData.length; rowIndex++) {
+        var length = rowsData.length;
+        for (var rowIndex = 0; rowIndex < length; rowIndex++) {
             var row = rowsData[rowIndex];
             var start = findStartIndex(row);
             display.drawText(1 + start, rowIndex, row);
@@ -72,11 +74,11 @@ Game.Screen.playScreen = {
     render: function(display) {
         var screenWidth = Game.getScreenWidth();
         var screenHeight = Game.getScreenHeight();
-        // Make sure the x-axis doesn't go to the left of the left bound
+        // Make sure the x-axis doesn"t go to the left of the left bound
         var topLeftX = Math.max(0, this._player.getX() - (screenWidth / 2));
         // Make sure we still have enough space to fit an entire game screen
         topLeftX = Math.min(topLeftX, this._level.getWidth() - screenWidth);
-        // Make sure the y-axis doesn't above the top bound
+        // Make sure the y-axis doesn"t above the top bound
         var topLeftY = Math.max(0, this._player.getY() - (screenHeight / 2));
         // Make sure we still have enough space to fit an entire game screen
         topLeftY = Math.min(topLeftY, this._level.getHeight() - screenHeight);
@@ -97,8 +99,9 @@ Game.Screen.playScreen = {
         }
 
         // Render the entities
-        var entities = this._level.getEntities();
-        for (var i = 0; i < entities.length; i++) {
+        var entities = this._level.getEntities(),
+            length = entities.length;
+        for (var i = 0; i < length; i++) {
             var entity = entities[i];
             // Only render the entity if they would show up on the screen
             if (entity.getX() >= topLeftX && entity.getY() >= topLeftY &&
@@ -115,8 +118,8 @@ Game.Screen.playScreen = {
         }
     },
     move: function(dX, dY) {
-        var newX = this._player.getX() + dX;
-        var newY = this._player.getY() + dY;
+        var newX = this._player.getX() + dX,
+            newY = this._player.getY() + dY;
         // Try to move to the new cell
         this._player.tryMove(newX, newY, this._level);
     },

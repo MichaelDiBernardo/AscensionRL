@@ -1,19 +1,15 @@
-
 (function() {
-    var oldDie = Die.ndx;
-    var FakeDie = Die.FakeDie;
-
-    var stubDie = function(rolls) {
-        Die = new FakeDie(rolls);
-    };
-
-    var restoreDie = function() {
-        Die = {};
-        Die.ndx = oldDie;
-    };
-
-    var attacker;
-    var defender;
+    var oldDie = Die.ndx,
+        FakeDie = Die.FakeDie;
+        stubDie = function(rolls) {
+            Die = new FakeDie(rolls);
+        },
+        restoreDie = function() {
+            Die = {};
+            Die.ndx = oldDie;
+        },
+        attacker = null,
+        defender = null;
 
     module("attack", {
         setup: function() {
@@ -36,7 +32,6 @@
         // A attack roll of 10
         // B evade roll of 10
         // No other rolls made -- it's a miss.
-        // TODO: Make a test where they actually hit so that there's some code to break.
         stubDie([10, 10]);
         attacker.attack(defender);
         equal(defender.sheet().curHP(), defender.sheet().maxHP());

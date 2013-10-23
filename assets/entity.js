@@ -1,27 +1,28 @@
 Game.Entity = function(properties) {
     properties = properties || {};
-    // Call the glyph's constructor with our set of properties
+    // Call the glyph"s constructor with our set of properties
     // Instantiate any properties from the passed object
-    this._name = properties['name'] || '';
-    this._x = properties['x'] || 0;
-    this._y = properties['y'] || 0;
+    this._name = properties.name || "";
+    this._x = properties.x || 0;
+    this._y = properties.y || 0;
+    this._glyph = properties.glyph || Game.Glyph.NullGlyph;
     this._map = null;
-    this._glyph = properties['glyph'] || Game.Glyph.NullGlyph;
 
     // Create an object which will keep track what mixins we have
     // attached to this entity based on the name property
     this._attachedMixins = {};
     // Create a similar object for groups
     this._attachedMixinGroups = {};
-    // Setup the object's mixins
-    var mixins = properties['mixins'] || [];
-    for (var i = 0; i < mixins.length; i++) {
+    // Setup the object"s mixins
+    var mixins = properties.mixins || [],
+        length = mixins.length;
+    for (var i = 0; i < length; i++) {
         // Copy over all properties from each mixin as long
-        // as it's not the name or the init property. We
+        // as it"s not the name or the init property. We
         // also make sure not to override a property that
         // already exists on the entity.
         for (var key in mixins[i]) {
-            if (key != 'init' && key != 'name' && !this.hasOwnProperty(key)) {
+            if (key != "init" && key != "name" && !this.hasOwnProperty(key)) {
                 this[key] = mixins[i][key];
             }
         }
@@ -61,7 +62,7 @@ Game.Entity.prototype.getGlyph = function() {
 }
 Game.Entity.prototype.hasMixin = function(obj) {
     // Allow passing the mixin itself or the name / group name as a string
-    if (typeof obj === 'object') {
+    if (typeof obj === "object") {
         return this._attachedMixins[obj.name];
     } else {
         return this._attachedMixins[obj] || this._attachedMixinGroups[obj];

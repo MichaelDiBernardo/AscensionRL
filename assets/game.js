@@ -15,8 +15,8 @@ var Game = {
             width:this._screenWidth, height:this._screenHeight
         });
 
-        var self = this;
-        var bindEventToScreen = function(event) {
+        var self = this,
+            bindEventToScreen = function(event) {
             window.addEventListener(event, function(e) {
                 // When an event is received, send it to the
                 // screen if there is one
@@ -27,7 +27,7 @@ var Game = {
             });
         }
         // Bind keyboard input events
-        bindEventToScreen('keydown');
+        bindEventToScreen("keydown");
     },
 
     refresh: function() {

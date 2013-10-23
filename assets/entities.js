@@ -3,14 +3,14 @@ Game.Mixins = {};
 
 // Define our Moveable mixin
 Game.Mixins.Moveable = {
-    name: 'Moveable',
-    groupName: 'Moveable',
+    name: "Moveable",
+    groupName: "Moveable",
     tryMove: function(x, y, map) {
         var tile = map.getTileAt(x, y);
         // Check if we can walk on the tile
         // and if so simply walk onto it
         if (tile.isWalkable()) {
-            // Update the entity's position
+            // Update the entity"s position
             this._x = x;
             this._y = y;
             return true;
@@ -20,15 +20,15 @@ Game.Mixins.Moveable = {
 }
 
 Game.Mixins.PlayerActor = {
-    name: 'PlayerActor',
-    groupName: 'Actor',
+    name: "PlayerActor",
+    groupName: "Actor",
     act: function() {
     }
 }
 
 Game.Mixins.Fighter = {
-    name: 'Fighter',
-    groupName: 'Fighter',
+    name: "Fighter",
+    groupName: "Fighter",
     init: function(properties) {
         properties = properties || {};
         this._sheet = properties.sheet || new Game.Sheet();
@@ -44,8 +44,8 @@ Game.Mixins.Fighter = {
     },
 
     attack: function(defender) {
-        var meleeRoll = this.sheet().melee() + Die.ndx(1, 20);
-        var evasionRoll = defender.sheet().evasion() + Die.ndx(1, 20);
+        var meleeRoll = this.sheet().melee() + Die.ndx(1, 20),
+            evasionRoll = defender.sheet().evasion() + Die.ndx(1, 20);
 
         if (meleeRoll <= evasionRoll) {
             return;
@@ -63,9 +63,9 @@ Game.Mixins.Fighter = {
 // Player template
 Game.PlayerTemplate = {
     glyph: new Game.Glyph({
-        character: '@',
-        foreground: 'white',
-        background: 'black',
+        character: "@",
+        foreground: "white",
+        background: "black",
     }),
     mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor]
 }

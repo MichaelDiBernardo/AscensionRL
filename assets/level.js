@@ -6,8 +6,8 @@ Game.Level = function(player) {
 };
 
 Game.Level.prototype._generateRandomLevel = function(player) {
-    var possibleDimensions = [[300, 200], [600, 400], [420, 250]];
-    var dimensions = possibleDimensions.random();
+    var possibleDimensions = [[300, 200], [600, 400], [420, 250]],
+        dimensions = possibleDimensions.random();
     this._width = dimensions[0];
     this._height = dimensions[1];
 
@@ -33,19 +33,20 @@ Game.Level.prototype._generateRandomLevel = function(player) {
         }
     });
 
-    var rooms = generator.getRooms();
-    for (var i = 0; i < rooms.length; i++) {
+    var rooms = generator.getRooms(),
+        length = rooms.length;
+    for (var i = 0; i < length; i++) {
         rooms[i].getDoors(function(x, y) {
             map[x][y] = Game.Tile.doorTile;
         });
     }
 
     // Put player in random room.
-    var randomRoom = rooms[ROT.RNG.getUniformInt(0, rooms.length - 1)];
-    var playerX = randomRoom.getLeft() +
-        Math.floor((randomRoom.getRight() - randomRoom.getLeft()) / 2);
-    var playerY = randomRoom.getTop() +
-        Math.floor((randomRoom.getBottom() - randomRoom.getTop()) / 2);
+    var randomRoom = rooms[ROT.RNG.getUniformInt(0, rooms.length - 1)],
+        playerX = randomRoom.getLeft() +
+            Math.floor((randomRoom.getRight() - randomRoom.getLeft()) / 2),
+        playerY = randomRoom.getTop() +
+            Math.floor((randomRoom.getBottom() - randomRoom.getTop()) / 2);
 
     player.setX(playerX);
     player.setY(playerY);
@@ -54,7 +55,7 @@ Game.Level.prototype._generateRandomLevel = function(player) {
 };
 
 Game.Level.prototype.getTileAt = function(x, y) {
-    // Make sure we are inside the bounds. If we aren't, return
+    // Make sure we are inside the bounds. If we aren"t, return
     // null tile.
     if (x < 0 || x >= this._width || y < 0 || y >= this._height) {
         return Game.Tile.nullTile;
