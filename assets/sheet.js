@@ -1,7 +1,8 @@
 Game.Sheet = function(properties) {
     var properties = properties || {};
-    this._stats = properties['stats'] || new Stats();
-    this._skills = properties['skills'] || new Skills();
+    this._stats = properties['stats'] || new Game.Stats();
+    this._skills = properties['skills'] || new Game.Skills();
+    this._curHP = this.maxHP();
 };
 
 Game.Sheet.prototype.baseSkills = function() {
@@ -48,4 +49,12 @@ Game.Sheet.prototype.magicBonus = function() {
 
 Game.Sheet.prototype.maxHP = function() {
     return this._stats.maxHP();
+};
+
+Game.Sheet.prototype.curHP = function() {
+    return this._curHP;
+};
+
+Game.Sheet.prototype.setCurHP = function(amt) {
+    this._curHP = amt;
 };

@@ -30,17 +30,34 @@ Game.Mixins.Fighter = {
     name: 'Fighter',
     groupName: 'Fighter',
     init: function(properties) {
-        this._curHP = properties.curHP || 1;
-        this._maxHP = properties.maxHP || 1;
+        properties = properties || {};
+        this._sheet = properties.sheet || new Game.Sheet();
+        this._equipment = properties.equipment || new Game.Equipment();
     },
 
-    curHP: function() {
-        return this._curHP;
+    sheet: function() {
+        return this._sheet;
+    },
+
+    equipment: function() {
+        return this._equipment;
     },
 
     attack: function(defender) {
-        defender._curHP -= 1;
+        var meleeRoll = this.sheet().melee() + Die.ndx(1, 20);
+        var evasionRoll = defender.sheet().evasion() + Die.ndx(1, 20);
+
+        if (meleeRoll <= evasionRoll) {
+            return;
+        }
+
+        var damageRoll = this.equipment().weapon.damroll();
+        defender.hurt(damageRoll);
     },
+
+    hurt: function(hp) {
+        this.sheet().setCurHP(this.sheet().curHP() - hp);
+    }
 }
 
 // Player template

@@ -3,7 +3,12 @@ Game.Weapon = function(damageDice, damageSides) {
     this.damageSides = damageSides;
 };
 
-Game.Weapon.Fist = new Game.Weapon(1, 0);
+Game.Weapon.prototype.damroll = function(effectiveStrength) {
+    effectiveStrength = effectiveStrength || 0;
+    return Die.ndx(this.damageDice, this.damageSides + effectiveStrength);
+};
+
+Game.Weapon.Fist = new Game.Weapon(1, 4);
 
 Game.Armor = function(protDice, protSides) {
     this.protDice = protDice;
