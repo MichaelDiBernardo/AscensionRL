@@ -56,7 +56,8 @@ Game.Mixins.Fighter = {
     },
 
     hurt: function(hp) {
-        this.sheet().setCurHP(this.sheet().curHP() - hp);
+        var damage = Math.max(0, hp - this.equipment().protectionRoll());
+        this.sheet().setCurHP(this.sheet().curHP() - damage);
     }
 }
 

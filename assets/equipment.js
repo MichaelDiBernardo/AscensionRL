@@ -7,3 +7,7 @@ Game.Equipment = function(properties) {
 Game.Equipment.prototype.protection = function() {
     return [this.armor.protDice, this.armor.protDice * this.armor.protSides];
 };
+
+Game.Equipment.prototype.protectionRoll = function() {
+    return Die.ndx(this.armor.protDice, this.armor.protSides);
+};

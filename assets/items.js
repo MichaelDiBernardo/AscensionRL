@@ -16,3 +16,5 @@ Game.Armor = function(protDice, protSides) {
 };
 
 Game.Armor.Skin = new Game.Armor(0, 0);
+
+Game.Armor.Leather = new Game.Armor(1, 4);
