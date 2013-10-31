@@ -122,4 +122,58 @@
         attacker.attack(defender);
         equal(defender.sheet().curHP(), defender.sheet().maxHP());
     });
+
+    test("Dex affects melee and evasion -- hit", function() {
+        // Die sequence:
+        // A attack roll of 1 (+ 6 raw melee score + 1 from dex) = 8
+        // B evade roll of 2 ( + 4 raw evasion score + 1 from dex) = 7
+        // Rolls 1d4 damage (2) vs 0d0 protection (0) for a total of 2 damage.
+        var fighterTemplate = {
+            equipment: new Game.Equipment(),
+            sheet: new Game.Sheet({
+                skills: new Game.Skills({
+                    melee: 6,
+                    evasion: 4
+                }),
+                stats: new Game.Stats({
+                    dex: 1
+                })
+            }),
+            mixins: [Game.Mixins.Fighter]
+        };
+
+        var attacker = new Game.Entity(fighterTemplate),
+            defender = new Game.Entity(fighterTemplate);
+
+        stubDie([1, 2, 2, 0]);
+        attacker.attack(defender);
+        equal(18, defender.sheet().curHP());
+    });
+
+    test("Dex affects melee and evasion -- miss", function() {
+        // Die sequence:
+        // A attack roll of 1 (+ 6 raw melee score + 1 from dex) = 8
+        // B evade roll of 2 ( + 5 raw evasion score + 1 from dex) = 8
+        // Miss: No damage.
+        var fighterTemplate = {
+            equipment: new Game.Equipment(),
+            sheet: new Game.Sheet({
+                skills: new Game.Skills({
+                    melee: 6,
+                    evasion: 4
+                }),
+                stats: new Game.Stats({
+                    dex: 1
+                })
+            }),
+            mixins: [Game.Mixins.Fighter]
+        };
+
+        var attacker = new Game.Entity(fighterTemplate),
+            defender = new Game.Entity(fighterTemplate);
+
+        stubDie([1, 2, 2, 0]);
+        attacker.attack(defender);
+        equal(18, defender.sheet().curHP());
+    });
 })();
