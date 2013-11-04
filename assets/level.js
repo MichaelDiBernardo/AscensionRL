@@ -3,9 +3,11 @@ Game.Level = function(player) {
     this._width = 0;
     this._height = 0;
     this._map = null;
+    this._scheduler = new ROT.Scheduler.Simple();
+    this._engine = new ROT.Engine(this._scheduler);
     this._generateRandomLevel(player);
     this._placeMonsters();
-};
+}
 
 Game.Level.prototype.getTileAt = function(x, y) {
     // Make sure we are inside the bounds. If we aren"t, return
@@ -25,14 +27,26 @@ Game.Level.prototype.getHeight = function() {
     return this._height;
 };
 
+Game.Level.prototype.getEngine = function() {
+    return this._engine;
+};
+
 Game.Level.prototype.getEntities = function() {
     return this._entities;
+};
+
+Game.Level.prototype.start = function() {
+    this._engine.start();
 };
 
 Game.Level.prototype.placeEntityAt = function(entity, x, y) {
     entity.setX(x);
     entity.setY(y);
+    entity.setLevel(this);
     this._entities.push(entity);
+    if (entity.hasMixin('Actor')) {
+        this._scheduler.add(entity, true);
+    }
     this.getTileAt(x, y).setOccupied(true);
 };
 

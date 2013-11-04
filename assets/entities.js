@@ -10,7 +10,7 @@ Game.Mixins.Moveable = {
         // Check if we can walk on the tile
         // and if so simply walk onto it
         if (tile.isWalkable()) {
-            // Update the entity"s position
+            // Update the entity's position
             this._x = x;
             this._y = y;
             return true;
@@ -23,6 +23,10 @@ Game.Mixins.PlayerActor = {
     name: "PlayerActor",
     groupName: "Actor",
     act: function() {
+        Game.refresh();
+        // Lock the engine and wait asynchronously for the player to press
+        // a key.
+        this.getLevel().getEngine().lock();
     }
 }
 
@@ -77,5 +81,5 @@ Game.OrcTemplate = {
         foreground: "green",
         background: "black"
     }),
-    mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor]
+    mixins: [Game.Mixins.Moveable]
 }

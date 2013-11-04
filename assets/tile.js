@@ -19,6 +19,8 @@ Game.Tile.prototype.getGlyph = function() {
     return this._glyph;
 }
 
+// TODO: This will disappear when map templates declare their own tile
+// templates.
 Game.Tile.Tiles = {
     NULL: "Null",
     FLOOR: "Floor",

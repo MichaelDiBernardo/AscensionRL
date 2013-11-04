@@ -6,7 +6,7 @@ Game.Entity = function(properties) {
     this._x = properties.x || 0;
     this._y = properties.y || 0;
     this._glyph = properties.glyph || Game.Glyph.NullGlyph;
-    this._map = null;
+    this._level = null;
 
     // Create an object which will keep track what mixins we have
     // attached to this entity based on the name property
@@ -68,9 +68,9 @@ Game.Entity.prototype.hasMixin = function(obj) {
         return this._attachedMixins[obj] || this._attachedMixinGroups[obj];
     }
 }
-Game.Entity.prototype.setMap = function(map) {
-    this._map = map;
+Game.Entity.prototype.setLevel = function(level) {
+    this._level = level;
 }
-Game.Entity.prototype.getMap = function() {
-    return this._map;
+Game.Entity.prototype.getLevel = function() {
+    return this._level;
 }

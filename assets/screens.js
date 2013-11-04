@@ -69,6 +69,7 @@ Game.Screen.playScreen = {
         // Create our level from the tiles
         this._player = new Game.Entity(Game.PlayerTemplate);
         this._level = new Game.Level(this._player);
+        this._level.start();
     },
     exit: function() { console.log("Exited play screen."); },
     render: function(display) {
@@ -134,6 +135,6 @@ Game.Screen.playScreen = {
         } else if (inputData.keyCode === ROT.VK_DOWN) {
             this.move(0, 1);
         }
-        Game.refresh();
+        this._level.getEngine().unlock();
     }
 }
