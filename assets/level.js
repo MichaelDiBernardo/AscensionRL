@@ -17,27 +17,27 @@ Game.Level.prototype.getTileAt = function(x, y) {
     } else {
         return this._map[x][y] || Game.Tile.nullTile;
     }
-};
+}
 
 Game.Level.prototype.getWidth = function() {
     return this._width;
-};
+}
 
 Game.Level.prototype.getHeight = function() {
     return this._height;
-};
+}
 
 Game.Level.prototype.getEngine = function() {
     return this._engine;
-};
+}
 
 Game.Level.prototype.getEntities = function() {
     return this._entities;
-};
+}
 
 Game.Level.prototype.start = function() {
     this._engine.start();
-};
+}
 
 Game.Level.prototype.placeEntityAt = function(entity, x, y) {
     entity.setX(x);
@@ -48,7 +48,7 @@ Game.Level.prototype.placeEntityAt = function(entity, x, y) {
         this._scheduler.add(entity, true);
     }
     this.getTileAt(x, y).onEntityEntered(entity);
-};
+}
 
 Game.Level.prototype.placeAtRandomSquare = function(entity) {
     while (true) {
@@ -64,7 +64,7 @@ Game.Level.prototype.placeAtRandomSquare = function(entity) {
         this.placeEntityAt(entity, randomX, randomY);
         return;
     }
-};
+}
 
 // TODO: This should return its generator or keep a list of rooms so that
 // the player placement routine can be done independently.
@@ -116,7 +116,7 @@ Game.Level.prototype._generateRandomLevel = function(player) {
             Math.floor((randomRoom.getBottom() - randomRoom.getTop()) / 2);
 
     this.placeEntityAt(player, playerX, playerY);
-};
+}
 
 Game.Level.prototype._placeMonsters = function() {
     var monsterCount = ROT.RNG.getUniformInt(15, 30);
@@ -124,4 +124,4 @@ Game.Level.prototype._placeMonsters = function() {
         var newMonster = new Game.Entity(Game.OrcTemplate);
         this.placeAtRandomSquare(newMonster);
     }
-};
+}
