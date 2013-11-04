@@ -6,8 +6,20 @@ Game.Mixins.Moveable = {
     name: "Moveable",
     groupName: "Moveable",
     tryMove: function(x, y, map) {
-        var currentTile = map.getTileAt(this._x, this._y);
-        var targetTile = map.getTileAt(x, y);
+        var currentTile = map.getTileAt(this._x, this._y),
+            targetTile = map.getTileAt(x, y);
+
+        // Should we hit something?
+        if (targetTile.isOccupied()) {
+            // We don't bother checking if this is also fighter, because
+            // nothing moves that doesn't also attack so far.
+            var other = targetTile.getOccupant(),
+                isEnemy = other.hasMixin('Fighter');
+            if (!isEnemy) return false;
+
+            this.attack(other);
+        }
+
         // Check if we can walk on the tile
         // and if so simply walk onto it
         if (targetTile.isWalkable()) {
@@ -55,6 +67,7 @@ Game.Mixins.Fighter = {
             evasionRoll = defender.sheet().evasion() + Die.ndx(1, 20);
 
         if (meleeRoll <= evasionRoll) {
+            console.log("Missed!");
             return;
         }
 
@@ -65,6 +78,7 @@ Game.Mixins.Fighter = {
     hurt: function(hp) {
         var damage = Math.max(0, hp - this.equipment().protectionRoll());
         this.sheet().setCurHP(this.sheet().curHP() - damage);
+        console.log("Ow! I have " + this.sheet().curHP());
     }
 }
 
@@ -75,7 +89,7 @@ Game.PlayerTemplate = {
         foreground: "white",
         background: "black",
     }),
-    mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor]
+    mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor, Game.Mixins.Fighter]
 }
 
 Game.OrcTemplate = {
@@ -84,5 +98,5 @@ Game.OrcTemplate = {
         foreground: "green",
         background: "black"
     }),
-    mixins: [Game.Mixins.Moveable]
+    mixins: [Game.Mixins.Moveable, Game.Mixins.Fighter]
 }
