@@ -70,3 +70,12 @@ Game.PlayerTemplate = {
     }),
     mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor]
 }
+
+Game.OrcTemplate = {
+    glyph: new Game.Glyph({
+        character: "o",
+        foreground: "green",
+        background: "black"
+    }),
+    mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor]
+}
