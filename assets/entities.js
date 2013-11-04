@@ -6,13 +6,16 @@ Game.Mixins.Moveable = {
     name: "Moveable",
     groupName: "Moveable",
     tryMove: function(x, y, map) {
-        var tile = map.getTileAt(x, y);
+        var currentTile = map.getTileAt(this._x, this._y);
+        var targetTile = map.getTileAt(x, y);
         // Check if we can walk on the tile
         // and if so simply walk onto it
-        if (tile.isWalkable()) {
+        if (targetTile.isWalkable()) {
             // Update the entity's position
             this._x = x;
             this._y = y;
+            currentTile.onEntityExited(this);
+            targetTile.onEntityEntered(this);
             return true;
         }
         return false;

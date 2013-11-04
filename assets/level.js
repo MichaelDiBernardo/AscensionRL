@@ -47,7 +47,7 @@ Game.Level.prototype.placeEntityAt = function(entity, x, y) {
     if (entity.hasMixin('Actor')) {
         this._scheduler.add(entity, true);
     }
-    this.getTileAt(x, y).setOccupied(true);
+    this.getTileAt(x, y).onEntityEntered(entity);
 };
 
 Game.Level.prototype.placeAtRandomSquare = function(entity) {

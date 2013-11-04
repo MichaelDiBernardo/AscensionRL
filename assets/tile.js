@@ -2,18 +2,30 @@ Game.Tile = function(properties) {
     properties = properties || {};
     this._isWalkable = properties.isWalkable || false;
     this._isDiggable = properties.isDiggable || false;
-    this._isOccupied = false;
+    this._occupant = null;
     this._glyph = properties.glyph || Game.Glyph.NullGlyph;
 };
 
 Game.Tile.prototype.isWalkable = function() {
-    return this._isWalkable && !this._isOccupied;
+    return this._isWalkable && !this.isOccupied();
 }
 Game.Tile.prototype.isDiggable = function() {
     return this._isDiggable;
 }
-Game.Tile.prototype.setOccupied = function(state) {
-    this._isOccupied = state;
+Game.Tile.prototype.onEntityEntered = function(entity) {
+    this._occupant = entity;
+}
+Game.Tile.prototype.onEntityExited = function(entity) {
+    this._occupant = null;
+}
+Game.Tile.prototype.getOccupant = function() {
+    return this._occupant;
+}
+Game.Tile.prototype.isOccupied = function() {
+    if (this._occupant) {
+        return true;
+    }
+    return false;
 }
 Game.Tile.prototype.getGlyph = function() {
     return this._glyph;
