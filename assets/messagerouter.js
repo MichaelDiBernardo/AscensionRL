@@ -1,13 +1,13 @@
-Game.Message = {
+Game.Message = {};
+
+Game.Message.Channel = {
     STATUS: "status",
     COMBAT: "combat"
 };
 
 Game.Message.MessageRouter = function() {
-    var channelMap = {};
-    channelMap[Game.Message.STATUS] = [];
-    channelMap[Game.Message.COMBAT] = [];
-    this._channelMap = channelMap;
+    this._channelMap = {};
+    this.clearMessages();
 }
 
 Game.Message.MessageRouter.prototype.sendMessage = function(channel, message) {
@@ -16,6 +16,13 @@ Game.Message.MessageRouter.prototype.sendMessage = function(channel, message) {
 
 Game.Message.MessageRouter.prototype.getMessages = function(channel) {
     return this._channelMap[channel];
+}
+
+Game.Message.MessageRouter.prototype.clearMessages = function() {
+    for (var channel in Game.Message.Channel) {
+        var channelVal = Game.Message.Channel[channel];
+        this._channelMap[channelVal] = [];
+    }
 }
 
 Game.Message.Router = new Game.Message.MessageRouter();
