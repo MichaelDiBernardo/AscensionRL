@@ -53,7 +53,8 @@ Game.Tile.create = function(kind) {
         case Game.Tile.Tiles.FLOOR:
             return new Game.Tile({
                 glyph: new Game.Glyph({
-                    character: "."
+                    character: ".",
+                    foreground: "grey"
                 }),
                 isWalkable: true
             });

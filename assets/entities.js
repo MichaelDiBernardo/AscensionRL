@@ -77,6 +77,8 @@ Game.Mixins.Fighter = {
         return this._equipment;
     },
 
+    // TODO: Attack reporter / accumulator that collects all the stats for
+    // outputting to combat roll.
     attack: function(defender) {
         var meleeRoll = this.sheet().melee() + Die.ndx(1, 20),
             evasionRoll = defender.sheet().evasion() + Die.ndx(1, 20);
