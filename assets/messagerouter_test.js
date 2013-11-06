@@ -50,4 +50,28 @@
 
     });
 
+    test("Select message: Is player", function() {
+        var player = new Game.Entity(Game.PlayerTemplate);
+        sut.selectMessage(
+            Game.Message.Channel.STATUS,
+            player,
+            "PlayerMessage",
+            "NotPlayerMessage"
+        );
+
+        equal("PlayerMessage", sut.getMessages(Game.Message.Channel.STATUS)[0]);
+    });
+
+    test("Select message: Is not player", function() {
+        var notPlayer = new Game.Entity(Game.OrcTemplate);
+        sut.selectMessage(
+            Game.Message.Channel.STATUS,
+            notPlayer,
+            "PlayerMessage",
+            "NotPlayerMessage"
+        );
+
+        equal("NotPlayerMessage", sut.getMessages(Game.Message.Channel.STATUS)[0]);
+    });
+
 })();
