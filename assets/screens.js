@@ -117,6 +117,19 @@ Game.Screen.playScreen = {
                 );
             }
         }
+
+        var statusMessages =
+            Game.Message.Router.getMessages(Game.Message.Channel.STATUS),
+            length = statusMessages.length,
+            messageY = 0;
+        for (var i = 0; i < length; i++) {
+            messageY += display.drawText(
+                0,
+                messageY,
+                '%c{white}%b{black}' + statusMessages[i]
+            );
+        }
+        Game.Message.Router.clearMessages();
     },
     move: function(dX, dY) {
         var newX = this._player.getX() + dX,

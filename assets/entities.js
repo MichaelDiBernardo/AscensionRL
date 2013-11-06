@@ -18,6 +18,7 @@ Game.Mixins.Moveable = {
             if (!isEnemy) return false;
 
             this.attack(other);
+            return false;
         }
 
         // Check if we can walk on the tile
@@ -30,6 +31,13 @@ Game.Mixins.Moveable = {
             targetTile.onEntityEntered(this);
             return true;
         }
+
+        Game.Message.Router.selectMessage(
+            Game.Message.Channel.STATUS,
+            this,
+            "There is a wall in the way!",
+            ""
+        );
         return false;
     }
 }
@@ -67,18 +75,28 @@ Game.Mixins.Fighter = {
             evasionRoll = defender.sheet().evasion() + Die.ndx(1, 20);
 
         if (meleeRoll <= evasionRoll) {
-            console.log("Missed!");
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                this,
+                "You miss the %s.".format(defender.getName()),
+                "The %s misses you.".format(this.getName())
+            );
             return;
         }
 
         var damageRoll = this.equipment().weapon.damroll();
         defender.hurt(damageRoll);
+        Game.Message.Router.selectMessage(
+            Game.Message.Channel.STATUS,
+            this,
+            "You hit the %s.".format(defender.getName()),
+            "The %s hits you.".format(this.getName())
+        );
     },
 
     hurt: function(hp) {
         var damage = Math.max(0, hp - this.equipment().protectionRoll());
         this.sheet().setCurHP(this.sheet().curHP() - damage);
-        console.log("Ow! I have " + this.sheet().curHP());
     }
 }
 
@@ -89,6 +107,7 @@ Game.PlayerTemplate = {
         foreground: "white",
         background: "black",
     }),
+    name: "Player",
     mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor, Game.Mixins.Fighter]
 }
 
@@ -98,5 +117,6 @@ Game.OrcTemplate = {
         foreground: "green",
         background: "black"
     }),
+    name: "Orc",
     mixins: [Game.Mixins.Moveable, Game.Mixins.Fighter]
 }
