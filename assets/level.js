@@ -39,6 +39,21 @@ Game.Level.prototype.start = function() {
     this._engine.start();
 }
 
+Game.Level.prototype.removeEntity = function(entity) {
+    var length = this._entities.length;
+    for (var i = 0; i < length; i++) {
+        if (this._entities[i] == entity) {
+            this._entities.splice(i, 1);
+            this.getTileAt(entity.getX(), entity.getY()).onEntityExited(entity);
+            break;
+        }
+    }
+
+    if (entity.hasMixin('Actor')) {
+        this._scheduler.remove(entity);
+    }
+}
+
 Game.Level.prototype.placeEntityAt = function(entity, x, y) {
     entity.setX(x);
     entity.setY(y);

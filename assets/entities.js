@@ -53,6 +53,13 @@ Game.Mixins.PlayerActor = {
     }
 }
 
+Game.Mixins.DummyActor = {
+    name: "DummyActor",
+    groupName: "Actor",
+    act: function() {
+    }
+}
+
 Game.Mixins.Fighter = {
     name: "Fighter",
     groupName: "Fighter",
@@ -81,22 +88,47 @@ Game.Mixins.Fighter = {
                 "You miss the %s.".format(defender.getName()),
                 "The %s misses you.".format(this.getName())
             );
-            return;
-        }
+        } else {
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                this,
+                "You hit the %s.".format(defender.getName()),
+                "The %s hits you.".format(this.getName())
+            );
 
-        var damageRoll = this.equipment().weapon.damroll();
-        defender.hurt(damageRoll);
-        Game.Message.Router.selectMessage(
-            Game.Message.Channel.STATUS,
-            this,
-            "You hit the %s.".format(defender.getName()),
-            "The %s hits you.".format(this.getName())
-        );
+            var damageRoll = this.equipment().weapon.damroll();
+            defender.hurt(damageRoll, this);
+        }
     },
 
-    hurt: function(hp) {
+    hurt: function(hp, attacker) {
         var damage = Math.max(0, hp - this.equipment().protectionRoll());
         this.sheet().setCurHP(this.sheet().curHP() - damage);
+        if (this.sheet().curHP() <= 0) {
+            this.onDeath(attacker);
+        }
+    },
+
+    // TODO: There are enough of these now that we should just have a generic
+    // event raising thing that other classes can extend.
+    onDeath: function(killer) {
+        if (killer) {
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                this,
+                "You die.",
+                "You have slain the %s.".format(this.getName())
+            );
+        } else {
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                this,
+                "You die.",
+                "It dies."
+            );
+        }
+
+        this.getLevel().removeEntity(this);
     }
 }
 
@@ -118,5 +150,5 @@ Game.OrcTemplate = {
         background: "black"
     }),
     name: "Orc",
-    mixins: [Game.Mixins.Moveable, Game.Mixins.Fighter]
+    mixins: [Game.Mixins.Moveable, Game.Mixins.DummyActor, Game.Mixins.Fighter]
 }
