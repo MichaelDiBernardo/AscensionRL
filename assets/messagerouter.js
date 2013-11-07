@@ -64,12 +64,21 @@ Game.Message.CombatRollAccumulator.prototype.buildCombatRollMessage = function(p
             this.defender.getGlyph().getChar()
     );
 
+    var weapon = this.attacker.equipment().weapon,
+        damageDice = weapon.damageDice,
+        damageSides = weapon.damageSides,
+        damageString = "" + damageDice + "d" + damageSides,
+        protectionRange = this.attacker.equipment().protectionRange(),
+        protectionString = "%s-%s".format(protectionRange[0], protectionRange[1]);
+
     if (this.hit) {
-        message += "; %s -> %s (%s) %s <- %s".format(
+        message += "; %s (%s) -> %s (%s) %s <- [%s] %s".format(
             this.attacker.getGlyph().getChar(),
+            damageString,
             this.damageRoll,
             this.damage,
             this.protectionRoll,
+            protectionString,
             this.defender.getGlyph().getChar()
         );
     }

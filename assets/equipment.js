@@ -11,3 +11,8 @@ Game.Equipment.prototype.protection = function() {
 Game.Equipment.prototype.protectionRoll = function() {
     return Die.ndx(this.armor.protDice, this.armor.protSides);
 };
+
+Game.Equipment.prototype.protectionRange = function() {
+    // TODO: This will change once we have multiple armor equips.
+    return [this.armor.protDice, this.armor.protDice * this.armor.protSides];
+};
