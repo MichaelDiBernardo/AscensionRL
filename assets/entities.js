@@ -81,7 +81,14 @@ Game.Mixins.Fighter = {
     // outputting to combat roll.
     attack: function(defender) {
         var meleeRoll = this.sheet().melee() + Die.ndx(1, 20),
-            evasionRoll = defender.sheet().evasion() + Die.ndx(1, 20);
+            evasionRoll = defender.sheet().evasion() + Die.ndx(1, 20),
+            accumulator = new Game.Message.CombatRollAccumulator({
+                attacker: this,
+                defender: defender,
+                meleeRoll: meleeRoll,
+                evasionRoll: evasionRoll
+            });
+
 
         if (meleeRoll <= evasionRoll) {
             Game.Message.Router.selectMessage(
@@ -90,6 +97,7 @@ Game.Mixins.Fighter = {
                 "You miss the %s.".format(defender.getName()),
                 "The %s misses you.".format(this.getName())
             );
+            accumulator.hit = false;
         } else {
             Game.Message.Router.selectMessage(
                 Game.Message.Channel.STATUS,
@@ -97,14 +105,24 @@ Game.Mixins.Fighter = {
                 "You hit the %s.".format(defender.getName()),
                 "The %s hits you.".format(this.getName())
             );
+            accumulator.hit = true;
 
             var damageRoll = this.equipment().weapon.damroll();
-            defender.hurt(damageRoll, this);
+            accumulator.damageRoll = damageRoll;
+            defender.hurt(damageRoll, this, accumulator);
         }
+        Game.Message.Router.sendMessage(
+            Game.Message.Channel.COMBAT,
+            accumulator.buildCombatRollMessage()
+        );
     },
 
-    hurt: function(hp, attacker) {
-        var damage = Math.max(0, hp - this.equipment().protectionRoll());
+    hurt: function(hp, attacker, accumulator) {
+        var protectionRoll = this.equipment().protectionRoll(),
+            damage = Math.max(0, hp - protectionRoll);
+        accumulator.protectionRoll = protectionRoll;
+        accumulator.damage = damage;
+
         this.sheet().setCurHP(this.sheet().curHP() - damage);
         if (this.sheet().curHP() <= 0) {
             this.onDeath(attacker);

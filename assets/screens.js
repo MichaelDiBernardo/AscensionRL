@@ -129,6 +129,14 @@ Game.Screen.playScreen = {
                 '%c{white}%b{black}' + statusMessages[i]
             );
         }
+
+        var combatMessages =
+            Game.Message.Router.getMessages(Game.Message.Channel.COMBAT),
+            length = combatMessages.length;
+        for (var i = 0; i < length; i++) {
+            console.log(combatMessages[i]);
+        }
+
         Game.Message.Router.clearMessages();
     },
     move: function(dX, dY) {

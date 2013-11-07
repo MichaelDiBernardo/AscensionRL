@@ -34,4 +34,37 @@ Game.Message.MessageRouter.prototype.clearMessages = function() {
     }
 }
 
+Game.Message.CombatRollAccumulator = function(properties) {
+    properties = properties || {};
+    this.meleeRoll = properties.meleeRoll || 0;
+    this.evasionRoll = properties.evasionRoll || 0;
+    this.attacker = properties.attacker || null;
+    this.defender = properties.defender || null;
+    this.hit = properties.hit || false;
+    this.damageRoll = properties.damageRoll || 0;
+    this.protectionRoll = properties.protectionRoll || 0;
+    this.damage = properties.damage || 0;
+}
+
+Game.Message.CombatRollAccumulator.prototype.buildCombatRollMessage = function(properties) {
+    var message = "%s -> %s (%s) %s <- %s".format(
+        this.attacker.getGlyph().getChar(),
+        this.meleeRoll,
+        this.meleeRoll - this.evasionRoll,
+        this.evasionRoll,
+        this.defender.getGlyph().getChar()
+    );
+
+    if (this.hit) {
+        message += "; %s -> %s (%s) %s <- %s".format(
+            this.attacker.getGlyph().getChar(),
+            this.damageRoll,
+            this.damage,
+            this.protectionRoll,
+            this.defender.getGlyph().getChar()
+        );
+    }
+    return message;
+}
+
 Game.Message.Router = new Game.Message.MessageRouter();
