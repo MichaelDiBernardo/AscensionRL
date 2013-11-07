@@ -61,11 +61,16 @@ Game.Mixins.WanderingActor = {
         this.wander();
     },
     wander: function() {
-        var xDelta = [1, -1].random(),
-            yDelta = [1, -1].random(),
+        var xDelta = [1, 0, -1].random(),
+            yDelta = [1, 0, -1].random(),
             newX = this.getX() + xDelta,
             newY = this.getY() + yDelta;
-        this.tryMove(newX, newY, this.getLevel());
+
+        if (xDelta == yDelta == 0) {
+            this.wander();
+        } else {
+            this.tryMove(newX, newY, this.getLevel());
+        }
     }
 }
 
