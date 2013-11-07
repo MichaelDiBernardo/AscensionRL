@@ -114,6 +114,12 @@ Game.Mixins.Fighter = {
                 "You hit the %s.".format(defender.getName()),
                 "The %s hits you.".format(this.getName())
             );
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                this,
+                "",
+                "You feel weak."
+            );
             accumulator.hit = true;
 
             var damageRoll = this.equipment().weapon.damroll();
@@ -158,6 +164,7 @@ Game.Mixins.Fighter = {
         }
         this.getLevel().removeEntity(this);
         if (this.hasMixin("PlayerActor")) {
+
             Game.switchScreen(Game.Screen.deathScreen);
         }
     }
@@ -176,10 +183,10 @@ Game.PlayerTemplate = {
 
 Game.OrcTemplate = {
     glyph: new Game.Glyph({
-        character: "o",
-        foreground: "green",
+        character: "m",
+        foreground: "purple",
         background: "black"
     }),
-    name: "Orc",
+    name: "Violent mold",
     mixins: [Game.Mixins.Moveable, Game.Mixins.WanderingActor, Game.Mixins.Fighter]
 }
