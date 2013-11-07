@@ -55,6 +55,14 @@ Game.Screen.startScreen = {
     }
 }
 
+Game.Screen.deathScreen = {
+    enter: function() {},
+    exit: function() {},
+    render: function(display) {
+        display.drawText(32, 11, '%c{red}%b{black}You have died.');
+    }
+}
+
 /**
  * Current standin for main game screen.
  */
@@ -71,7 +79,10 @@ Game.Screen.playScreen = {
         this._level = new Game.Level(this._player);
         this._level.start();
     },
-    exit: function() { console.log("Exited play screen."); },
+    exit: function() {
+        console.log("Exited play screen.");
+        this._level.getEngine().lock();
+    },
     render: function(display) {
         var screenWidth = Game.getScreenWidth();
         var screenHeight = Game.getScreenHeight();
@@ -123,6 +134,11 @@ Game.Screen.playScreen = {
             length = statusMessages.length,
             messageY = 0;
         for (var i = 0; i < length; i++) {
+            var currentMessage = statusMessages[i];
+            if (!currentMessage) {
+                continue;
+            }
+
             messageY += display.drawText(
                 0,
                 messageY,

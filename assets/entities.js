@@ -14,8 +14,9 @@ Game.Mixins.Moveable = {
             // We don't bother checking if this is also fighter, because
             // nothing moves that doesn't also attack so far.
             var other = targetTile.getOccupant(),
-                isEnemy = other.hasMixin('Fighter');
-            if (!isEnemy) return false;
+                isAttackable = other.hasMixin('Fighter'),
+                areOpposed = other.hasMixin('PlayerActor') || this.hasMixin('PlayerActor');
+            if (!isAttackable || !areOpposed) return false;
 
             this.attack(other);
             return false;
@@ -53,10 +54,18 @@ Game.Mixins.PlayerActor = {
     }
 }
 
-Game.Mixins.DummyActor = {
-    name: "DummyActor",
+Game.Mixins.WanderingActor = {
+    name: "WanderingActor",
     groupName: "Actor",
     act: function() {
+        this.wander();
+    },
+    wander: function() {
+        var xDelta = [1, -1].random(),
+            yDelta = [1, -1].random(),
+            newX = this.getX() + xDelta,
+            newY = this.getY() + yDelta;
+        this.tryMove(newX, newY, this.getLevel());
     }
 }
 
@@ -147,8 +156,10 @@ Game.Mixins.Fighter = {
                 "It dies."
             );
         }
-
         this.getLevel().removeEntity(this);
+        if (this.hasMixin("PlayerActor")) {
+            Game.switchScreen(Game.Screen.deathScreen);
+        }
     }
 }
 
@@ -170,5 +181,5 @@ Game.OrcTemplate = {
         background: "black"
     }),
     name: "Orc",
-    mixins: [Game.Mixins.Moveable, Game.Mixins.DummyActor, Game.Mixins.Fighter]
+    mixins: [Game.Mixins.Moveable, Game.Mixins.WanderingActor, Game.Mixins.Fighter]
 }

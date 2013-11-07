@@ -12,7 +12,10 @@ var Game = {
 
     init: function() {
         this._display = new ROT.Display({
-            width:this._screenWidth, height:this._screenHeight
+            width: this._screenWidth,
+            height: this._screenHeight,
+            fontSize: 24,
+            fontStyle: "bold"
         });
 
         var self = this,
