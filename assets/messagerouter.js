@@ -47,12 +47,21 @@ Game.Message.CombatRollAccumulator = function(properties) {
 }
 
 Game.Message.CombatRollAccumulator.prototype.buildCombatRollMessage = function(properties) {
-    var message = "%s -> %s (%s) %s <- %s".format(
-        this.attacker.getGlyph().getChar(),
-        this.meleeRoll,
-        this.meleeRoll - this.evasionRoll,
-        this.evasionRoll,
-        this.defender.getGlyph().getChar()
+    var forceSign = function(num) {
+        if (num >= 0) {
+            return "+" + num;
+        } else {
+            return "" + num;
+        }
+    },
+        message = "%s (%s) -> %s (%s) %s <- [%s] %s".format(
+            this.attacker.getGlyph().getChar(),
+            forceSign(this.attacker.sheet().melee()),
+            this.meleeRoll,
+            forceSign(this.meleeRoll - this.evasionRoll),
+            this.evasionRoll,
+            forceSign(this.defender.sheet().evasion()),
+            this.defender.getGlyph().getChar()
     );
 
     if (this.hit) {
