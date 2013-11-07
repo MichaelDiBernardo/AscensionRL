@@ -5,7 +5,7 @@ window.onload = function() {
     } else {
         // Initialize the game
         Game.init();
-        Game.switchScreen(Game.Screen.deathScreen);
+        Game.switchScreen(Game.Screen.startScreen);
         // Add the container to our HTML page
         document.body.appendChild(Game.getDisplay().getContainer());
     }
