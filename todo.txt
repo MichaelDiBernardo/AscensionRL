@@ -10,9 +10,10 @@
  - Player can use items
  - Inventory is limited by space
  - Inventory is limited by weight?
+ - Player can equip multiple armor slots.
  - Actors can drop items
  - Items don't stack on the ground but distribute
- - Monsters are generated in-place but don't move, player has fixed equipment and can walk around and wack them. Combat rolls are displayed.
  - Give both weapons and armor an evasion property
  - Add weight to weapons and make it matter for strength
+ - elemental brands
  - Make weapon weight matter for crits

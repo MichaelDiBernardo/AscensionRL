@@ -5,14 +5,20 @@ Game.Equipment = function(properties) {
 };
 
 Game.Equipment.prototype.protection = function() {
-    return [this.armor.protDice, this.armor.protDice * this.armor.protSides];
+    return [
+        this.armor.protectionDice,
+        this.armor.protectionDice * this.armor.protectionSides
+    ];
 };
 
 Game.Equipment.prototype.protectionRoll = function() {
-    return Die.ndx(this.armor.protDice, this.armor.protSides);
+    return Die.ndx(this.armor.protectionDice, this.armor.protectionSides);
 };
 
 Game.Equipment.prototype.protectionRange = function() {
     // TODO: This will change once we have multiple armor equips.
-    return [this.armor.protDice, this.armor.protDice * this.armor.protSides];
+    return [
+        this.armor.protectionDice,
+        this.armor.protectionDice * this.armor.protectionSides
+    ];
 };
