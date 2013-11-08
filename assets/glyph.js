@@ -16,7 +16,7 @@ Game.Glyph.prototype.getForeground = function(){
 }
 
 Game.Glyph.NullGlyph = new Game.Glyph({
-    character: "Ø",
+    character: "N",
     foreground: "white",
     background: "red"
 })

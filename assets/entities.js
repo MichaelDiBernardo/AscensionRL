@@ -80,19 +80,12 @@ Game.Mixins.Fighter = {
     init: function(properties) {
         properties = properties || {};
         this._sheet = properties.sheet || new Game.Sheet();
-        this._equipment = properties.equipment || new Game.Equipment();
     },
 
     sheet: function() {
         return this._sheet;
     },
 
-    equipment: function() {
-        return this._equipment;
-    },
-
-    // TODO: Attack reporter / accumulator that collects all the stats for
-    // outputting to combat roll.
     attack: function(defender) {
         var meleeRoll = this.sheet().melee() + Die.ndx(1, 20),
             evasionRoll = defender.sheet().evasion() + Die.ndx(1, 20),
@@ -121,8 +114,8 @@ Game.Mixins.Fighter = {
             );
             accumulator.hit = true;
 
-            var damageRoll = this.equipment().weapon.damroll();
-            accumulator.damageRoll = damageRoll;
+            var damageRoll = this.sheet().damroll(accumulator);
+            // Temp hack: Will need the actual dice etc. based on crits.
             defender.hurt(damageRoll, this, accumulator);
         }
         Game.Message.Router.sendMessage(
@@ -132,7 +125,7 @@ Game.Mixins.Fighter = {
     },
 
     hurt: function(hp, attacker, accumulator) {
-        var protectionRoll = this.equipment().protectionRoll(),
+        var protectionRoll = this.sheet().protectionRoll(),
             damage = Math.max(0, hp - protectionRoll);
         accumulator.protectionRoll = protectionRoll;
         accumulator.damage = damage;

@@ -22,7 +22,6 @@
         // No other rolls made -- it's a miss.
 
         var fighterTemplate = {
-            equipment: new Game.Equipment(),
             sheet: new Game.Sheet(),
             mixins: [Game.Mixins.Fighter]
         },
@@ -41,7 +40,6 @@
         // B evade roll of 9
         // Rolls 1d4 damage (2) vs 0d0 protection (0) for a total of 2 damage.
         var fighterTemplate = {
-            equipment: new Game.Equipment(),
             sheet: new Game.Sheet(),
             mixins: [Game.Mixins.Fighter]
         };
@@ -60,10 +58,11 @@
         // B evade roll of 9
         // Rolls 1d4 damage (2) vs 1d4 protection (1) for a total of 1 damage.
         var fighterTemplate = {
-            equipment: new Game.Equipment({
-                armor: Game.Armor.Leather
+            sheet: new Game.Sheet({
+                equipment: new Game.Equipment({
+                    armor: Game.Armor.Leather
+                }),
             }),
-            sheet: new Game.Sheet(),
             mixins: [Game.Mixins.Fighter]
         };
 
@@ -81,7 +80,6 @@
         // B evade roll of 2 (+ 4 evasion score)
         // Rolls 1d4 damage (2) vs 0d0 protection (0) for a total of 2 damage.
         var fighterTemplate = {
-            equipment: new Game.Equipment(),
             sheet: new Game.Sheet({
                 skills: new Game.Skills({
                     melee: 9,
@@ -105,7 +103,6 @@
         // B evade roll of 6 (+ 4 evasion score)
         // Miss: No damage.
         var fighterTemplate = {
-            equipment: new Game.Equipment(),
             sheet: new Game.Sheet({
                 skills: new Game.Skills({
                     melee: 9,
@@ -129,7 +126,6 @@
         // B evade roll of 2 ( + 4 raw evasion score + 1 from dex) = 7
         // Rolls 1d4 damage (2) vs 0d0 protection (0) for a total of 2 damage.
         var fighterTemplate = {
-            equipment: new Game.Equipment(),
             sheet: new Game.Sheet({
                 skills: new Game.Skills({
                     melee: 6,
@@ -156,7 +152,6 @@
         // B evade roll of 2 ( + 5 raw evasion score + 1 from dex) = 8
         // Miss: No damage.
         var fighterTemplate = {
-            equipment: new Game.Equipment(),
             sheet: new Game.Sheet({
                 skills: new Game.Skills({
                     melee: 6,

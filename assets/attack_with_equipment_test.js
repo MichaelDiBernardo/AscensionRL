@@ -47,8 +47,8 @@
             glyph: new Game.Glyph({
                 character: "@"
             }),
-            equipment: equipment,
             sheet: new Game.Sheet({
+                equipment: equipment,
                 stats: new Game.Stats({
                     str: 2,
                     dex: 4,
@@ -83,8 +83,8 @@
             glyph: new Game.Glyph({
                 character: "@"
             }),
-            equipment: equipment,
             sheet: new Game.Sheet({
+                equipment: equipment,
                 stats: new Game.Stats({
                     str: 2,
                     dex: 4,

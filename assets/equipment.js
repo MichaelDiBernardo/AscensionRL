@@ -2,18 +2,18 @@ Game.Equipment = function(properties) {
     properties = properties || {};
     this.weapon = properties.weapon || Game.Weapon.Fist;
     this.armor = properties.armor || Game.Armor.Skin;
-};
+}
 
 Game.Equipment.prototype.protection = function() {
     return [
         this.armor.protectionDice,
         this.armor.protectionDice * this.armor.protectionSides
     ];
-};
+}
 
 Game.Equipment.prototype.protectionRoll = function() {
     return Die.ndx(this.armor.protectionDice, this.armor.protectionSides);
-};
+}
 
 Game.Equipment.prototype.protectionRange = function() {
     // TODO: This will change once we have multiple armor equips.
@@ -21,4 +21,12 @@ Game.Equipment.prototype.protectionRange = function() {
         this.armor.protectionDice,
         this.armor.protectionDice * this.armor.protectionSides
     ];
-};
+}
+
+Game.Equipment.prototype.meleeBonus = function() {
+    return this.weapon.meleeBonus + this.armor.meleeBonus;
+}
+
+Game.Equipment.prototype.evasionBonus = function() {
+    return this.weapon.evasionBonus + this.armor.evasionBonus;
+}

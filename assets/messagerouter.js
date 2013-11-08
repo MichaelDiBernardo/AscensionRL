@@ -41,6 +41,8 @@ Game.Message.CombatRollAccumulator = function(properties) {
     this.attacker = properties.attacker || null;
     this.defender = properties.defender || null;
     this.hit = properties.hit || false;
+    this.damageDice = properties.damageDice || 0;
+    this.damageSides = properties.damageSides || 0;
     this.damageRoll = properties.damageRoll || 0;
     this.protectionRoll = properties.protectionRoll || 0;
     this.damage = properties.damage || 0;
@@ -64,11 +66,8 @@ Game.Message.CombatRollAccumulator.prototype.buildCombatRollMessage = function(p
             this.defender.getGlyph().getChar()
     );
 
-    var weapon = this.attacker.equipment().weapon,
-        damageDice = weapon.damageDice,
-        damageSides = weapon.damageSides,
-        damageString = "" + damageDice + "d" + damageSides,
-        protectionRange = this.attacker.equipment().protectionRange(),
+    var damageString = "" + this.damageDice + "d" + this.damageSides,
+        protectionRange = this.attacker.sheet().protectionRange(),
         protectionString = "%s-%s".format(protectionRange[0], protectionRange[1]);
 
     if (this.hit) {
