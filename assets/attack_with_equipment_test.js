@@ -41,8 +41,6 @@
         // A is 4 dex + 0 melee + 10 = 14
         // B is 4 dex + 1 evasion sword - 2 armor + 11 = 14
         // No other rolls made -- it's a miss.
-
-
         var fighterTemplate = {
             glyph: new Game.Glyph({
                 character: "@"
@@ -77,8 +75,6 @@
         //
         // A should roll 1d7 damage, B rolls 1d6 prot.
         // Give 4 damage, 3 prot = 1 damage.
-
-
         var fighterTemplate = {
             glyph: new Game.Glyph({
                 character: "@"
@@ -115,8 +111,6 @@
         //
         // A should roll 2d7 damage, B rolls 1d6 prot.
         // Give 10 damage, 3 prot = 7 damage.
-
-
         var fighterTemplate = {
             glyph: new Game.Glyph({
                 character: "@"
@@ -139,6 +133,43 @@
         stubDie([7, 0, 10, 3], [null, null, [2, 7], null]);
         attacker.attack(defender);
         equal(defender.sheet().curHP(), defender.sheet().maxHP() - 7);
+    });
+
+    test("Standard equipment, mutiple crit.", function() {
+        // Die sequence:
+        // A attack roll of 15
+        // B evade roll of 0
+        //
+        // A is 4 dex + 0 melee + 15 = 19
+        // B is 4 dex + 1 evasion sword - 2 armor + 0 = 3
+        //
+        // 19 - 3 = 16 = 2 * (7 base + 1 weapon weight), which is two crits.
+        //
+        // A should roll 3d7 damage, B rolls 1d6 prot.
+        // We don't even bother checking damage since it's the mock roll we're
+        // most concerned about.
+        var fighterTemplate = {
+            glyph: new Game.Glyph({
+                character: "@"
+            }),
+            sheet: new Game.Sheet({
+                equipment: equipment,
+                stats: new Game.Stats({
+                    str: 2,
+                    dex: 4,
+                    con: 0,
+                    gra: 3
+                })
+            }),
+            mixins: [Game.Mixins.Fighter]
+        },
+
+            attacker = new Game.Entity(fighterTemplate),
+            defender = new Game.Entity(fighterTemplate);
+
+        stubDie([15, 0, 10, 3], [null, null, [3, 7], null]);
+        attacker.attack(defender);
+        expect(0);
     });
 
 })();
