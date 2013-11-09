@@ -46,9 +46,10 @@ Game.Message.CombatRollAccumulator = function(properties) {
     this.damageRoll = properties.damageRoll || 0;
     this.protectionRoll = properties.protectionRoll || 0;
     this.damage = properties.damage || 0;
+    this.numCrits = properties.numCrits || 0;
 }
 
-Game.Message.CombatRollAccumulator.prototype.buildCombatRollMessage = function(properties) {
+Game.Message.CombatRollAccumulator.prototype.buildCombatRollMessage = function() {
     var forceSign = function(num) {
         if (num >= 0) {
             return "+" + num;
@@ -82,6 +83,18 @@ Game.Message.CombatRollAccumulator.prototype.buildCombatRollMessage = function(p
         );
     }
     return message;
+}
+
+Game.Message.CombatRollAccumulator.prototype.buildCritSuffix = function() {
+    if (this.numCrits == 0) {
+        return ".";
+    }
+
+    var suffix = "";
+    for (var i = 0; i < this.numCrits; i++) {
+        suffix += "!";
+    }
+    return suffix;
 }
 
 Game.Message.Router = new Game.Message.MessageRouter();

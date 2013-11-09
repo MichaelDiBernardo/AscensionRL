@@ -1,8 +1,8 @@
 (function() {
     var oldDie = Die.ndx,
         FakeDie = Die.FakeDie;
-        stubDie = function(rolls) {
-            Die = new FakeDie(rolls);
+        stubDie = function(rolls, verifications) {
+            Die = new FakeDie(rolls, verifications);
         },
         restoreDie = function() {
             Die = {};
@@ -101,6 +101,44 @@
         stubDie([10, 10, 4, 3]);
         attacker.attack(defender);
         equal(defender.sheet().curHP(), defender.sheet().maxHP() - 1);
+    });
+
+    test("Standard equipment, one crit.", function() {
+        // Die sequence:
+        // A attack roll of 7
+        // B evade roll of 0
+        //
+        // A is 4 dex + 0 melee + 7 = 11
+        // B is 4 dex + 1 evasion sword - 2 armor + 0 = 3
+        //
+        // 11 - 3 = 8 = (7 base + 1 weapon weight), which is one crit.
+        //
+        // A should roll 2d7 damage, B rolls 1d6 prot.
+        // Give 10 damage, 3 prot = 7 damage.
+
+
+        var fighterTemplate = {
+            glyph: new Game.Glyph({
+                character: "@"
+            }),
+            sheet: new Game.Sheet({
+                equipment: equipment,
+                stats: new Game.Stats({
+                    str: 2,
+                    dex: 4,
+                    con: 0,
+                    gra: 3
+                })
+            }),
+            mixins: [Game.Mixins.Fighter]
+        },
+
+            attacker = new Game.Entity(fighterTemplate),
+            defender = new Game.Entity(fighterTemplate);
+
+        stubDie([7, 0, 10, 3], [null, null, [2, 7], null]);
+        attacker.attack(defender);
+        equal(defender.sheet().curHP(), defender.sheet().maxHP() - 7);
     });
 
 })();

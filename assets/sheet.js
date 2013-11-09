@@ -59,11 +59,22 @@ Game.Sheet.prototype.curHP = function() {
 Game.Sheet.prototype.setCurHP = function(amt) {
     this._curHP = amt;
 }
-Game.Sheet.prototype.damroll = function(accumulator) {
-    var roll = this._equipment.weapon.damroll();
-    accumulator.damageDice = this._equipment.weapon.damageDice;
-    accumulator.damageSides = this._equipment.weapon.damageSides;
+
+Game.Sheet.prototype.criticalInterval = function() {
+    return 7 + (this._equipment.weapon.weight / 10);
+}
+Game.Sheet.prototype.damroll = function(residual, accumulator) {
+    var numCrits = Math.floor(residual / this.criticalInterval()),
+        damageDice = this._equipment.weapon.damageDice + numCrits,
+        damageSides = this._equipment.weapon.damageSides,
+        roll = Die.ndx(damageDice, damageSides);
+
+    // TODO: Maybe we need a "reportDamroll" here or something.
+    accumulator.damageDice = damageDice;
+    accumulator.numCrits = numCrits;
+    accumulator.damageSides = damageSides;
     accumulator.damageRoll = roll;
+
     return roll;
 }
 Game.Sheet.prototype.protectionRoll = function() {

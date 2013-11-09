@@ -89,6 +89,7 @@ Game.Mixins.Fighter = {
     attack: function(defender) {
         var meleeRoll = this.sheet().melee() + Die.ndx(1, 20),
             evasionRoll = defender.sheet().evasion() + Die.ndx(1, 20),
+            residual = meleeRoll - evasionRoll,
             accumulator = new Game.Message.CombatRollAccumulator({
                 attacker: this,
                 defender: defender,
@@ -97,7 +98,7 @@ Game.Mixins.Fighter = {
             });
 
 
-        if (meleeRoll <= evasionRoll) {
+        if (residual <= 0) {
             Game.Message.Router.selectMessage(
                 Game.Message.Channel.STATUS,
                 this,
@@ -106,16 +107,16 @@ Game.Mixins.Fighter = {
             );
             accumulator.hit = false;
         } else {
+            accumulator.hit = true;
+
+            var damageRoll = this.sheet().damroll(residual, accumulator),
+                critSuffix = accumulator.buildCritSuffix();
             Game.Message.Router.selectMessage(
                 Game.Message.Channel.STATUS,
                 this,
-                "You hit the %s.".format(defender.getName()),
-                "The %s hits you.".format(this.getName())
+                "You hit the %s%s".format(defender.getName(), critSuffix),
+                "The %s hits you%s".format(this.getName(), critSuffix)
             );
-            accumulator.hit = true;
-
-            var damageRoll = this.sheet().damroll(accumulator);
-            // Temp hack: Will need the actual dice etc. based on crits.
             defender.hurt(damageRoll, this, accumulator);
         }
         Game.Message.Router.sendMessage(
