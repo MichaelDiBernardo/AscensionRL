@@ -61,16 +61,12 @@ Game.Mixins.WanderingActor = {
         this.wander();
     },
     wander: function() {
-        var xDelta = [1, 0, -1].random(),
-            yDelta = [1, 0, -1].random(),
-            newX = this.getX() + xDelta,
-            newY = this.getY() + yDelta;
+        var moveX = [true, false].random(),
+            delta = [1, -1].random(),
+            newX = this.getX() + (moveX ? delta : 0),
+            newY = this.getY() + (moveX ? 0 : delta);
 
-        if (xDelta == yDelta == 0) {
-            this.wander();
-        } else {
-            this.tryMove(newX, newY, this.getLevel());
-        }
+        this.tryMove(newX, newY, this.getLevel());
     }
 }
 
@@ -178,6 +174,11 @@ Game.OrcTemplate = {
         character: "o",
         foreground: "green",
         background: "black"
+    }),
+    sheet: new Game.Sheet({
+        skills: new Game.Skills({
+            melee: 3
+        })
     }),
     name: "Orc",
     mixins: [Game.Mixins.Moveable, Game.Mixins.WanderingActor, Game.Mixins.Fighter]
