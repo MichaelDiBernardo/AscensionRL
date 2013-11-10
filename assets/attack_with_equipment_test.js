@@ -48,7 +48,7 @@
             sheet: new Game.Sheet({
                 equipment: equipment,
                 stats: new Game.Stats({
-                    str: 2,
+                    str: 0,
                     dex: 4,
                     con: 0,
                     gra: 3
@@ -82,7 +82,7 @@
             sheet: new Game.Sheet({
                 equipment: equipment,
                 stats: new Game.Stats({
-                    str: 2,
+                    str: 0,
                     dex: 4,
                     con: 0,
                     gra: 3
@@ -118,7 +118,7 @@
             sheet: new Game.Sheet({
                 equipment: equipment,
                 stats: new Game.Stats({
-                    str: 2,
+                    str: 0,
                     dex: 4,
                     con: 0,
                     gra: 3
@@ -155,7 +155,7 @@
             sheet: new Game.Sheet({
                 equipment: equipment,
                 stats: new Game.Stats({
-                    str: 2,
+                    str: 0,
                     dex: 4,
                     con: 0,
                     gra: 3
@@ -168,6 +168,41 @@
             defender = new Game.Entity(fighterTemplate);
 
         stubDie([15, 0, 10, 3], [null, null, [3, 7], null]);
+        attacker.attack(defender);
+        expect(0);
+    });
+
+    test("Standard equipment, add 1 damage side from str.", function() {
+        // Die sequence:
+        // A attack roll of 10
+        // B evade roll of 10
+        //
+        // A is 4 dex + 0 melee + 10 = 14
+        // B is 4 dex + 1 evasion sword - 2 armor + 10 = 13
+        //
+        // Obviously no crits.
+        //
+        // A has 1 str, should roll 1d8 damage.
+        var fighterTemplate = {
+            glyph: new Game.Glyph({
+                character: "@"
+            }),
+            sheet: new Game.Sheet({
+                equipment: equipment,
+                stats: new Game.Stats({
+                    str: 1,
+                    dex: 4,
+                    con: 0,
+                    gra: 3
+                })
+            }),
+            mixins: [Game.Mixins.Fighter]
+        },
+
+            attacker = new Game.Entity(fighterTemplate),
+            defender = new Game.Entity(fighterTemplate);
+
+        stubDie([10, 10, 6, 3], [null, null, [1, 8], null]);
         attacker.attack(defender);
         expect(0);
     });

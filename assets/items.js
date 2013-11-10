@@ -12,6 +12,12 @@ Game.Weapon.prototype.damroll = function(effectiveStrength) {
     return Die.ndx(this.damageDice, this.damageSides + effectiveStrength);
 }
 
+Game.Weapon.prototype.computeSidesForStrength = function(str) {
+    var maxBonus = Math.floor(this.weight / 10);
+    return this.damageSides + Math.min(str, maxBonus);
+}
+
+
 Game.Weapon.Fist = new Game.Weapon({
     damageDice: 1,
     damageSides: 4,
