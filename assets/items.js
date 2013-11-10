@@ -13,10 +13,15 @@ Game.Weapon.prototype.damroll = function(effectiveStrength) {
 }
 
 Game.Weapon.prototype.computeSidesForStrength = function(str) {
-    var maxBonus = Math.floor(this.weight / 10);
-    return this.damageSides + Math.min(str, maxBonus);
-}
+    var absStr = Math.abs(str),
+        strSign = str >= 0 ? 1 : -1,
+        maxBonus = Math.floor(this.weight / 10),
+        sidesDelta = strSign * Math.min(absStr, maxBonus);
 
+    // All attacks must have at least one damage side. This is carried over
+    // from Sil.
+    return Math.max(1, this.damageSides + sidesDelta);
+}
 
 Game.Weapon.Fist = new Game.Weapon({
     damageDice: 1,
