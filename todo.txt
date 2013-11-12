@@ -1,19 +1,28 @@
+Dungeon:
  - Equipment can be generated on the ground
- - Monsters can be configured in file
- - Player has inventory
- - Dungeon has multiple floors
- - Monsters get a native height
- - Player gains XP from killing monsters
  - Items can be generated on the ground
- - Player can pick up items
+ - Monsters can be configured in file
+ - Dungeon has multiple floors
+ - Player has LOS
+ - Equipment generation randomizes quality 
+
+Controls / integration:
+ - Player has inventory
  - Items stack in inventory
+ - Player can pick up items
+ - Player gains XP from killing monsters
+ - Item discovery gives XP
+ - Monster discovery gives XP
  - Player can use items
+
+Rules:
+ N Equipment has multiple armor slots
+ - Player can gain XP
+ - Player can allocate XP to skills
  - Inventory is limited by space
  - Inventory is limited by weight?
- - Player can equip multiple armor slots.
  - Actors can drop items
  - Items don't stack on the ground but distribute
- - Give both weapons and armor an evasion property
- - Add weight to weapons and make it matter for strength
- - elemental brands
- - Make weapon weight matter for crits
+ - elemental brands on weapons
+ - Player can have abilities
+ - Abilities can have prerequisites
