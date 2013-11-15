@@ -51,7 +51,7 @@
     });
 
     test("Select message: Is player", function() {
-        var player = new Game.Entity(Game.PlayerTemplate);
+        var player = Game.DudeRepository.create('player');
         sut.selectMessage(
             Game.Message.Channel.STATUS,
             player,
@@ -63,7 +63,7 @@
     });
 
     test("Select message: Is not player", function() {
-        var notPlayer = new Game.Entity(Game.OrcTemplate);
+        var notPlayer = Game.DudeRepository.create('orc');
         sut.selectMessage(
             Game.Message.Channel.STATUS,
             notPlayer,

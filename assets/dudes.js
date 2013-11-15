@@ -158,8 +158,9 @@ Game.Mixins.Fighter = {
     }
 }
 
-// Player template
-Game.PlayerTemplate = {
+Game.DudeRepository = new Game.EntityRepository();
+
+Game.DudeRepository.define('player', {
     glyph: new Game.Glyph({
         character: "@",
         foreground: "white",
@@ -167,9 +168,9 @@ Game.PlayerTemplate = {
     }),
     name: "Player",
     mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor, Game.Mixins.Fighter]
-}
+});
 
-Game.OrcTemplate = {
+Game.DudeRepository.define('orc', {
     glyph: new Game.Glyph({
         character: "o",
         foreground: "green",
@@ -182,4 +183,4 @@ Game.OrcTemplate = {
     }),
     name: "Orc",
     mixins: [Game.Mixins.Moveable, Game.Mixins.WanderingActor, Game.Mixins.Fighter]
-}
+});

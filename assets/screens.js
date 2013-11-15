@@ -73,9 +73,7 @@ Game.Screen.playScreen = {
         console.log("Entered play screen.");
         console.log("Generating level...");
 
-
-        // Create our level from the tiles
-        this._player = new Game.Entity(Game.PlayerTemplate);
+        this._player = Game.DudeRepository.create('player');
         this._level = new Game.Level(this._player);
         this._level.start();
     },

@@ -136,7 +136,7 @@ Game.Level.prototype._generateRandomLevel = function(player) {
 Game.Level.prototype._placeMonsters = function() {
     var monsterCount = ROT.RNG.getUniformInt(15, 30);
     for (var i = 0; i < monsterCount; i++) {
-        var newMonster = new Game.Entity(Game.OrcTemplate);
+        var newMonster = Game.DudeRepository.create('orc');
         this.placeAtRandomSquare(newMonster);
     }
 }
