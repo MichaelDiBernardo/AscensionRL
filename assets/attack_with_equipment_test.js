@@ -1,6 +1,6 @@
 (function() {
     var oldDie = Die.ndx,
-        FakeDie = Die.FakeDie;
+        FakeDie = Die.FakeDie,
         stubDie = function(rolls, verifications) {
             Die = new FakeDie(rolls, verifications);
         },

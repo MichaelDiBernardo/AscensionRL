@@ -59,12 +59,28 @@ Game.Equipment.prototype.getSlotTypes = function() {
     return Game.Equipment.SlotTypes;
 }
 
-Game.Equipment.prototype.getWearableFromSlot = function(slot) {
+Game.Equipment.prototype.getWearableInSlot = function(slot) {
     return this._slots[slot];
 }
 
+Game.Equipment.prototype.equip = function(wearable) {
+    if (!wearable.hasMixin('Wearable')) {
+        throw "%s isn't wearable!".format(wearable.getName());
+    }
+
+    var slot = wearable.getSlotType();
+    if (!slot) {
+        throw "Wearable %s has no slot type!".format(wearable.getName());
+    }
+    this._slots[slot] = wearable;
+}
+
 Game.Equipment.prototype._initSlots = function() {
-    for (var slot in this.getSlotTypes()) {
+    var slotTypes = this.getSlotTypes(),
+        length = slotTypes.length;
+
+    for (var i = 0; i < length; i++) {
+        var slot = slotTypes[i];
         if (slot === "SLOT_WEAPON") {
             this._slots[slot] = Game.ItemRepository.create('fist');
         } else {
