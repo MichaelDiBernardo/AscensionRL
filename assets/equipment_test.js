@@ -1,7 +1,13 @@
 module("equipment");
 
-test("Test empty equipment", function() {
+test("Test empty equipment protection.", function() {
     var sut = new Game.Equipment();
-    equal("(none)", sut.getWeapon().getName());
     deepEqual(sut.protection(), [0, 0]);
+});
+
+test("Test empty equipment has none in all slots.", function() {
+    var sut = new Game.Equipment();
+    for (var slot in sut.getSlotTypes()) {
+        equal("(none)", sut.getWearableFromSlot(slot).getName());
+    }
 });
