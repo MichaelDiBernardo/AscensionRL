@@ -17,24 +17,26 @@ Game.Entity = function(properties) {
     var mixins = properties.mixins || [],
         length = mixins.length;
     for (var i = 0; i < length; i++) {
+        var mixin = mixins[i];
+
         // Copy over all properties from each mixin as long
         // as it"s not the name or the init property. We
         // also make sure not to override a property that
         // already exists on the entity.
-        for (var key in mixins[i]) {
+        for (var key in mixin) {
             if (key != "init" && key != "name" && !this.hasOwnProperty(key)) {
-                this[key] = mixins[i][key];
+                this[key] = mixin[key];
             }
         }
         // Add the name of this mixin to our attached mixins
-        this._attachedMixins[mixins[i].name] = true;
+        this._attachedMixins[mixin.name] = true;
         // If a group name is present, add it
-        if (mixins[i].groupName) {
-            this._attachedMixinGroups[mixins[i].groupName] = true;
+        if (mixin.groupName) {
+            this._attachedMixinGroups[mixin.groupName] = true;
         }
         // Finally call the init function if there is one
-        if (mixins[i].init) {
-            mixins[i].init.call(this, properties);
+        if (mixin.init) {
+            mixin.init.call(this, properties);
         }
     }
 }

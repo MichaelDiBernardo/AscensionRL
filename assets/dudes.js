@@ -1,6 +1,3 @@
-// Create our Mixins namespace
-Game.Mixins = {};
-
 // Define our Moveable mixin
 Game.Mixins.Moveable = {
     name: "Moveable",

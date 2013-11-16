@@ -7,21 +7,28 @@
         restoreDie = function() {
             Die = {};
             Die.ndx = oldDie;
-        };
-        shortsword = new Game.Weapon({
-            damageDice: 1,
-            damageSides: 7,
-            meleeBonus: 0,
-            evasionBonus: 1,
-            weight: 10
-        }),
-        leathers = new Game.Armor({
-            protectionDice: 1,
-            protectionSides: 6,
-            meleeBonus: 0,
-            evasionBonus: -2,
-            weight: 50
-        }),
+        },
+        fakeRepo = new Game.EntityRepository();
+
+    fakeRepo.define('shortsword', {
+        damageDice: 1,
+        damageSides: 7,
+        meleeBonus: 0,
+        evasionBonus: 1,
+        weight: 10,
+        mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
+    });
+    fakeRepo.define('leather', {
+        protectionDice: 1,
+        protectionSides: 6,
+        meleeBonus: 0,
+        evasionBonus: -2,
+        weight: 50,
+        mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
+    });
+
+    var shortsword = fakeRepo.create('shortsword'),
+        leathers = fakeRepo.create('leather'),
         equipment = new Game.Equipment({
             weapon: shortsword,
             armor: leathers

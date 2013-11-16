@@ -1,7 +1,7 @@
 Game.Equipment = function(properties) {
     properties = properties || {};
-    this.weapon = properties.weapon || Game.Weapon.Fist;
-    this.armor = properties.armor || Game.Armor.Skin;
+    this.weapon = properties.weapon || Game.ItemRepository.create('fist');
+    this.armor = properties.armor || Game.ItemRepository.create('skin');
 }
 
 Game.Equipment.prototype.protection = function() {

@@ -60,7 +60,7 @@
         var fighterTemplate = {
             sheet: new Game.Sheet({
                 equipment: new Game.Equipment({
-                    armor: Game.Armor.Leather
+                    armor: Game.ItemRepository.create('leather')
                 }),
             }),
             mixins: [Game.Mixins.Fighter]
