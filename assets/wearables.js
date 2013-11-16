@@ -45,6 +45,7 @@ Game.Mixins.Armor = {
 }
 
 Game.ItemRepository.define('fist', {
+    name: "(none)",
     damageDice: 1,
     damageSides: 4,
     meleeBonus: 0,
@@ -54,6 +55,7 @@ Game.ItemRepository.define('fist', {
 });
 
 Game.ItemRepository.define('skin', {
+    name: "(none)",
     protectionDice: 0,
     protectionSides: 0,
     meleeBonus: 0,
@@ -63,6 +65,7 @@ Game.ItemRepository.define('skin', {
 });
 
 Game.ItemRepository.define('leather', {
+    name: "Leather Armor",
     glyph: new Game.Glyph({
         character: ")",
         foreground: "brown",
