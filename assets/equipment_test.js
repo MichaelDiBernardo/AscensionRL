@@ -52,4 +52,23 @@
         var armor = sut.getWearableInSlot("SLOT_BODY");
         equal(armor.getName(), "Armor");
     });
+
+    test("Test equip something into bad slot.", function() {
+        var sut = new Game.Equipment(),
+            passed = false;
+
+        fakeRepo.define("weirdthing", {
+            name: "WhichSlot",
+            weight: 100,
+            slotType: "SLOT_BLORG",
+            mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
+        });
+
+        throws(
+            function() {
+                sut.equip(fakeRepo.create("weirdthing"));
+            },
+            "No exception raised for equipping to bad slot."
+        );
+    });
 })();

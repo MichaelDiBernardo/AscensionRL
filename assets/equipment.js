@@ -72,6 +72,11 @@ Game.Equipment.prototype.equip = function(wearable) {
     if (!slot) {
         throw "Wearable %s has no slot type!".format(wearable.getName());
     }
+
+    if ($.inArray(slot, this.getSlotTypes()) == -1) {
+        throw "Slot %s is not a valid slot!".format(slot);
+    }
+
     this._slots[slot] = wearable;
 }
 
