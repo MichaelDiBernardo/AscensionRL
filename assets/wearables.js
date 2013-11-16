@@ -9,6 +9,9 @@ Game.Mixins.Wearable = {
     },
     getSlotType: function() {
         return this._slotType;
+    },
+    isRealThing: function() {
+        return this.getSlotType() != "SLOT_NULLOBJ";
     }
 }
 
@@ -55,7 +58,7 @@ Game.ItemRepository.define('fist', {
     meleeBonus: 0,
     evasionBonus: 0,
     weight: 40, // Sil-style 4lb fists :>
-    slotType: "SLOT_WEAPON",
+    slotType: "SLOT_NULLOBJ",
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
 });
 
@@ -66,7 +69,7 @@ Game.ItemRepository.define('skin', {
     meleeBonus: 0,
     evasionBonus: 0,
     weight: 0,
-    slotType: "SLOT_ANY_ARMOR",
+    slotType: "SLOT_NULLOBJ",
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
 });
 

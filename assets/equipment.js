@@ -6,6 +6,8 @@ Game.Equipment = function(properties) {
     this._armor = properties.armor || Game.ItemRepository.create('skin');
 }
 
+// TODO: It feels like we're conflating "item type" and "slot it should go in"
+// as the same concept.
 Game.Equipment.SlotTypes = [
     "SLOT_WEAPON",
     "SLOT_RANGED",
@@ -77,7 +79,13 @@ Game.Equipment.prototype.equip = function(wearable) {
         throw "Slot %s is not a valid slot!".format(slot);
     }
 
+    var displacedItem = this._slots[slot];
     this._slots[slot] = wearable;
+
+    if (displacedItem.isRealThing()) {
+        return displacedItem;
+    }
+    return null;
 }
 
 Game.Equipment.prototype._initSlots = function() {

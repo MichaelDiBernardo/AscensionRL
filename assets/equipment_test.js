@@ -15,6 +15,14 @@
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
             });
 
+            fakeRepo.define("axe", {
+                name: "Axe",
+                damageDice: 3,
+                damageSides: 4,
+                slotType: "SLOT_WEAPON",
+                mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
+            });
+
             fakeRepo.define("armor", {
                 name: "Armor",
                 weight: 100,
@@ -25,11 +33,11 @@
         }
     });
 
-    test("Test empty equipment protection.", function() {
+    test("Empty equipment protection.", function() {
         deepEqual(sut.protection(), [0, 0]);
     });
 
-    test("Test empty equipment has none in all slots.", function() {
+    test("Empty equipment has none in all slots.", function() {
         var slotTypes = sut.getSlotTypes(),
             length = slotTypes.length;
 
@@ -39,7 +47,7 @@
         }
     });
 
-    test("Test equip weapon into empty slot.", function() {
+    test("Equip weapon into empty slot.", function() {
         sut.equip(fakeRepo.create("sword"));
 
         var weapon = sut.getWearableInSlot("SLOT_WEAPON");
@@ -47,14 +55,14 @@
         equal(7, weapon.damageSides);
     });
 
-    test("Test equip armor into empty slot.", function() {
+    test("Equip armor into empty slot.", function() {
         sut.equip(fakeRepo.create("armor"));
 
         var armor = sut.getWearableInSlot("SLOT_BODY");
         equal(armor.getName(), "Armor");
     });
 
-    test("Test equip something into bad slot.", function() {
+    test("Equip something into bad slot.", function() {
         fakeRepo.define("weirdthing", {
             name: "WhichSlot",
             weight: 100,
@@ -68,6 +76,15 @@
             },
             "No exception raised for equipping to bad slot."
         );
+    });
+
+    test("Equip into occupied slot returns old item.", function() {
+        var oldItem = sut.equip(fakeRepo.create('sword'));
+        equal(oldItem, null);
+
+        oldItem = sut.equip(fakeRepo.create('axe'));
+        equal(oldItem.getName(), "Sword");
+        equal("Axe", sut.getWearableInSlot("SLOT_WEAPON").getName());
     });
 
 })();
