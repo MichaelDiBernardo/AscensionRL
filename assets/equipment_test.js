@@ -19,14 +19,31 @@
                 name: "Axe",
                 damageDice: 3,
                 damageSides: 4,
+                meleeBonus: -3,
+                evasionBonus: 0,
                 slotType: "SLOT_WEAPON",
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
             });
 
             fakeRepo.define("armor", {
                 name: "Armor",
+                meleeBonus: 0,
+                evasionBonus: -1,
+                protectionDice: 1,
+                protectionSides: 4,
                 weight: 100,
                 slotType: "SLOT_BODY",
+                mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
+            });
+
+            fakeRepo.define("helm", {
+                name: "Helm",
+                meleeBonus: 0,
+                evasionBonus: -1,
+                protectionDice: 1,
+                protectionSides: 2,
+                weight: 100,
+                slotType: "SLOT_HELM",
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
             });
             sut = new Game.Equipment();
@@ -34,7 +51,11 @@
     });
 
     test("Empty equipment protection.", function() {
-        deepEqual(sut.protection(), [0, 0]);
+        var roll = sut.protectionRoll();
+
+        equal(roll.minValue(), 0);
+        equal(roll.maxValue(), 0);
+        equal(roll.toString(), "[0-0]");
     });
 
     test("Empty equipment has none in all slots.", function() {
@@ -87,4 +108,13 @@
         equal("Axe", sut.getWearableInSlot("SLOT_WEAPON").getName());
     });
 
+    test("Protection roll is sum of all rolls.", function() {
+        sut.equip(fakeRepo.create('armor'));
+        sut.equip(fakeRepo.create('helm'));
+        var roll = sut.protectionRoll();
+
+        equal(roll.minValue(), 2);
+        equal(roll.maxValue(), 6);
+        equal(roll.toString(), "[2-6]");
+    });
 })();

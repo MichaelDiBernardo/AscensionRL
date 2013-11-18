@@ -2,8 +2,6 @@ Game.Equipment = function(properties) {
     properties = properties || {};
     this._slots = {};
     this._initSlots();
-    this._weapon = properties.weapon || Game.ItemRepository.create('fist');
-    this._armor = properties.armor || Game.ItemRepository.create('skin');
 }
 
 // TODO: It feels like we're conflating "item type" and "slot it should go in"
@@ -21,21 +19,6 @@ Game.Equipment.SlotTypes = [
     "SLOT_GLOVES",
     "SLOT_BOOTS"
 ]
-
-Game.Equipment.prototype.getWeapon = function() {
-    return this._weapon;
-}
-
-Game.Equipment.prototype.getArmor = function() {
-    return this._armor;
-}
-
-Game.Equipment.prototype.protection = function() {
-    return [
-        this.getArmor().protectionDice,
-        this.getArmor().protectionDice * this.getArmor().protectionSides
-    ];
-}
 
 Game.Equipment.prototype.protectionRoll = function() {
     return Die.ndx(this.getArmor().protectionDice, this.getArmor().protectionSides);
