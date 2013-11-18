@@ -16,6 +16,10 @@ Die.Roll.prototype.toString = function() {
     return "" + this._die + "d" + this._sides;
 }
 
+Die.Roll.prototype.roll = function() {
+    return this._provider(this._die, this._sides);
+}
+
 
 //Die.Roll.AggregateDieRoll = function(rolls) {
 //    this._rolls;
