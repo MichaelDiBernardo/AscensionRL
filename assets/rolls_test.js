@@ -15,3 +15,28 @@ test("Normal die roll.", function() {
     equal(sut.roll(), 3);
     mock.verify();
 });
+
+test("Aggregate die roll values.", function() {
+    var sut = new Die.AggregateRoll([
+            new Die.Roll(1, 4),
+            new Die.Roll(1, 2),
+            new Die.Roll(2, 4)
+        ]);
+
+    equal(sut.minValue(), 4);
+    equal(sut.maxValue(), 14);
+    equal(sut.toString(), "[4-14]");
+});
+
+test("Aggregate die roll.", function() {
+    var mock = sinon.mock(),
+        sut = new Die.AggregateRoll([
+            new Die.Roll(1, 4),
+            new Die.Roll(1, 2),
+            new Die.Roll(2, 4)
+        ], mock);
+
+    mock.exactly(3).returns(1);
+    equal(sut.roll(), 3);
+    mock.verify();
+});
