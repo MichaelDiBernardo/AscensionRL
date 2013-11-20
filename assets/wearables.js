@@ -48,6 +48,9 @@ Game.Mixins.Armor = {
         var properties = properties || {};
         this.protectionDice = properties.protectionDice || 0;
         this.protectionSides = properties.protectionSides || 0;
+    },
+    protectionRoll: function() {
+        return new Die.Roll(this.protectionDice, this.protectionSides);
     }
 }
 

@@ -21,15 +21,12 @@ Game.Equipment.SlotTypes = [
 ]
 
 Game.Equipment.prototype.protectionRoll = function() {
-    return Die.ndx(this.getArmor().protectionDice, this.getArmor().protectionSides);
-}
-
-Game.Equipment.prototype.protectionRange = function() {
-    // TODO: This will change once we have multiple armor equips.
-    return [
-        this.getArmor().protectionDice,
-        this.getArmor().protectionDice * this.getArmor().protectionSides
-    ];
+    var slotValues = $.map(this._slots, function(v) { return v; }),
+        armor = $.grep(slotValues, function(slot) {
+            return slot.isRealThing() && slot.getSlotType() != "SLOT_WEAPON";
+        }),
+        rolls = $.map(armor, function(a) { return a.protectionRoll(); });
+    return new Die.AggregateRoll(rolls);
 }
 
 Game.Equipment.prototype.meleeBonus = function() {
