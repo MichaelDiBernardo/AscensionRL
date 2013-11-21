@@ -21,20 +21,20 @@ Die.Roll.prototype.roll = function() {
 }
 
 Die.AggregateRoll = function(rolls, provider) {
-    this._rolls = rolls;
+    this._rolls = rolls || [];
     this._provider = provider || null;
 }
 
+Die.AggregateRoll.prototype.addRoll = function(roll) {
+    this._rolls.push(roll);
+}
+
 Die.AggregateRoll.prototype.minValue = function() {
-    // Argh, might install lodash for reduce.
-    var toReturn = 0,
-        length = this._rolls.length;
-
-    for (var i = 0; i < length; i++) {
-        toReturn += this._rolls[i].minValue();
-    }
-
-    return toReturn;
+    return _.reduce(
+        _.map(this._rolls, function(r) { return r.minValue(); }),
+        function(s, n) { return s + n; },
+        0
+    );
 }
 
 Die.AggregateRoll.prototype.maxValue = function() {

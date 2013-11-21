@@ -20,40 +20,38 @@ Game.Equipment.SlotTypes = [
     "SLOT_BOOTS"
 ]
 
+// TODO: use _onAllSlots as a generic fn for these three :/
 Game.Equipment.prototype.protectionRoll = function() {
-    var slotValues = $.map(this._slots, function(v) { return v; }),
-        armor = $.grep(slotValues, function(slot) {
+    var slotValues = _.map(this._slots, function(v) { return v; }),
+        armor = _.filter(slotValues, function(slot) {
             return slot.isRealThing() && slot.getSlotType() != "SLOT_WEAPON";
         }),
-        rolls = $.map(armor, function(a) { return a.protectionRoll(); });
+        rolls = _.map(armor, function(a) { return a.protectionRoll(); });
     return new Die.AggregateRoll(rolls);
 }
 
 Game.Equipment.prototype.meleeBonus = function() {
-    var slotValues = $.map(this._slots, function(v) { return v; }),
-        meleeBonuses = $.map(slotValues, function(a) { return a.meleeBonus; }),
-        length = meleeBonuses.length,
-        toReturn = 0;
-
-    // Argh reduce.
-    for (var i = 0; i < length; i++) {
-        toReturn += meleeBonuses[i];
-    }
+    var slotValues = _.map(this._slots, function(v) { return v; }),
+        meleeBonuses = _.map(slotValues, function(a) { return a.meleeBonus; }),
+        toReturn = _.reduce(meleeBonuses, function(s, n) { return s + n; });
     return toReturn;
 }
 
 Game.Equipment.prototype.evasionBonus = function() {
-    var slotValues = $.map(this._slots, function(v) { return v; }),
-        evasionBonuses = $.map(slotValues, function(a) { return a.evasionBonus; }),
-        length = evasionBonuses.length,
-        toReturn = 0;
-
-    // Argh reduce.
-    for (var i = 0; i < length; i++) {
-        toReturn += evasionBonuses[i];
-    }
+    var slotValues = _.map(this._slots, function(v) { return v; }),
+        evasionBonuses = _.map(slotValues, function(a) { return a.evasionBonus; }),
+        toReturn = _.reduce(evasionBonuses, function(s, n) { return s + n; });
     return toReturn;
 }
+
+//Game.Equipment.prototype._onAllSlots = function(reducer, filter) {
+//    var f = filter || function() { return true; },
+//        slotValues = _.map(this._slots, function(v) { return v; }),
+//        filtered = _.filter(slotValues, f),
+//        toReturn = _.reduce(filtered, reducer);
+//    return toReturn;
+//
+//}
 
 Game.Equipment.prototype.getSlotTypes = function() {
     return Game.Equipment.SlotTypes;
