@@ -43,7 +43,16 @@ Game.Equipment.prototype.meleeBonus = function() {
 }
 
 Game.Equipment.prototype.evasionBonus = function() {
-    return this.getWeapon().evasionBonus + this.getArmor().evasionBonus;
+    var slotValues = $.map(this._slots, function(v) { return v; }),
+        evasionBonuses = $.map(slotValues, function(a) { return a.evasionBonus; }),
+        length = evasionBonuses.length,
+        toReturn = 0;
+
+    // Argh reduce.
+    for (var i = 0; i < length; i++) {
+        toReturn += evasionBonuses[i];
+    }
+    return toReturn;
 }
 
 Game.Equipment.prototype.getSlotTypes = function() {

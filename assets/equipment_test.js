@@ -137,4 +137,13 @@
 
         equal(sut.meleeBonus(), -4);
     });
+
+    test("Evasion bonus is sum of all evasion bonuses.", function() {
+        sut.equip(fakeRepo.create('armor')); // -1
+        sut.equip(fakeRepo.create('sword')); // +1
+        sut.equip(fakeRepo.create('gauntlets')); // 0
+        sut.equip(fakeRepo.create('helm')); // -1
+
+        equal(sut.evasionBonus(), -1);
+    });
 })();
