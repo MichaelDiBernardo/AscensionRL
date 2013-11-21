@@ -36,6 +36,17 @@
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
             });
 
+            fakeRepo.define("gauntlets", {
+                name: "Gauntlets",
+                meleeBonus: -1,
+                evasionBonus: 0,
+                protectionDice: 1,
+                protectionSides: 2,
+                weight: 30,
+                slotType: "SLOT_GLOVES",
+                mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
+            });
+
             fakeRepo.define("helm", {
                 name: "Helm",
                 meleeBonus: 0,
@@ -116,5 +127,14 @@
         equal(roll.minValue(), 2);
         equal(roll.maxValue(), 6);
         equal(roll.toString(), "[2-6]");
+    });
+
+    test("Melee bonus is sum of all melee bonuses.", function() {
+        sut.equip(fakeRepo.create('armor')); // +0
+        sut.equip(fakeRepo.create('axe')); // - 3
+        sut.equip(fakeRepo.create('gauntlets')); // -1
+        sut.equip(fakeRepo.create('helm')); // +0
+
+        equal(sut.meleeBonus(), -4);
     });
 })();

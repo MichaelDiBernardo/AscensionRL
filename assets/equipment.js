@@ -30,7 +30,16 @@ Game.Equipment.prototype.protectionRoll = function() {
 }
 
 Game.Equipment.prototype.meleeBonus = function() {
-    return this.getWeapon().meleeBonus + this.getArmor().meleeBonus;
+    var slotValues = $.map(this._slots, function(v) { return v; }),
+        meleeBonuses = $.map(slotValues, function(a) { return a.meleeBonus; }),
+        length = meleeBonuses.length,
+        toReturn = 0;
+
+    // Argh reduce.
+    for (var i = 0; i < length; i++) {
+        toReturn += meleeBonuses[i];
+    }
+    return toReturn;
 }
 
 Game.Equipment.prototype.evasionBonus = function() {
