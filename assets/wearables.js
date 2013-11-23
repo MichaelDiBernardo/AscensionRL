@@ -22,6 +22,7 @@ Game.Mixins.Weapon = {
         var properties = properties || {};
         this.damageDice = properties.damageDice || 0;
         this.damageSides = properties.damageSides || 0;
+        this.hands = properties.hands || "1H";
     },
 
     damroll: function(properties) {
@@ -34,7 +35,8 @@ Game.Mixins.Weapon = {
         var absStr = Math.abs(str),
             strSign = str >= 0 ? 1 : -1,
             maxBonus = Math.floor(this.weight / 10),
-            sidesDelta = strSign * Math.min(absStr, maxBonus);
+            handHalfBonus = (this.hands === "1.5H") ? 2 : 0,
+            sidesDelta = strSign * Math.min(absStr, maxBonus) + handHalfBonus;
 
         // All attacks must have at least one damage side. This is carried over
         // from Sil.
@@ -62,6 +64,7 @@ Game.ItemRepository.define('fist', {
     meleeBonus: 0,
     evasionBonus: 0,
     weight: 40, // Sil-style 4lb fists :>
+    hands: "1H",
     slotType: "SLOT_NULLOBJ",
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
 });

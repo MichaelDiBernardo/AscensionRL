@@ -12,6 +12,7 @@
                 evasionBonus: 1,
                 weight: 10,
                 slotType: "SLOT_WEAPON",
+                hands: "1H",
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
             });
 
@@ -21,7 +22,9 @@
                 damageSides: 4,
                 meleeBonus: -3,
                 evasionBonus: 0,
+                weight: 35,
                 slotType: "SLOT_WEAPON",
+                hands: "1.5H",
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
             });
 
@@ -154,5 +157,16 @@
             numCrits: 1
         });
         equal(roll.toString(), "2d8");
+    });
+
+    test("Damroll for hand-and-a-half without shield.", function() {
+        sut.equip(fakeRepo.create('axe')); // +1
+        var roll = sut.damroll({
+            strength: 2,
+            numCrits: 1
+        });
+
+        // Should get 2 damage sides from 1.5H wield, 2 from str.
+        equal(roll.toString(), "4d8");
     });
 })();
