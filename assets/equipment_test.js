@@ -11,7 +11,8 @@
                 meleeBonus: 0,
                 evasionBonus: 1,
                 weight: 10,
-                slotType: "SLOT_WEAPON",
+                slotType: SLOT_WEAPON,
+                itemType: IT_SWORD,
                 hands: "1H",
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
             });
@@ -23,7 +24,8 @@
                 meleeBonus: -3,
                 evasionBonus: 0,
                 weight: 35,
-                slotType: "SLOT_WEAPON",
+                slotType: SLOT_WEAPON,
+                itemType: IT_AXE,
                 hands: "1.5H",
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
             });
@@ -35,7 +37,8 @@
                 protectionDice: 1,
                 protectionSides: 4,
                 weight: 100,
-                slotType: "SLOT_BODY",
+                slotType: SLOT_BODY,
+                itemType: IT_ARMOR,
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
             });
 
@@ -46,7 +49,8 @@
                 protectionDice: 1,
                 protectionSides: 2,
                 weight: 30,
-                slotType: "SLOT_GLOVES",
+                slotType: SLOT_GLOVES,
+                itemType: IT_GLOVES,
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
             });
 
@@ -57,7 +61,8 @@
                 protectionDice: 1,
                 protectionSides: 2,
                 weight: 100,
-                slotType: "SLOT_HELM",
+                slotType: SLOT_HELM,
+                itemType: IT_HELM,
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
             });
 
@@ -68,7 +73,8 @@
                 protectionDice: 1,
                 protectionSides: 4,
                 weight: 30,
-                slotType: "SLOT_OFFHAND",
+                slotType: SLOT_OFFHAND,
+                itemType: IT_SHIELD,
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
             });
 
@@ -97,7 +103,7 @@
     test("Equip weapon into empty slot.", function() {
         sut.equip(fakeRepo.create("sword"));
 
-        var weapon = sut.getWearableInSlot("SLOT_WEAPON");
+        var weapon = sut.getWearableInSlot(SLOT_WEAPON);
         equal(weapon.getName(), "Sword");
         equal(7, weapon.damageSides);
     });
@@ -105,15 +111,16 @@
     test("Equip armor into empty slot.", function() {
         sut.equip(fakeRepo.create("armor"));
 
-        var armor = sut.getWearableInSlot("SLOT_BODY");
+        var armor = sut.getWearableInSlot(SLOT_BODY);
         equal(armor.getName(), "Armor");
     });
 
     test("Equip something into bad slot.", function() {
+        var SLOT_BLORG = 61;
         fakeRepo.define("weirdthing", {
             name: "WhichSlot",
             weight: 100,
-            slotType: "SLOT_BLORG",
+            slotType: SLOT_BLORG,
             mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
         });
 
@@ -131,7 +138,7 @@
 
         oldItem = sut.equip(fakeRepo.create('axe'));
         equal(oldItem.getName(), "Sword");
-        equal("Axe", sut.getWearableInSlot("SLOT_WEAPON").getName());
+        equal("Axe", sut.getWearableInSlot(SLOT_WEAPON).getName());
     });
 
     test("Protection roll is sum of all rolls.", function() {

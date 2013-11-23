@@ -5,13 +5,14 @@ Game.Mixins.Wearable = {
         var properties = properties || {};
         this.meleeBonus = properties.meleeBonus || 0;
         this.evasionBonus = properties.evasionBonus || 0;
-        this._slotType = properties.slotType || null;
+        if (properties.slotType === undefined) {
+            this._slotType = SLOT_ANY;
+        } else {
+            this._slotType = properties.slotType;
+        }
     },
     getSlotType: function() {
         return this._slotType;
-    },
-    isRealThing: function() {
-        return this.getSlotType() != "SLOT_NULLOBJ";
     }
 }
 
@@ -69,7 +70,8 @@ Game.ItemRepository.define('fist', {
     evasionBonus: 0,
     weight: 40, // Sil-style 4lb fists :>
     hands: "1H",
-    slotType: "SLOT_NULLOBJ",
+    slotType: SLOT_ANY,
+    itemType: IT_NULLOBJ,
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
 });
 
@@ -80,7 +82,8 @@ Game.ItemRepository.define('skin', {
     meleeBonus: 0,
     evasionBonus: 0,
     weight: 0,
-    slotType: "SLOT_NULLOBJ",
+    slotType: SLOT_ANY,
+    itemType: IT_NULLOBJ,
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
 });
 
@@ -96,6 +99,7 @@ Game.ItemRepository.define('leather', {
     meleeBonus: 0,
     evasionBonus: -1,
     weight: 50,
-    slotType: "SLOT_BODY",
+    slotType: SLOT_BODY,
+    itemType: IT_ARMOR,
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
 });
