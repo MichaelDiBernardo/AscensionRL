@@ -146,4 +146,13 @@
 
         equal(sut.evasionBonus(), -1);
     });
+
+    test("Damroll for single 1H weapon.", function() {
+        sut.equip(fakeRepo.create('sword')); // +1
+        var roll = sut.damroll({
+            strength: 2,
+            numCrits: 1
+        });
+        equal(roll.toString(), "2d8");
+    });
 })();

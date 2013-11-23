@@ -24,9 +24,10 @@ Game.Mixins.Weapon = {
         this.damageSides = properties.damageSides || 0;
     },
 
-    damroll: function(effectiveStrength) {
-        effectiveStrength = effectiveStrength || 0;
-        return Die.ndx(this.damageDice, this.damageSides + effectiveStrength);
+    damroll: function(properties) {
+        var damageDice = this.damageDice + properties.numCrits,
+            damageSides = this.computeSidesForStrength(properties.strength);
+        return new Die.Roll(damageDice, damageSides);
     },
 
     computeSidesForStrength: function(str) {

@@ -65,6 +65,8 @@ Game.Sheet.prototype.criticalInterval = function() {
 }
 
 Game.Sheet.prototype.damroll = function(residual, accumulator) {
+    // TODO: This can't be right. Critical interval should be opponent's, not
+    // the attackers.
     var numCrits = Math.floor(residual / this.criticalInterval()),
         weapon = this._equipment.getWeapon(),
         damageDice = weapon.damageDice + numCrits,

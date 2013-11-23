@@ -44,13 +44,17 @@ Game.Equipment.prototype.evasionBonus = function() {
     return toReturn;
 }
 
+Game.Equipment.prototype.damroll = function(properties) {
+     var weapon = this._slots["SLOT_WEAPON"];
+     return weapon.damroll(properties);
+}
+
 //Game.Equipment.prototype._onAllSlots = function(reducer, filter) {
 //    var f = filter || function() { return true; },
 //        slotValues = _.map(this._slots, function(v) { return v; }),
 //        filtered = _.filter(slotValues, f),
 //        toReturn = _.reduce(filtered, reducer);
 //    return toReturn;
-//
 //}
 
 Game.Equipment.prototype.getSlotTypes = function() {
