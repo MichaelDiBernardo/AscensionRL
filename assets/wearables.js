@@ -27,15 +27,19 @@ Game.Mixins.Weapon = {
 
     damroll: function(properties) {
         var damageDice = this.damageDice + properties.numCrits,
-            damageSides = this.computeSidesForStrength(properties.strength);
+            damageSides = this.computeSidesForStrength(properties.strength,
+                    properties.isTwoHanded);
+
         return new Die.Roll(damageDice, damageSides);
     },
 
-    computeSidesForStrength: function(str) {
+    computeSidesForStrength: function(str, isTwoHanded) {
         var absStr = Math.abs(str),
             strSign = str >= 0 ? 1 : -1,
             maxBonus = Math.floor(this.weight / 10),
-            handHalfBonus = (this.hands === "1.5H") ? 2 : 0,
+            isHandHalf = this.hands === "1.5H",
+            isTwoHanded = isTwoHanded || false,
+            handHalfBonus = (isHandHalf && isTwoHanded) ? 2 : 0,
             sidesDelta = strSign * Math.min(absStr, maxBonus) + handHalfBonus;
 
         // All attacks must have at least one damage side. This is carried over

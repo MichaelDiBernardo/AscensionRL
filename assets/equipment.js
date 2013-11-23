@@ -45,7 +45,9 @@ Game.Equipment.prototype.evasionBonus = function() {
 }
 
 Game.Equipment.prototype.damroll = function(properties) {
-     var weapon = this._slots["SLOT_WEAPON"];
+     var weapon = this._slots["SLOT_WEAPON"],
+         isTwoHanded = !this._slots["SLOT_OFFHAND"].hasMixin("Armor");
+     properties.isTwoHanded = isTwoHanded;
      return weapon.damroll(properties);
 }
 

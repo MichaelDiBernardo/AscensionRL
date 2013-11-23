@@ -60,6 +60,18 @@
                 slotType: "SLOT_HELM",
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
             });
+
+            fakeRepo.define("shield", {
+                name: "Shield",
+                meleeBonus: 0,
+                evasionBonus: 0,
+                protectionDice: 1,
+                protectionSides: 4,
+                weight: 30,
+                slotType: "SLOT_OFFHAND",
+                mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
+            });
+
             sut = new Game.Equipment();
         }
     });
@@ -151,7 +163,7 @@
     });
 
     test("Damroll for single 1H weapon.", function() {
-        sut.equip(fakeRepo.create('sword')); // +1
+        sut.equip(fakeRepo.create('sword'));
         var roll = sut.damroll({
             strength: 2,
             numCrits: 1
@@ -160,7 +172,7 @@
     });
 
     test("Damroll for hand-and-a-half without shield.", function() {
-        sut.equip(fakeRepo.create('axe')); // +1
+        sut.equip(fakeRepo.create('axe'));
         var roll = sut.damroll({
             strength: 2,
             numCrits: 1
@@ -168,5 +180,17 @@
 
         // Should get 2 damage sides from 1.5H wield, 2 from str.
         equal(roll.toString(), "4d8");
+    });
+
+    test("Damroll for hand-and-a-half with shield.", function() {
+        sut.equip(fakeRepo.create('axe'));
+        sut.equip(fakeRepo.create('shield'));
+        var roll = sut.damroll({
+            strength: 2,
+            numCrits: 1
+        });
+
+        // Should get just 2 extra sides from str.
+        equal(roll.toString(), "4d6");
     });
 })();
