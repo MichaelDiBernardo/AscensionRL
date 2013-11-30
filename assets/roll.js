@@ -1,6 +1,7 @@
 Die.Roll = function(die, sides, provider) {
     this._die = die;
     this._sides = sides;
+    this._lastValue = null;
     this._provider = provider || Die.ndx;
 }
 
@@ -17,11 +18,20 @@ Die.Roll.prototype.toString = function() {
 }
 
 Die.Roll.prototype.roll = function() {
-    return this._provider(this._die, this._sides);
+    this._lastValue = this._provider(this._die, this._sides);
+    return this._lastValue;
+}
+
+Die.Roll.prototype.getLastValue = function() {
+    if (this._lastValue === null) {
+        throw new Error("This die was never rolled.");
+    }
+    return this._lastValue;
 }
 
 Die.AggregateRoll = function(rolls, provider) {
     this._rolls = rolls || [];
+    this._lastValue = null;
     this._provider = provider || null;
 }
 
@@ -65,5 +75,8 @@ Die.AggregateRoll.prototype.roll = function() {
         total += roll.roll();
     }
 
+    this._lastValue = total;
     return total;
 }
+
+Die.AggregateRoll.prototype.getLastValue = Die.Roll.prototype.getLastValue;
