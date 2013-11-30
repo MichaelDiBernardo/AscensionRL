@@ -19,15 +19,15 @@ Die.ndx = function(dieCount, sides) {
 
 // This thing has sort of evolved to become a "situational mock", but too lazy
 // to change name.
-Die.FakeDie = function(rolls, verifications) {
+Die.FakeDie = function(rolls, expectations) {
     this._rolls = rolls;
-    this._verifications = verifications;
+    this._expectations = expectations;
     this._i = 0;
 }
 
 Die.FakeDie.prototype.ndx = function(dieCount, sides) {
-    if (this._verifications) {
-        var dieSpec = this._verifications[this._i];
+    if (this._expectations) {
+        var dieSpec = this._expectations[this._i];
         if (dieSpec && (dieSpec[0] != dieCount || dieSpec[1] != sides)) {
             var expectedDie = "" + dieSpec[0] + "d" + dieSpec[1],
                 actualDie = "" + dieCount + "d" + sides;

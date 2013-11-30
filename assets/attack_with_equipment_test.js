@@ -1,8 +1,8 @@
 // TODO: Check out why roll expectations aren't failing. (e.g. change last
 // 1d8 to something else and it still passes.
 (function() {
-    var stubDie = function(rolls) {
-        var die = new Die.FakeDie(rolls);
+    var stubDie = function(rolls, expectations) {
+        var die = new Die.FakeDie(rolls, expectations);
         sinon.stub(Die, "ndx", function(dieCount, sides) {
             return die.ndx(dieCount, sides);
         })
