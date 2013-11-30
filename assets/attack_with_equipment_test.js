@@ -1,13 +1,10 @@
 (function() {
-    var oldDie = Die.ndx,
-        FakeDie = Die.FakeDie,
-        stubDie = function(rolls, verifications) {
-            Die = new FakeDie(rolls, verifications);
-        },
-        restoreDie = function() {
-            Die = {};
-            Die.ndx = oldDie;
-        },
+    var stubDie = function(rolls) {
+        var die = new Die.FakeDie(rolls);
+        sinon.stub(Die, "ndx", function(dieCount, sides) {
+            return die.ndx(dieCount, sides);
+        })
+    },
         fakeRepo = new Game.EntityRepository();
 
     fakeRepo.define('shortsword', {
@@ -16,6 +13,8 @@
         meleeBonus: 0,
         evasionBonus: 1,
         weight: 10,
+        slotType: SLOT_WEAPON,
+        itemType: IT_SWORD,
         mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
     });
     fakeRepo.define('leather', {
@@ -24,19 +23,21 @@
         meleeBonus: 0,
         evasionBonus: -2,
         weight: 50,
+        slotType: SLOT_BODY,
+        itemType: IT_ARMOR,
         mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
     });
 
     var shortsword = fakeRepo.create('shortsword'),
         leathers = fakeRepo.create('leather'),
-        equipment = new Game.Equipment({
-            weapon: shortsword,
-            armor: leathers
-        });
+        equipment = new Game.Equipment([
+            shortsword,
+            leathers
+        ]);
 
     module("attack-equipment", {
         teardown: function() {
-            restoreDie();
+            Die.ndx.restore();
         }
     });
 
