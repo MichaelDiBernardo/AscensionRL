@@ -64,7 +64,6 @@ Game.Sheet.prototype.criticalInterval = function() {
     return 7 + this._equipment.getWeapon().getWeightInLbs();
 }
 
-// TODO: Damroll and protectionRoll should both return Roll objects.
 Game.Sheet.prototype.damroll = function(residual, accumulator) {
     // TODO: This can't be right. Critical interval should be opponent's, not
     // the attackers.
@@ -80,7 +79,7 @@ Game.Sheet.prototype.damroll = function(residual, accumulator) {
         accumulator.damageRoll = roll;
     }
 
-    return roll.roll();
+    return roll;
 }
 Game.Sheet.prototype.protectionRoll = function() {
     return this._equipment.protectionRoll();

@@ -103,6 +103,7 @@ Game.Mixins.Fighter = {
             accumulator.hit = true;
 
             var damageRoll = this.sheet().damroll(residual, accumulator),
+                damageValue = damageRoll.roll(),
                 critSuffix = accumulator.buildCritSuffix();
             Game.Message.Router.selectMessage(
                 Game.Message.Channel.STATUS,
@@ -110,7 +111,7 @@ Game.Mixins.Fighter = {
                 "You hit the %s%s".format(defender.getName(), critSuffix),
                 "The %s hits you%s".format(this.getName(), critSuffix)
             );
-            defender.hurt(damageRoll, this, accumulator);
+            defender.hurt(damageValue, this, accumulator);
         }
         Game.Message.Router.sendMessage(
             Game.Message.Channel.COMBAT,
@@ -123,7 +124,6 @@ Game.Mixins.Fighter = {
             protectionValue = protectionRoll.roll(),
             damage = Math.max(0, hp - protectionValue);
         accumulator.protectionRoll = protectionRoll;
-        accumulator.protectionValue = protectionValue;
         accumulator.damage = damage;
 
         this.sheet().setCurHP(this.sheet().curHP() - damage);

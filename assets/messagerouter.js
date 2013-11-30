@@ -43,7 +43,6 @@ Game.Message.CombatRollAccumulator = function(properties) {
     this.hit = properties.hit || false;
     this.damageRoll = properties.damageRoll || 0;
     this.protectionRoll = properties.protectionRoll || 0;
-    this.protectionValue = properties.protectionValue || 0;
     this.damage = properties.damage || 0;
     this.numCrits = properties.numCrits || 0;
 }
@@ -78,7 +77,7 @@ Game.Message.CombatRollAccumulator.prototype.buildCombatRollMessage = function()
         damageString,
         this.damageRoll,
         this.damage,
-        this.protectionValue,
+        this.protectionRoll.getLastValue(),
         protectionString,
         this.defender.getGlyph().getChar()
     );
