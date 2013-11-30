@@ -1,17 +1,14 @@
 (function() {
-    var oldDie = Die.ndx,
-        FakeDie = Die.FakeDie;
-        stubDie = function(rolls) {
-            Die = new FakeDie(rolls);
-        },
-        restoreDie = function() {
-            Die = {};
-            Die.ndx = oldDie;
-        };
+    var stubDie = function(rolls) {
+        var die = new Die.FakeDie(rolls);
+        sinon.stub(Die, "ndx", function(dieCount, sides) {
+            return die.ndx(dieCount, sides);
+        })
+    }
 
     module("attack", {
         teardown: function() {
-            restoreDie();
+            Die.ndx.restore();
         }
     });
 
@@ -59,9 +56,9 @@
         // Rolls 1d4 damage (2) vs 1d4 protection (1) for a total of 1 damage.
         var fighterTemplate = {
             sheet: new Game.Sheet({
-                equipment: new Game.Equipment({
-                    armor: Game.ItemRepository.create('leather')
-                }),
+                equipment: new Game.Equipment([
+                    Game.ItemRepository.create('leather')
+                ]),
             }),
             mixins: [Game.Mixins.Fighter]
         };

@@ -12,7 +12,11 @@ Game.Mixins.Item = {
     },
     isRealThing: function() {
         return this.itemType != IT_NULLOBJ;
+    },
+    getWeightInLbs: function() {
+        return this.weight / 10.0;
     }
+
 }
 
 Game.ItemRepository = new Game.EntityRepository();

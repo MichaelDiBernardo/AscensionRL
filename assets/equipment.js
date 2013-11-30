@@ -1,7 +1,6 @@
-Game.Equipment = function(properties) {
-    properties = properties || {};
+Game.Equipment = function(givenWearables) {
     this._slots = [];
-    this._initSlots();
+    this._initSlots(givenWearables || []);
 }
 
 // TODO: It feels like we're conflating "item type" and "slot it should go in"
@@ -64,6 +63,10 @@ Game.Equipment.prototype.getWearableInSlot = function(slot) {
     return this._slots[slot];
 }
 
+Game.Equipment.prototype.getWeapon = function() {
+    return this._slots[SLOT_WEAPON];
+}
+
 Game.Equipment.prototype.equip = function(wearable) {
     if (!wearable.hasMixin('Wearable')) {
         throw "%s isn't wearable!".format(wearable.getName());
@@ -83,16 +86,25 @@ Game.Equipment.prototype.equip = function(wearable) {
     return null;
 }
 
-Game.Equipment.prototype._initSlots = function() {
+Game.Equipment.prototype._initSlots = function(givenWearables) {
     var slotTypes = this.getSlotTypes(),
         length = slotTypes.length;
 
     for (var i = 0; i < length; i++) {
         var slot = slotTypes[i];
+
         if (slot === SLOT_WEAPON) {
             this._slots[slot] = Game.ItemRepository.create('fist');
         } else {
             this._slots[slot] = Game.ItemRepository.create('skin');
+        }
+    }
+
+    length = givenWearables.length;
+    for (var i = 0; i < givenWearables.length; i++) {
+        var displaced = this.equip(givenWearables[i]);
+        if (displaced) {
+            throw new Error("Multiple wearables given for slot " + i);
         }
     }
 }

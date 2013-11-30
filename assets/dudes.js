@@ -120,8 +120,10 @@ Game.Mixins.Fighter = {
 
     hurt: function(hp, attacker, accumulator) {
         var protectionRoll = this.sheet().protectionRoll(),
-            damage = Math.max(0, hp - protectionRoll);
+            protectionValue = protectionRoll.roll(),
+            damage = Math.max(0, hp - protectionValue);
         accumulator.protectionRoll = protectionRoll;
+        accumulator.protectionValue = protectionValue;
         accumulator.damage = damage;
 
         this.sheet().setCurHP(this.sheet().curHP() - damage);

@@ -61,9 +61,10 @@ Game.Sheet.prototype.setCurHP = function(amt) {
 }
 
 Game.Sheet.prototype.criticalInterval = function() {
-    return 7 + (this._equipment.getWeapon().weight / 10);
+    return 7 + this._equipment.getWeapon().getWeightInLbs();
 }
 
+// TODO: Damroll and protectionRoll should both return Roll objects.
 Game.Sheet.prototype.damroll = function(residual, accumulator) {
     // TODO: This can't be right. Critical interval should be opponent's, not
     // the attackers.
@@ -71,19 +72,16 @@ Game.Sheet.prototype.damroll = function(residual, accumulator) {
         weapon = this._equipment.getWeapon(),
         damageDice = weapon.damageDice + numCrits,
         damageSides = weapon.computeSidesForStrength(this._stats.str()),
-        roll = Die.ndx(damageDice, damageSides);
+        roll = new Die.Roll(damageDice, damageSides);
 
     // TODO: Maybe we need a "reportDamroll" here or something.
-    accumulator.damageDice = damageDice;
-    accumulator.numCrits = numCrits;
-    accumulator.damageSides = damageSides;
-    accumulator.damageRoll = roll;
+    if (accumulator) {
+        accumulator.numCrits = numCrits;
+        accumulator.damageRoll = roll;
+    }
 
-    return roll;
+    return roll.roll();
 }
 Game.Sheet.prototype.protectionRoll = function() {
     return this._equipment.protectionRoll();
-}
-Game.Sheet.prototype.protectionRange = function() {
-    return this._equipment.protectionRange();
 }
