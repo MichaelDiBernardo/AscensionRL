@@ -72,10 +72,10 @@ Game.Message.CombatRollAccumulator.prototype.buildCombatRollMessage = function()
     var damageString = this.damageRoll.toString(),
         protectionString = this.protectionRoll.toString();
 
-    message += "; %s (%s) -> %s (%s) %s <- [%s] %s".format(
+    message += "; %s (%s) -> %s (%s) %s <- %s %s".format(
         this.attacker.getGlyph().getChar(),
         damageString,
-        this.damageRoll,
+        this.damageRoll.getLastValue(),
         this.damage,
         this.protectionRoll.getLastValue(),
         protectionString,

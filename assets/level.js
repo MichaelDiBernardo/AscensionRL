@@ -49,7 +49,7 @@ Game.Level.prototype.removeEntity = function(entity) {
         }
     }
 
-    if (entity.hasMixin('Actor')) {
+    if (entity.hasMixin("Actor")) {
         this._scheduler.remove(entity);
     }
 }
@@ -59,7 +59,7 @@ Game.Level.prototype.placeEntityAt = function(entity, x, y) {
     entity.setY(y);
     entity.setLevel(this);
     this._entities.push(entity);
-    if (entity.hasMixin('Actor')) {
+    if (entity.hasMixin("Actor")) {
         this._scheduler.add(entity, true);
     }
     this.getTileAt(x, y).onEntityEntered(entity);
@@ -90,7 +90,7 @@ Game.Level.prototype._generateRandomLevel = function(player) {
     this._height = dimensions[1];
 
     var map = [],
-        // Wall tiles don't really need extra state, so we just use one.
+        // Wall tiles don"t really need extra state, so we just use one.
         wallTile = Game.Tile.create(Game.Tile.Tiles.WALL);
 
     for (var x = 0; x < this._width; x++) {
@@ -136,7 +136,7 @@ Game.Level.prototype._generateRandomLevel = function(player) {
 Game.Level.prototype._placeMonsters = function() {
     var monsterCount = ROT.RNG.getUniformInt(15, 30);
     for (var i = 0; i < monsterCount; i++) {
-        var newMonster = Game.DudeRepository.create('orc');
+        var newMonster = Game.DudeRepository.create("orc");
         this.placeAtRandomSquare(newMonster);
     }
 }

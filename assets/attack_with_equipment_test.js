@@ -1,4 +1,4 @@
-// TODO: Check out why roll expectations aren't failing. (e.g. change last
+// TODO: Check out why roll expectations aren"t failing. (e.g. change last
 // 1d8 to something else and it still passes.
 (function() {
     var stubDie = function(rolls, expectations) {
@@ -9,7 +9,7 @@
     },
         fakeRepo = new Game.EntityRepository();
 
-    fakeRepo.define('shortsword', {
+    fakeRepo.define("shortsword", {
         damageDice: 1,
         damageSides: 7,
         meleeBonus: 0,
@@ -19,7 +19,7 @@
         itemType: IT_SWORD,
         mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
     });
-    fakeRepo.define('leather', {
+    fakeRepo.define("leather", {
         protectionDice: 1,
         protectionSides: 6,
         meleeBonus: 0,
@@ -30,8 +30,8 @@
         mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
     });
 
-    var shortsword = fakeRepo.create('shortsword'),
-        leathers = fakeRepo.create('leather'),
+    var shortsword = fakeRepo.create("shortsword"),
+        leathers = fakeRepo.create("leather"),
         equipment = new Game.Equipment([
             shortsword,
             leathers
@@ -50,7 +50,7 @@
         //
         // A is 4 dex + 0 melee + 10 = 14
         // B is 4 dex + 1 evasion sword - 2 armor + 11 = 14
-        // No other rolls made -- it's a miss.
+        // No other rolls made -- it"s a miss.
         var fighterTemplate = {
             glyph: new Game.Glyph({
                 character: "@"
@@ -156,7 +156,7 @@
         // 19 - 3 = 16 = 2 * (7 base + 1 weapon weight), which is two crits.
         //
         // A should roll 3d7 damage, B rolls 1d6 prot.
-        // We don't even bother checking damage since it's the mock roll we're
+        // We don"t even bother checking damage since it"s the mock roll we"re
         // most concerned about.
         var fighterTemplate = {
             glyph: new Game.Glyph({

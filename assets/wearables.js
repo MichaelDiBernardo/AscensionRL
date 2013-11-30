@@ -103,3 +103,33 @@ Game.ItemRepository.define('leather', {
     itemType: IT_ARMOR,
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
 });
+
+Game.ItemRepository.define('bustersword', {
+    name: "Buster Sword",
+    glyph: new Game.Glyph({
+        character: "|",
+        foreground: "red",
+        background: "black",
+    }),
+    meleeBonus: -2,
+    evasionBonus: 1,
+    damageDice: 3,
+    damageSides: 5,
+    weight: 70,
+    slotType: SLOT_WEAPON,
+    itemType: IT_SWORD,
+    mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
+});
+
+Game.ItemRepository.define('curvedsword', {
+    name: "Curved Sword",
+    damageDice: 2,
+    damageSides: 5,
+    meleeBonus: -1,
+    evasionBonus: 1,
+    weight: 40,
+    slotType: SLOT_WEAPON,
+    itemType: IT_SWORD,
+    hands: "1H",
+    mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
+});

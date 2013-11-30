@@ -160,16 +160,33 @@ Game.Mixins.Fighter = {
 Game.DudeRepository = new Game.EntityRepository();
 
 Game.DudeRepository.define('player', {
+    name: "Player",
     glyph: new Game.Glyph({
         character: "@",
         foreground: "white",
         background: "black",
     }),
-    name: "Player",
+    sheet: new Game.Sheet({
+        skills: new Game.Skills({
+            melee: 3,
+            evasion: 3
+        }),
+        stats: new Game.Stats({
+            str: 2,
+            dex: 4,
+            con: 5,
+            gra: 3
+        }),
+        equipment: new Game.Equipment([
+            Game.ItemRepository.create('bustersword'),
+            Game.ItemRepository.create('leather')
+        ]),
+    }),
     mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor, Game.Mixins.Fighter]
 });
 
 Game.DudeRepository.define('orc', {
+    name: "Orc",
     glyph: new Game.Glyph({
         character: "o",
         foreground: "green",
@@ -178,8 +195,10 @@ Game.DudeRepository.define('orc', {
     sheet: new Game.Sheet({
         skills: new Game.Skills({
             melee: 3
-        })
+        }),
+        equipment: new Game.Equipment([
+            Game.ItemRepository.create('curvedsword')
+        ]),
     }),
-    name: "Orc",
     mixins: [Game.Mixins.Moveable, Game.Mixins.WanderingActor, Game.Mixins.Fighter]
 });
