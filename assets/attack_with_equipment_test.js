@@ -1,3 +1,5 @@
+// TODO: Check out why roll expectations aren't failing. (e.g. change last
+// 1d8 to something else and it still passes.
 (function() {
     var stubDie = function(rolls) {
         var die = new Die.FakeDie(rolls);
