@@ -67,7 +67,8 @@ module.exports = function(grunt) {
       main: {
         files: [
             {src: 'index-dev.html', dest: 'index.html'},
-            {src: 'index-dist-html', dest: 'dist/index.html'}
+            {src: 'index-dist-html', dest: 'dist/index.html'},
+            {cwd: 'lib/screens/', src: '*', dest: 'dist/lib/screens/', expand: true}
           ]
       },
     },
