@@ -5,7 +5,7 @@
         var die = new Die.FakeDie(rolls, expectations);
         sinon.stub(Die, "ndx", function(dieCount, sides) {
             return die.ndx(dieCount, sides);
-        })
+        });
     },
         fakeRepo = new Game.EntityRepository();
 

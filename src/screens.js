@@ -22,7 +22,7 @@ Game.Screen.Renderer.splashScreenRenderer = {
                 startIndex++;
             }
             return startIndex;
-        }
+        };
 
         // Render the rows.
         var length = rowsData.length;
@@ -32,7 +32,7 @@ Game.Screen.Renderer.splashScreenRenderer = {
             display.drawText(1 + start, rowIndex, row);
         }
     }
-}
+};
 
 /**
  * The title screen.
@@ -53,7 +53,7 @@ Game.Screen.startScreen = {
             Game.switchScreen(Game.Screen.playScreen);
         }
     }
-}
+};
 
 Game.Screen.deathScreen = {
     enter: function() {},
@@ -61,7 +61,7 @@ Game.Screen.deathScreen = {
     render: function(display) {
         display.drawText(32, 11, '%c{red}%b{black}You have died.');
     }
-}
+};
 
 /**
  * Current standin for main game screen.
@@ -129,9 +129,9 @@ Game.Screen.playScreen = {
 
         var statusMessages =
             Game.Message.Router.getMessages(Game.Message.Channel.STATUS),
-            length = statusMessages.length,
             messageY = 0;
-        for (var i = 0; i < length; i++) {
+            length = statusMessages.length;
+        for (i = 0; i < length; i++) {
             var currentMessage = statusMessages[i];
             if (!currentMessage) {
                 continue;
@@ -145,9 +145,9 @@ Game.Screen.playScreen = {
         }
 
         var combatMessages =
-            Game.Message.Router.getMessages(Game.Message.Channel.COMBAT),
+            Game.Message.Router.getMessages(Game.Message.Channel.COMBAT);
             length = combatMessages.length;
-        for (var i = 0; i < length; i++) {
+        for (i = 0; i < length; i++) {
             console.log(combatMessages[i]);
         }
 
@@ -172,4 +172,4 @@ Game.Screen.playScreen = {
         }
         this._level.getEngine().unlock();
     }
-}
+};

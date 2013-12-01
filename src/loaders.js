@@ -25,4 +25,4 @@ Game.SplashScreenLoader = {
         });
         return screenData;
     }
-}
+};

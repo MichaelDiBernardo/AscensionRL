@@ -39,29 +39,29 @@ Game.Entity = function(properties) {
             mixin.init.call(this, properties);
         }
     }
-}
+};
 
 Game.Entity.prototype.setName = function(name) {
     this._name = name;
-}
+};
 Game.Entity.prototype.setX = function(x) {
     this._x = x;
-}
+};
 Game.Entity.prototype.setY = function(y) {
     this._y = y;
-}
+};
 Game.Entity.prototype.getName = function() {
     return this._name;
-}
+};
 Game.Entity.prototype.getX = function() {
     return this._x;
-}
+};
 Game.Entity.prototype.getY   = function() {
     return this._y;
-}
+};
 Game.Entity.prototype.getGlyph = function() {
     return this._glyph;
-}
+};
 Game.Entity.prototype.hasMixin = function(obj) {
     // Allow passing the mixin itself or the name / group name as a string
     if (typeof obj === "object") {
@@ -69,10 +69,10 @@ Game.Entity.prototype.hasMixin = function(obj) {
     } else {
         return this._attachedMixins[obj] || this._attachedMixinGroups[obj];
     }
-}
+};
 Game.Entity.prototype.setLevel = function(level) {
     this._level = level;
-}
+};
 Game.Entity.prototype.getLevel = function() {
     return this._level;
-}
+};

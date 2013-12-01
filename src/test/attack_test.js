@@ -3,8 +3,8 @@
         var die = new Die.FakeDie(rolls);
         sinon.stub(Die, "ndx", function(dieCount, sides) {
             return die.ndx(dieCount, sides);
-        })
-    }
+        });
+    };
 
     module("attack", {
         teardown: function() {

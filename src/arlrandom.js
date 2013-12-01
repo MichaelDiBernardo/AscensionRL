@@ -15,7 +15,7 @@ Die.ndx = function(dieCount, sides) {
         sum += ROT.RNG.getUniformInt(1, sides);
     }
     return sum;
-}
+};
 
 // This thing has sort of evolved to become a "situational mock", but too lazy
 // to change name.
@@ -23,7 +23,7 @@ Die.FakeDie = function(rolls, expectations) {
     this._rolls = rolls;
     this._expectations = expectations;
     this._i = 0;
-}
+};
 
 Die.FakeDie.prototype.ndx = function(dieCount, sides) {
     if (this._expectations) {
@@ -39,4 +39,4 @@ Die.FakeDie.prototype.ndx = function(dieCount, sides) {
     var toReturn = this._rolls[this._i];
     this._i++;
     return toReturn;
-}
+};

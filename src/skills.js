@@ -1,5 +1,5 @@
 Game.Skills = function(properties) {
-    var properties = properties || {};
+    properties = properties || {};
     this._melee = properties.melee || 0;
     this._ranged = properties.ranged || 0;
     this._evasion = properties.evasion || 0;

@@ -38,7 +38,7 @@ Game.Mixins.Moveable = {
         );
         return false;
     }
-}
+};
 
 Game.Mixins.PlayerActor = {
     name: "PlayerActor",
@@ -49,7 +49,7 @@ Game.Mixins.PlayerActor = {
         // a key.
         this.getLevel().getEngine().lock();
     }
-}
+};
 
 Game.Mixins.WanderingActor = {
     name: "WanderingActor",
@@ -65,7 +65,7 @@ Game.Mixins.WanderingActor = {
 
         this.tryMove(newX, newY, this.getLevel());
     }
-}
+};
 
 Game.Mixins.Fighter = {
     name: "Fighter",
@@ -155,7 +155,7 @@ Game.Mixins.Fighter = {
             Game.switchScreen(Game.Screen.deathScreen);
         }
     }
-}
+};
 
 Game.DudeRepository = new Game.EntityRepository();
 

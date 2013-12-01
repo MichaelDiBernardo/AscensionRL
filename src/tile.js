@@ -8,28 +8,28 @@ Game.Tile = function(properties) {
 
 Game.Tile.prototype.isWalkable = function() {
     return this._isWalkable && !this.isOccupied();
-}
+};
 Game.Tile.prototype.isDiggable = function() {
     return this._isDiggable;
-}
+};
 Game.Tile.prototype.onEntityEntered = function(entity) {
     this._occupant = entity;
-}
+};
 Game.Tile.prototype.onEntityExited = function(entity) {
     this._occupant = null;
-}
+};
 Game.Tile.prototype.getOccupant = function() {
     return this._occupant;
-}
+};
 Game.Tile.prototype.isOccupied = function() {
     if (this._occupant) {
         return true;
     }
     return false;
-}
+};
 Game.Tile.prototype.getGlyph = function() {
     return this._glyph;
-}
+};
 
 // TODO: This will disappear when map templates declare their own tile
 // templates.
@@ -65,8 +65,8 @@ Game.Tile.create = function(kind) {
                     foreground: "red"
                 }),
                 isWalkable: true
-            })
+            });
         default:
             return new Game.Tile();
     }
-}
+};

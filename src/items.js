@@ -2,7 +2,7 @@ Game.Mixins.Item = {
     name: "Item",
     groupName: "Item",
     init: function(properties) {
-        var properties = properties || {};
+        properties = properties || {};
         if (properties.itemType === undefined) {
             throw "Must define item type on item templates!";
         }
@@ -17,6 +17,6 @@ Game.Mixins.Item = {
         return this.weight / 10.0;
     }
 
-}
+};
 
 Game.ItemRepository = new Game.EntityRepository();

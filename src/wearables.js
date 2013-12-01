@@ -2,7 +2,7 @@ Game.Mixins.Wearable = {
     name: "Wearable",
     groupName: "Wearable",
     init: function(properties) {
-        var properties = properties || {};
+        properties = properties || {};
         this.meleeBonus = properties.meleeBonus || 0;
         this.evasionBonus = properties.evasionBonus || 0;
         if (properties.slotType === undefined) {
@@ -14,13 +14,13 @@ Game.Mixins.Wearable = {
     getSlotType: function() {
         return this._slotType;
     }
-}
+};
 
 Game.Mixins.Weapon = {
     name: "Weapon",
     groupName: "Weapon",
     init: function(properties) {
-        var properties = properties || {};
+        properties = properties || {};
         this.damageDice = properties.damageDice || 0;
         this.damageSides = properties.damageSides || 0;
         this.hands = properties.hands || "1H";
@@ -39,28 +39,27 @@ Game.Mixins.Weapon = {
             strSign = str >= 0 ? 1 : -1,
             maxBonus = Math.floor(this.weight / 10),
             isHandHalf = this.hands === "1.5H",
-            isTwoHanded = isTwoHanded || false,
-            handHalfBonus = (isHandHalf && isTwoHanded) ? 2 : 0,
+            handHalfBonus = (isHandHalf && !!isTwoHanded) ? 2 : 0,
             sidesDelta = strSign * Math.min(absStr, maxBonus) + handHalfBonus;
 
         // All attacks must have at least one damage side. This is carried over
         // from Sil.
         return Math.max(1, this.damageSides + sidesDelta);
     }
-}
+};
 
 Game.Mixins.Armor = {
     name: "Armor",
     groupName: "Armor",
     init: function(properties) {
-        var properties = properties || {};
+        properties = properties || {};
         this.protectionDice = properties.protectionDice || 0;
         this.protectionSides = properties.protectionSides || 0;
     },
     protectionRoll: function() {
         return new Die.Roll(this.protectionDice, this.protectionSides);
     }
-}
+};
 
 Game.ItemRepository.define('fist', {
     name: "(none)",

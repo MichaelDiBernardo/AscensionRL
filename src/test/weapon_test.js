@@ -1,8 +1,8 @@
 (function() {
     var createWeaponFromTemplate = function(t) {
         var fakeRepo = new Game.EntityRepository();
-        t["mixins"] = [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon];
-        t["itemType"] = IT_SWORD;
+        t.mixins = [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon];
+        t.itemType = IT_SWORD;
         fakeRepo.define('sut', t);
         return fakeRepo.create('sut');
     };

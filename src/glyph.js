@@ -5,18 +5,18 @@ Game.Glyph = function(properties) {
     this._background = properties.background || "black";
 };
 
-Game.Glyph.prototype.getChar = function(){
+Game.Glyph.prototype.getChar = function() {
     return this._char;
-}
-Game.Glyph.prototype.getBackground = function(){
+};
+Game.Glyph.prototype.getBackground = function() {
     return this._background;
-}
-Game.Glyph.prototype.getForeground = function(){
+};
+Game.Glyph.prototype.getForeground = function() {
     return this._foreground;
-}
+};
 
 Game.Glyph.NullGlyph = new Game.Glyph({
     character: "N",
     foreground: "white",
     background: "red"
-})
+});

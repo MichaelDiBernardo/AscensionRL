@@ -1,7 +1,7 @@
 Game.Equipment = function(givenWearables) {
     this._slots = [];
     this._initSlots(givenWearables || []);
-}
+};
 
 // TODO: It feels like we're conflating "item type" and "slot it should go in"
 // as the same concept.
@@ -17,7 +17,7 @@ Game.Equipment.SlotTypes = [
     SLOT_HELM,
     SLOT_GLOVES,
     SLOT_BOOTS
-]
+];
 
 // TODO: use _onAllSlots as a generic fn for these three :/
 Game.Equipment.prototype.protectionRoll = function() {
@@ -26,26 +26,26 @@ Game.Equipment.prototype.protectionRoll = function() {
         }),
         rolls = _.map(armor, function(a) { return a.protectionRoll(); });
     return new Die.AggregateRoll(rolls);
-}
+};
 
 Game.Equipment.prototype.meleeBonus = function() {
     var meleeBonuses = _.map(this._slots, function(a) { return a.meleeBonus; }),
         toReturn = _.reduce(meleeBonuses, function(s, n) { return s + n; });
     return toReturn;
-}
+};
 
 Game.Equipment.prototype.evasionBonus = function() {
     var evasionBonuses = _.map(this._slots, function(a) { return a.evasionBonus; }),
         toReturn = _.reduce(evasionBonuses, function(s, n) { return s + n; });
     return toReturn;
-}
+};
 
 Game.Equipment.prototype.damroll = function(properties) {
      var weapon = this._slots[SLOT_WEAPON],
          isTwoHanded = !this._slots[SLOT_OFFHAND].isRealThing();
      properties.isTwoHanded = isTwoHanded;
      return weapon.damroll(properties);
-}
+};
 
 //Game.Equipment.prototype._onAllSlots = function(reducer, filter) {
 //    var f = filter || function() { return true; },
@@ -57,15 +57,15 @@ Game.Equipment.prototype.damroll = function(properties) {
 
 Game.Equipment.prototype.getSlotTypes = function() {
     return Game.Equipment.SlotTypes;
-}
+};
 
 Game.Equipment.prototype.getWearableInSlot = function(slot) {
     return this._slots[slot];
-}
+};
 
 Game.Equipment.prototype.getWeapon = function() {
     return this._slots[SLOT_WEAPON];
-}
+};
 
 Game.Equipment.prototype.equip = function(wearable) {
     if (!wearable.hasMixin('Wearable')) {
@@ -84,7 +84,7 @@ Game.Equipment.prototype.equip = function(wearable) {
         return displacedItem;
     }
     return null;
-}
+};
 
 Game.Equipment.prototype._initSlots = function(givenWearables) {
     var slotTypes = this.getSlotTypes(),
@@ -101,10 +101,10 @@ Game.Equipment.prototype._initSlots = function(givenWearables) {
     }
 
     length = givenWearables.length;
-    for (var i = 0; i < givenWearables.length; i++) {
+    for (i = 0; i < givenWearables.length; i++) {
         var displaced = this.equip(givenWearables[i]);
         if (displaced) {
             throw new Error("Multiple wearables given for slot " + i);
         }
     }
-}
+};

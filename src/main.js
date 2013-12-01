@@ -9,4 +9,4 @@ window.onload = function() {
         // Add the container to our HTML page
         document.body.appendChild(Game.getDisplay().getContainer());
     }
-}
+};

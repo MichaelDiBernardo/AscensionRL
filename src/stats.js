@@ -1,5 +1,5 @@
 Game.Stats = function(properties) {
-    var properties = properties || {};
+    properties = properties || {};
     this._str = properties.str || 0;
     this._dex = properties.dex || 0;
     this._con = properties.con || 0;

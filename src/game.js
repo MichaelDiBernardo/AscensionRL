@@ -28,7 +28,7 @@ var Game = {
                     self._currentScreen.handleInput(event, e);
                 }
             });
-        }
+        };
         // Bind keyboard input events
         bindEventToScreen("keydown");
     },
@@ -49,13 +49,10 @@ var Game = {
         }
 
         this._currentScreen = screen;
-        if (!this._currentScreen !== null) {
+        if (this._currentScreen !== null) {
             this._currentScreen.enter();
             this.refresh();
         }
-    },
-    getDisplay: function() {
-        return this._display;
     },
     getScreenWidth: function() {
         return this._screenWidth;
