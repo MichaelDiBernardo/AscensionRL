@@ -6,7 +6,31 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['lib/*.js', 'src/*.js'],
+        src: [
+          'lib/rot.min.js',
+          'lib/sprintf.min.js',
+          'src/constants.js',
+          'src/arlrandom.js',
+          'src/roll.js',
+          'src/game.js',
+          'src/mixins.js',
+          'src/repository.js',
+          'src/messagerouter.js',
+          'src/glyph.js',
+          'src/tile.js',
+          'src/stats.js',
+          'src/skills.js',
+          'src/sheet.js',
+          'src/items.js',
+          'src/wearables.js',
+          'src/equipment.js',
+          'src/entity.js',
+          'src/dudes.js',
+          'src/level.js',
+          'src/loaders.js',
+          'src/screens.js',
+          'src/main.js'
+        ],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
@@ -41,9 +65,10 @@ module.exports = function(grunt) {
     },
     copy: {
       main: {
-        src: 'index.html',
-        // JUST FOR NOW UNTIL WE GET MINIFY WORKING
-        dest: 'index-live.html'
+        files: [
+            {src: 'index-dev.html', dest: 'index.html'},
+            {src: 'index-dist-html', dest: 'dist/index.html'}
+          ]
       },
     },
     asset_cachebuster: {
@@ -53,7 +78,8 @@ module.exports = function(grunt) {
       },
       default: {
         files: {
-          'index-live.html': ['index.html']
+          'index.html': ['index-dev.html'],
+          'dist/index.html': ['index-dist.html'],
         }
       }
     }
