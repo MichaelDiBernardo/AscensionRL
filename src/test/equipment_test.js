@@ -236,4 +236,12 @@
         equal(oldItems[0].getName(), "Sword");
         equal(oldItems[1].getName(), "Shield");
     });
+
+    test("Equipping 2H weapon with just shield still displaces shield.", function() {
+        sut.equip(fakeRepo.create("shield"));
+
+        var oldItems = sut.equip(fakeRepo.create("glaive"));
+        equal(oldItems.length, 1);
+        equal(oldItems[0].getName(), "Shield");
+    });
 })();
