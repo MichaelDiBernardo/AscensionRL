@@ -23,7 +23,12 @@ Game.Mixins.Weapon = {
         properties = properties || {};
         this.damageDice = properties.damageDice || 0;
         this.damageSides = properties.damageSides || 0;
-        this.hands = properties.hands || "1H";
+        // Undefined or nil hands?
+        if (properties.hands === undefined) {
+          this.hands = HANDS_1H;
+        } else {
+          this.hands = properties.hands;
+        }
     },
 
     damroll: function(properties) {
@@ -38,7 +43,7 @@ Game.Mixins.Weapon = {
         var absStr = Math.abs(str),
             strSign = str >= 0 ? 1 : -1,
             maxBonus = Math.floor(this.weight / 10),
-            isHandHalf = this.hands === "1.5H",
+            isHandHalf = this.hands === HANDS_15H,
             handHalfBonus = (isHandHalf && !!isTwoHanded) ? 2 : 0,
             sidesDelta = strSign * Math.min(absStr, maxBonus) + handHalfBonus;
 
@@ -68,7 +73,7 @@ Game.ItemRepository.define('fist', {
     meleeBonus: 0,
     evasionBonus: 0,
     weight: 40, // Sil-style 4lb fists :>
-    hands: "1H",
+    hands: HANDS_1H,
     slotType: SLOT_ANY,
     itemType: IT_NULLOBJ,
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
@@ -129,6 +134,6 @@ Game.ItemRepository.define('curvedsword', {
     weight: 40,
     slotType: SLOT_WEAPON,
     itemType: IT_SWORD,
-    hands: "1H",
+    hands: HANDS_1H,
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
 });

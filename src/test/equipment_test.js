@@ -13,7 +13,7 @@
                 weight: 10,
                 slotType: SLOT_WEAPON,
                 itemType: IT_SWORD,
-                hands: "1H",
+                hands: HANDS_1H,
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
             });
 
@@ -26,7 +26,7 @@
                 weight: 35,
                 slotType: SLOT_WEAPON,
                 itemType: IT_AXE,
-                hands: "1.5H",
+                hands: HANDS_15H,
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
             });
 

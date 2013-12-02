@@ -24,3 +24,10 @@ SLOT_HELM = 8;
 SLOT_GLOVES = 9;
 SLOT_BOOTS = 10;
 SLOT_ANY = -1;
+
+/**
+ * Handedness for weapons.
+ */
+HANDS_1H = 0;
+HANDS_15H = 1;
+HANDS_2H = 2;
