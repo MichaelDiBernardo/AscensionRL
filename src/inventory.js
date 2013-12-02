@@ -22,6 +22,9 @@ Game.Inventory.prototype.roomLeft = function() {
 };
 
 Game.Inventory.prototype.addItem = function(item) {
+    if (!item.hasMixin("Item")) {
+        throw new Error("Tried to add non-item to inventory.");
+    }
     this._items.push(item);
     this._count++;
 };

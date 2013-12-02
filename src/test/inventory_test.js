@@ -33,4 +33,17 @@
         equal(sut.itemCount(), 1);
         equal(sut.roomLeft(), 22);
     });
+
+    test("Adding something that's not an item throws exception.", function() {
+        fakeRepo.define("confused", {
+            name: "wha",
+            mixins: [Game.Mixins.Wearable]
+        });
+
+        throws(function() {
+                sut.addItem(fakeRepo.create("confused"));
+            },
+            "Didn't throw for entity without Item mixin."
+        );
+    });
 })();
