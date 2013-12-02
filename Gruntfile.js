@@ -24,6 +24,7 @@ module.exports = function(grunt) {
           'src/sheet.js',
           'src/items.js',
           'src/wearables.js',
+          'src/inventory.js',
           'src/equipment.js',
           'src/entity.js',
           'src/dudes.js',
