@@ -11,6 +11,20 @@
                 itemType: IT_SWORD,
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
             });
+            fakeRepo.define("sword2", {
+                name: "Sword2",
+                weight: 10,
+                slotType: SLOT_WEAPON,
+                itemType: IT_SWORD,
+                mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
+            });
+            fakeRepo.define("sword3", {
+                name: "Sword3",
+                weight: 10,
+                slotType: SLOT_WEAPON,
+                itemType: IT_SWORD,
+                mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
+            });
             sut = new Game.Inventory();
         }
     });
@@ -46,4 +60,18 @@
             "Didn't throw for entity without Item mixin."
         );
     });
+
+    test("Get map of items from slot -> item", function() {
+        sut.addItem(fakeRepo.create("sword"));
+        sut.addItem(fakeRepo.create("sword2"));
+        sut.addItem(fakeRepo.create("sword3"));
+
+        var map = sut.getItemMap();
+
+        equal(_.size(map), 3);
+        equal(map.a.getName(), "Sword");
+        equal(map.b.getName(), "Sword2");
+        equal(map.c.getName(), "Sword3");
+    });
+
 })();

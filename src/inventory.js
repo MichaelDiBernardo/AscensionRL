@@ -2,6 +2,7 @@ Game.Inventory = function(properties) {
     properties = properties || {};
     this._items = [];
     this._count = 0;
+    this._slotChars = "abcdefghijklmnopqrstuvw";
     if (properties.capacity === undefined) {
         this._capacity = INV_CAPACITY;
     } else {
@@ -27,4 +28,16 @@ Game.Inventory.prototype.addItem = function(item) {
     }
     this._items.push(item);
     this._count++;
+};
+
+Game.Inventory.prototype.getItemMap = function() {
+    var itemMap = {},
+        itemKey = null;
+
+    _.forEach(this._items, function(item, index) {
+        itemKey = this._slotChars[index];
+        itemMap[itemKey] = item;
+    }, this);
+
+    return itemMap;
 };
