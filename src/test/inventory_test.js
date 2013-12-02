@@ -27,4 +27,10 @@
         sut = new Game.Inventory({ capacity: 10 });
         equal(sut.totalCapacity(), 10);
     });
+
+    test("Adding an item increases itemcount and reduces capacity.", function() {
+        sut.addItem(fakeRepo.create("sword"));
+        equal(sut.itemCount(), 1);
+        equal(sut.roomLeft(), 22);
+    });
 })();

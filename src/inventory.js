@@ -1,6 +1,7 @@
 Game.Inventory = function(properties) {
     properties = properties || {};
     this._items = [];
+    this._count = 0;
     if (properties.capacity === undefined) {
         this._capacity = INV_CAPACITY;
     } else {
@@ -9,7 +10,7 @@ Game.Inventory = function(properties) {
 };
 
 Game.Inventory.prototype.itemCount = function() {
-    return 0;
+    return this._count;
 };
 
 Game.Inventory.prototype.totalCapacity = function() {
@@ -17,5 +18,10 @@ Game.Inventory.prototype.totalCapacity = function() {
 };
 
 Game.Inventory.prototype.roomLeft = function() {
-    return this._capacity - this.itemCount;
+    return this.totalCapacity() - this.itemCount();
+};
+
+Game.Inventory.prototype.addItem = function(item) {
+    this._items.push(item);
+    this._count++;
 };
