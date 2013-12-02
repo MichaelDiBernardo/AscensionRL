@@ -9,6 +9,7 @@ module.exports = function(grunt) {
         src: [
           'lib/rot.min.js',
           'lib/sprintf.min.js',
+          'src/utils.js',
           'src/constants.js',
           'src/arlrandom.js',
           'src/roll.js',

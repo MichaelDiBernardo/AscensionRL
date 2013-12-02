@@ -1,33 +1,37 @@
 /**
  * Item types.
  */
-IT_NULLOBJ = 0;
-IT_SHIELD = 1;
-IT_SWORD = 2;
-IT_AXE = 3;
-IT_ARMOR = 4;
-IT_GLOVES = 5;
-IT_HELM = 6;
+iota.start();
+IT_NULLOBJ = iota.val();
+IT_SHIELD = iota.val();
+IT_SWORD = iota.val();
+IT_AXE = iota.val();
+IT_POLEARM = iota.val();
+IT_ARMOR = iota.val();
+IT_GLOVES = iota.val();
+IT_HELM = iota.val();
 
 /**
  * Equipment slot types
  */
-SLOT_WEAPON = 0;
-SLOT_RANGED = 1;
-SLOT_LEFT_RING = 2;
-SLOT_RIGHT_RING = 3;
-SLOT_AMULET = 4;
-SLOT_LIGHT = 5;
-SLOT_BODY = 6;
-SLOT_OFFHAND = 7;
-SLOT_HELM = 8;
-SLOT_GLOVES = 9;
-SLOT_BOOTS = 10;
-SLOT_ANY = -1;
+iota.start(-1);
+SLOT_ANY = iota.val();
+SLOT_WEAPON = iota.val();
+SLOT_RANGED = iota.val();
+SLOT_LEFT_RING = iota.val();
+SLOT_RIGHT_RING = iota.val();
+SLOT_AMULET = iota.val();
+SLOT_LIGHT = iota.val();
+SLOT_BODY = iota.val();
+SLOT_OFFHAND = iota.val();
+SLOT_HELM = iota.val();
+SLOT_GLOVES = iota.val();
+SLOT_BOOTS = iota.val();
 
 /**
  * Handedness for weapons.
  */
-HANDS_1H = 0;
-HANDS_15H = 1;
-HANDS_2H = 2;
+iota.start();
+HANDS_1H = iota.val();
+HANDS_15H = iota.val();
+HANDS_2H = iota.val();

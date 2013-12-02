@@ -30,6 +30,19 @@
                 mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
             });
 
+            fakeRepo.define("glaive", {
+                name: "Glaive",
+                damageDice: 2,
+                damageSides: 9,
+                meleeBonus: -2,
+                evasionBonus: 1,
+                weight: 60,
+                slotType: SLOT_WEAPON,
+                itemType: IT_POLEARM,
+                hands: HANDS_2H,
+                mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
+            });
+
             fakeRepo.define("armor", {
                 name: "Armor",
                 meleeBonus: 0,
@@ -199,5 +212,16 @@
 
         // Should get just 2 extra sides from str.
         equal(roll.toString(), "4d6");
+    });
+
+    test("Damroll for 2H weapon doesn't change like 1.5H does.", function() {
+        sut.equip(fakeRepo.create('glaive'));
+        var roll = sut.damroll({
+            strength: 2,
+            numCrits: 0
+        });
+
+        // Should get just 2 extra sides from str.
+        equal(roll.toString(), "2d11");
     });
 })();
