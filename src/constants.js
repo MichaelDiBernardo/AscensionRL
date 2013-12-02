@@ -35,3 +35,8 @@ iota.start();
 HANDS_1H = iota.val();
 HANDS_15H = iota.val();
 HANDS_2H = iota.val();
+
+/**
+ * Inventory stuff.
+ */
+INV_CAPACITY = 23;

@@ -231,7 +231,7 @@
         sut.equip(fakeRepo.create("shield"));
 
         var oldItems = sut.equip(fakeRepo.create("glaive"));
-        ok($.isArray(oldItems));
+        ok(_.isArray(oldItems));
         equal(oldItems.length, 2);
         equal(oldItems[0].getName(), "Sword");
         equal(oldItems[1].getName(), "Shield");

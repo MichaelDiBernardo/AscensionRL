@@ -19,4 +19,12 @@
         equal(sut.itemCount(), 0);
     });
 
+    test("Default inventory capacity is from constant.", function() {
+        equal(sut.totalCapacity(), INV_CAPACITY);
+    });
+
+    test("Can override capacity.", function() {
+        sut = new Game.Inventory({ capacity: 10 });
+        equal(sut.totalCapacity(), 10);
+    });
 })();
