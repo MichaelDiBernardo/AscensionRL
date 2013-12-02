@@ -3,8 +3,6 @@ Game.Equipment = function(givenWearables) {
     this._initSlots(givenWearables || []);
 };
 
-// TODO: It feels like we're conflating "item type" and "slot it should go in"
-// as the same concept.
 Game.Equipment.SlotTypes = [
     SLOT_WEAPON,
     SLOT_RANGED,
@@ -68,7 +66,7 @@ Game.Equipment.prototype.getWeapon = function() {
 };
 
 Game.Equipment.prototype.equip = function(wearable) {
-    if (!wearable.hasMixin('Wearable')) {
+    if (!wearable.hasMixin("Wearable")) {
         throw "%s isn't wearable!".format(wearable.getName());
     }
 
@@ -77,13 +75,24 @@ Game.Equipment.prototype.equip = function(wearable) {
         throw "Slot %s is not a valid slot!".format(slot);
     }
 
-    var displacedItem = this._slots[slot];
+    var displacedItems = [],
+        displacedItem = this._slots[slot];
+
     this._slots[slot] = wearable;
 
     if (displacedItem.isRealThing()) {
-        return displacedItem;
+        displacedItems.push(displacedItem);
     }
-    return null;
+
+    // If it's a 2-handed weapon, we need to displace the shield slot also.
+    if (wearable.hasMixin("Weapon") && wearable.hands === HANDS_2H) {
+        displacedItem = this._slots[SLOT_OFFHAND];
+        if (displacedItem.isRealThing()) {
+            displacedItems.push(displacedItem);
+        }
+    }
+
+    return displacedItems;
 };
 
 Game.Equipment.prototype._initSlots = function(givenWearables) {
@@ -103,7 +112,7 @@ Game.Equipment.prototype._initSlots = function(givenWearables) {
     length = givenWearables.length;
     for (i = 0; i < givenWearables.length; i++) {
         var displaced = this.equip(givenWearables[i]);
-        if (displaced) {
+        if (displaced.length > 0) {
             throw new Error("Multiple wearables given for slot " + i);
         }
     }

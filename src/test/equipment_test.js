@@ -145,18 +145,19 @@
         );
     });
 
-    test("Equip into occupied slot returns old item.", function() {
-        var oldItem = sut.equip(fakeRepo.create('sword'));
-        equal(oldItem, null);
+    test("Equip into occupied slot returns old items.", function() {
+        var oldItems = sut.equip(fakeRepo.create("sword"));
+        equal(oldItems.length, 0);
 
-        oldItem = sut.equip(fakeRepo.create('axe'));
-        equal(oldItem.getName(), "Sword");
+        oldItems = sut.equip(fakeRepo.create("axe"));
+        equal(oldItems.length, 1);
+        equal(oldItems[0].getName(), "Sword");
         equal("Axe", sut.getWearableInSlot(SLOT_WEAPON).getName());
     });
 
     test("Protection roll is sum of all rolls.", function() {
-        sut.equip(fakeRepo.create('armor'));
-        sut.equip(fakeRepo.create('helm'));
+        sut.equip(fakeRepo.create("armor"));
+        sut.equip(fakeRepo.create("helm"));
         var roll = sut.protectionRoll();
 
         equal(roll.minValue(), 2);
@@ -165,25 +166,25 @@
     });
 
     test("Melee bonus is sum of all melee bonuses.", function() {
-        sut.equip(fakeRepo.create('armor')); // +0
-        sut.equip(fakeRepo.create('axe')); // - 3
-        sut.equip(fakeRepo.create('gauntlets')); // -1
-        sut.equip(fakeRepo.create('helm')); // +0
+        sut.equip(fakeRepo.create("armor")); // +0
+        sut.equip(fakeRepo.create("axe")); // - 3
+        sut.equip(fakeRepo.create("gauntlets")); // -1
+        sut.equip(fakeRepo.create("helm")); // +0
 
         equal(sut.meleeBonus(), -4);
     });
 
     test("Evasion bonus is sum of all evasion bonuses.", function() {
-        sut.equip(fakeRepo.create('armor')); // -1
-        sut.equip(fakeRepo.create('sword')); // +1
-        sut.equip(fakeRepo.create('gauntlets')); // 0
-        sut.equip(fakeRepo.create('helm')); // -1
+        sut.equip(fakeRepo.create("armor")); // -1
+        sut.equip(fakeRepo.create("sword")); // +1
+        sut.equip(fakeRepo.create("gauntlets")); // 0
+        sut.equip(fakeRepo.create("helm")); // -1
 
         equal(sut.evasionBonus(), -1);
     });
 
     test("Damroll for single 1H weapon.", function() {
-        sut.equip(fakeRepo.create('sword'));
+        sut.equip(fakeRepo.create("sword"));
         var roll = sut.damroll({
             strength: 2,
             numCrits: 1
@@ -192,7 +193,7 @@
     });
 
     test("Damroll for hand-and-a-half without shield.", function() {
-        sut.equip(fakeRepo.create('axe'));
+        sut.equip(fakeRepo.create("axe"));
         var roll = sut.damroll({
             strength: 2,
             numCrits: 1
@@ -203,8 +204,8 @@
     });
 
     test("Damroll for hand-and-a-half with shield.", function() {
-        sut.equip(fakeRepo.create('axe'));
-        sut.equip(fakeRepo.create('shield'));
+        sut.equip(fakeRepo.create("axe"));
+        sut.equip(fakeRepo.create("shield"));
         var roll = sut.damroll({
             strength: 2,
             numCrits: 1
@@ -215,7 +216,7 @@
     });
 
     test("Damroll for 2H weapon doesn't change like 1.5H does.", function() {
-        sut.equip(fakeRepo.create('glaive'));
+        sut.equip(fakeRepo.create("glaive"));
         var roll = sut.damroll({
             strength: 2,
             numCrits: 0
@@ -223,5 +224,16 @@
 
         // Should get just 2 extra sides from str.
         equal(roll.toString(), "2d11");
+    });
+
+    test("Equipping 2H weapon into full hands returns both things.", function() {
+        sut.equip(fakeRepo.create("sword"));
+        sut.equip(fakeRepo.create("shield"));
+
+        var oldItems = sut.equip(fakeRepo.create("glaive"));
+        ok($.isArray(oldItems));
+        equal(oldItems.length, 2);
+        equal(oldItems[0].getName(), "Sword");
+        equal(oldItems[1].getName(), "Shield");
     });
 })();
