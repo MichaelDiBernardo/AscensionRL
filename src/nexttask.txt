@@ -1,0 +1,3 @@
+- Actually use the inventory and equipment things on dudes
+- start generating items on the floor and allow pickup
+- screens for these
