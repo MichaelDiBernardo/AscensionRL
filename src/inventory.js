@@ -42,6 +42,8 @@ Game.Inventory.prototype.removeItemBySlot = function(slotKey) {
     this._items[slotIndex] = null;
     this._count--;
 
+    this._compact();
+
     return toReturn;
 };
 
@@ -55,4 +57,16 @@ Game.Inventory.prototype.getItemMap = function() {
     }, this);
 
     return itemMap;
+};
+
+Game.Inventory.prototype._compact = function() {
+    // Fast enough for now. 2 new array allocations though :/
+    var onlyItems = _.compact(this._items),
+        newItems = new Array(this._capacity);
+
+    _.forEach(onlyItems, function(val, index) {
+        newItems[index] = val;
+    });
+
+    this._items = newItems;
 };

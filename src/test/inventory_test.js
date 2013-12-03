@@ -91,4 +91,17 @@
         equal(sut.itemCount(), 0);
     });
 
+    test("Add, remove from middle, refetch.", function() {
+        sut.addItem(fakeRepo.create("sword"));
+        sut.addItem(fakeRepo.create("sword2"));
+        sut.addItem(fakeRepo.create("sword3"));
+
+        sut.removeItemBySlot("b");
+
+        equal(sut.getItemBySlot("a").getName(), "Sword");
+        equal(sut.getItemBySlot("b").getName(), "Sword3");
+
+        sut.removeItemBySlot("a");
+        equal(sut.getItemBySlot("a").getName(), "Sword3");
+    });
 })();
