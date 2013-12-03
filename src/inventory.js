@@ -30,6 +30,23 @@ Game.Inventory.prototype.addItem = function(item) {
     this._count++;
 };
 
+Game.Inventory.prototype.addItemsUntilFull = function(items) {
+    var spillOver = [],
+        index = 0,
+        length = items.length;
+
+    while (!this.isFull() && index < length) {
+        this.addItem(items[index]);
+        index++;
+    }
+
+    for (; index < length; index++) {
+        spillOver.push(items[index]);
+    }
+
+    return spillOver;
+};
+
 Game.Inventory.prototype.getItemBySlot = function(slotKey) {
     var slotIndex = this._slotChars.indexOf(slotKey);
     return this._items[slotIndex];

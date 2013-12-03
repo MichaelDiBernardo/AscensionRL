@@ -105,12 +105,23 @@
         equal(sut.getItemBySlot("a").getName(), "Sword3");
     });
 
-    test("Test isFull predicate.", function() {
+    test("isFull predicate.", function() {
         ok(!sut.isFull());
 
         sut = new Game.Inventory({ capacity: 1 });
         sut.addItem(fakeRepo.create("sword"));
 
         ok(sut.isFull());
+    });
+
+    test("Dumping collection of stuff that overflows.", function() {
+        sut = new Game.Inventory({ capacity: 1 });
+        var spillOver = sut.addItemsUntilFull([
+            fakeRepo.create("sword"),
+            fakeRepo.create("sword2")
+        ]);
+
+        equal(spillOver.length, 1);
+        equal(spillOver[0].getName(), "Sword2");
     });
 })();
