@@ -83,4 +83,12 @@
         equal(sut.getItemBySlot("c").getName(), "Sword3");
     });
 
+    test("Drop/remove item by slot.", function() {
+        sut.addItem(fakeRepo.create("sword"));
+
+        var item = sut.removeItemBySlot("a");
+        equal(item.getName(), "Sword");
+        equal(sut.itemCount(), 0);
+    });
+
 })();
