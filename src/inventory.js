@@ -59,6 +59,10 @@ Game.Inventory.prototype.getItemMap = function() {
     return itemMap;
 };
 
+Game.Inventory.prototype.isFull = function() {
+    return this.itemCount() == this.totalCapacity();
+};
+
 Game.Inventory.prototype._compact = function() {
     // Fast enough for now. 2 new array allocations though :/
     var onlyItems = _.compact(this._items),

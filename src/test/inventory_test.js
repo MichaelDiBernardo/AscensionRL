@@ -104,4 +104,13 @@
         sut.removeItemBySlot("a");
         equal(sut.getItemBySlot("a").getName(), "Sword3");
     });
+
+    test("Test isFull predicate.", function() {
+        ok(!sut.isFull());
+
+        sut = new Game.Inventory({ capacity: 1 });
+        sut.addItem(fakeRepo.create("sword"));
+
+        ok(sut.isFull());
+    });
 })();
