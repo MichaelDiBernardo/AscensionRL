@@ -74,4 +74,13 @@
         equal(map.c.getName(), "Sword3");
     });
 
+    test("Get item from slot", function() {
+        sut.addItem(fakeRepo.create("sword"));
+        sut.addItem(fakeRepo.create("sword2"));
+        sut.addItem(fakeRepo.create("sword3"));
+
+        equal(sut.getItemBySlot("a").getName(), "Sword");
+        equal(sut.getItemBySlot("c").getName(), "Sword3");
+    });
+
 })();

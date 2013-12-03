@@ -30,6 +30,11 @@ Game.Inventory.prototype.addItem = function(item) {
     this._count++;
 };
 
+Game.Inventory.prototype.getItemBySlot = function(slotKey) {
+    var slotIndex = this._slotChars.indexOf(slotKey);
+    return this._items[slotIndex];
+};
+
 Game.Inventory.prototype.getItemMap = function() {
     var itemMap = {},
         itemKey = null;
