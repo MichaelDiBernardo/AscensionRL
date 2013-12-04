@@ -1,17 +1,16 @@
 Game.Inventory = function(properties) {
     properties = properties || {};
-    this._count = 0;
     this._slotChars = "abcdefghijklmnopqrstuvw";
     if (properties.capacity === undefined) {
         this._capacity = INV_CAPACITY;
     } else {
         this._capacity = properties.capacity;
     }
-    this._items = new Array(this._capacity);
+    this._items = [];
 };
 
 Game.Inventory.prototype.itemCount = function() {
-    return this._count;
+    return this._items.length;
 };
 
 Game.Inventory.prototype.totalCapacity = function() {
@@ -26,8 +25,7 @@ Game.Inventory.prototype.addItem = function(item) {
     if (!item.hasMixin("Item")) {
         throw new Error("Tried to add non-item to inventory.");
     }
-    this._items[this._count] = item;
-    this._count++;
+    this._items.push(item);
 };
 
 Game.Inventory.prototype.addItemsUntilFull = function(items) {
@@ -61,8 +59,6 @@ Game.Inventory.prototype.removeItemBySlot = function(slotKey) {
         toReturn = this._items[slotIndex];
 
     this._items[slotIndex] = null;
-    this._count--;
-
     this._compact();
 
     return toReturn;
@@ -85,13 +81,6 @@ Game.Inventory.prototype.isFull = function() {
 };
 
 Game.Inventory.prototype._compact = function() {
-    // Fast enough for now. 2 new array allocations though :/
-    var onlyItems = _.compact(this._items),
-        newItems = new Array(this._capacity);
-
-    _.forEach(onlyItems, function(val, index) {
-        newItems[index] = val;
-    });
-
-    this._items = newItems;
+    // Fast enough for now.
+    this._items = _.compact(this._items);
 };
