@@ -52,6 +52,10 @@ Game.Inventory.prototype.getItemBySlot = function(slotKey) {
     return this._items[slotIndex];
 };
 
+Game.Inventory.prototype.getFirstItem = function() {
+    return this._items[0];
+};
+
 Game.Inventory.prototype.removeItemBySlot = function(slotKey) {
     var slotIndex = this._slotChars.indexOf(slotKey),
         toReturn = this._items[slotIndex];

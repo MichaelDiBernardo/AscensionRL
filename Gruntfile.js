@@ -18,7 +18,6 @@ module.exports = function(grunt) {
           'src/repository.js',
           'src/messagerouter.js',
           'src/glyph.js',
-          'src/tile.js',
           'src/stats.js',
           'src/skills.js',
           'src/sheet.js',
@@ -28,6 +27,7 @@ module.exports = function(grunt) {
           'src/equipment.js',
           'src/entity.js',
           'src/dudes.js',
+          'src/tile.js',
           'src/level.js',
           'src/loaders.js',
           'src/screens.js',
@@ -97,6 +97,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-asset-cachebuster');
 
   grunt.registerTask('test', ['jshint', 'qunit']);
+
+  grunt.registerTask('build', ['concat', 'uglify', 'copy', 'asset_cachebuster']);
 
   grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify', 'copy', 'asset_cachebuster']);
 

@@ -127,6 +127,11 @@ Game.ItemRepository.define('bustersword', {
 
 Game.ItemRepository.define('curvedsword', {
     name: "Curved Sword",
+    glyph: new Game.Glyph({
+        character: "|",
+        foreground: "white",
+        background: "black",
+    }),
     damageDice: 2,
     damageSides: 5,
     meleeBonus: -1,

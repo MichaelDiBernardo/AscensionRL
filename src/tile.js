@@ -3,31 +3,54 @@ Game.Tile = function(properties) {
     this._isWalkable = properties.isWalkable || false;
     this._isDiggable = properties.isDiggable || false;
     this._occupant = null;
+    this._inventory = new Game.Inventory({ capacity: 32 });
     this._glyph = properties.glyph || Game.Glyph.NullGlyph;
+    if (this._isWalkable && Die.ndx(1, 100) == 1) {
+        if (Die.ndx(1, 2) == 1) {
+            this._inventory.addItem(Game.ItemRepository.create('bustersword'));
+        } else {
+            this._inventory.addItem(Game.ItemRepository.create('curvedsword'));
+        }
+    }
 };
 
 Game.Tile.prototype.isWalkable = function() {
     return this._isWalkable && !this.isOccupied();
 };
+
 Game.Tile.prototype.isDiggable = function() {
     return this._isDiggable;
 };
+
 Game.Tile.prototype.onEntityEntered = function(entity) {
     this._occupant = entity;
 };
+
 Game.Tile.prototype.onEntityExited = function(entity) {
     this._occupant = null;
 };
+
 Game.Tile.prototype.getOccupant = function() {
     return this._occupant;
 };
+
 Game.Tile.prototype.isOccupied = function() {
     if (this._occupant) {
         return true;
     }
+
     return false;
 };
+
 Game.Tile.prototype.getGlyph = function() {
+    if (this._occupant) {
+        return this.getOccupant().getGlyph();
+    }
+
+    if (this._inventory.itemCount()) {
+        return this._inventory.getFirstItem().getGlyph();
+    }
+
     return this._glyph;
 };
 

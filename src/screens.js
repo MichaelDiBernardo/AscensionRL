@@ -108,25 +108,6 @@ Game.Screen.playScreen = {
             }
         }
 
-        // Render the entities
-        var entities = this._level.getEntities(),
-            length = entities.length;
-        for (var i = 0; i < length; i++) {
-            var entity = entities[i];
-            // Only render the entity if they would show up on the screen
-            if (entity.getX() >= topLeftX && entity.getY() >= topLeftY &&
-                entity.getX() < topLeftX + screenWidth &&
-                entity.getY() < topLeftY + screenHeight) {
-                display.draw(
-                    entity.getX() - topLeftX,
-                    entity.getY() - topLeftY,
-                    entity.getGlyph().getChar(),
-                    entity.getGlyph().getForeground(),
-                    entity.getGlyph().getBackground()
-                );
-            }
-        }
-
         var statusMessages =
             Game.Message.Router.getMessages(Game.Message.Channel.STATUS),
             messageY = 0;
