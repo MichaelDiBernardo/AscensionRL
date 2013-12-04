@@ -138,19 +138,34 @@ Game.Screen.playScreen = {
         var newX = this._player.getX() + dX,
             newY = this._player.getY() + dY;
         // Try to move to the new cell
-        this._player.tryMove(newX, newY, this._level);
+        return this._player.tryMove(newX, newY, this._level);
+    },
+    getItemHere: function() {
+        var thisX = this._player.getX(),
+            thisY = this._player.getY(),
+            tile = this._level.getTileAt(thisX, thisY);
+
+        return this._player.tryGetItemFromTile(tile);
     },
     handleInput: function(inputType, inputData) {
         // Movement
+        var ok = true;
         if (inputData.keyCode === ROT.VK_LEFT) {
-            this.move(-1, 0);
+            ok = this.move(-1, 0);
         } else if (inputData.keyCode === ROT.VK_RIGHT) {
-            this.move(1, 0);
+            ok = this.move(1, 0);
         } else if (inputData.keyCode === ROT.VK_UP) {
-            this.move(0, -1);
+            ok = this.move(0, -1);
         } else if (inputData.keyCode === ROT.VK_DOWN) {
-            this.move(0, 1);
+            ok = this.move(0, 1);
+        } else if (inputData.keyCode == ROT.VK_G) {
+            ok = this.getItemHere();
+        } else {
+            ok = false;
         }
+
+        // TODO: Don't use OK until you've decoupled rendering messages from
+        // engine. Otherwise you won't get your msgs until next turn.
         this._level.getEngine().unlock();
     }
 };

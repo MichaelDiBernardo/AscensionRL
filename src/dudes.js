@@ -157,6 +157,51 @@ Game.Mixins.Fighter = {
     }
 };
 
+Game.Mixins.ItemHolder = {
+    name: "ItemHolder",
+    groupName: "ItemHolder",
+    init: function(properties) {
+        properties = properties || {};
+        this._inventory = properties.inventory || new Game.Inventory();
+    },
+
+    tryGetItemFromTile: function(tile) {
+        var item = tile.getTopItem();
+        if (item === null) {
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                this,
+                "Nothing to pick up!",
+                ""
+            );
+            return false;
+        }
+
+        var itemName = item.getName();
+
+        if (this._inventory.isFull()) {
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                this,
+                "You have no room for the %s.".format(itemName),
+                "The %s has no room to pick up a %s.".format(this.getName(), item.getName())
+            );
+            return false;
+        }
+
+        tile.removeTopItem();
+        this._inventory.addItem(item);
+
+        Game.Message.Router.selectMessage(
+            Game.Message.Channel.STATUS,
+            this,
+            "You get %s.".format(itemName),
+            "The %s gets a %s.".format(this.getName(), item.getName())
+        );
+        return true;
+    }
+};
+
 Game.DudeRepository = new Game.EntityRepository();
 
 Game.DudeRepository.define('player', {
@@ -182,7 +227,7 @@ Game.DudeRepository.define('player', {
             Game.ItemRepository.create('leather')
         ]),
     }),
-    mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor, Game.Mixins.Fighter]
+    mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor, Game.Mixins.Fighter, Game.Mixins.ItemHolder]
 });
 
 Game.DudeRepository.define('orc', {
