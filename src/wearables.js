@@ -94,8 +94,8 @@ Game.ItemRepository.define('skin', {
 Game.ItemRepository.define('leather', {
     name: "Leather Armor",
     glyph: new Game.Glyph({
-        character: ")",
-        foreground: "brown",
+        character: "(",
+        foreground: "yellow",
         background: "black",
     }),
     protectionDice: 1,

@@ -5,8 +5,10 @@ Game.Level = function(player) {
     this._map = null;
     this._scheduler = new ROT.Scheduler.Simple();
     this._engine = new ROT.Engine(this._scheduler);
+    // TODO: Time for a level generator.
     this._generateRandomLevel(player);
     this._placeMonsters();
+    this._placeItems();
 };
 
 Game.Level.prototype.getTileAt = function(x, y) {
@@ -55,13 +57,20 @@ Game.Level.prototype.removeEntity = function(entity) {
 };
 
 Game.Level.prototype.placeEntityAt = function(entity, x, y) {
+    if (entity.hasMixin("Item")) {
+        this.getTileAt(x, y).placeItem(entity);
+        return;
+    }
+
     entity.setX(x);
     entity.setY(y);
     entity.setLevel(this);
     this._entities.push(entity);
+
     if (entity.hasMixin("Actor")) {
         this._scheduler.add(entity, true);
     }
+
     this.getTileAt(x, y).onEntityEntered(entity);
 };
 
@@ -140,5 +149,19 @@ Game.Level.prototype._placeMonsters = function() {
     for (var i = 0; i < monsterCount; i++) {
         var newMonster = Game.DudeRepository.create("orc");
         this.placeAtRandomSquare(newMonster);
+    }
+};
+
+Game.Level.prototype._placeItems = function() {
+    var itemCount = ROT.RNG.getUniformInt(15, 30),
+        item = null;
+    for (var i = 0; i < itemCount; i++) {
+        // lol
+        if (Die.ndx(1, 3) == 1) {
+            item = Game.ItemRepository.create('bustersword');
+        } else {
+            item = Game.ItemRepository.create('leather');
+        }
+        this.placeAtRandomSquare(item);
     }
 };

@@ -5,13 +5,6 @@ Game.Tile = function(properties) {
     this._occupant = null;
     this._inventory = new Game.Inventory({ capacity: 32 });
     this._glyph = properties.glyph || Game.Glyph.NullGlyph;
-    if (this._isWalkable && Die.ndx(1, 100) == 1) {
-        if (Die.ndx(1, 2) == 1) {
-            this._inventory.addItem(Game.ItemRepository.create('bustersword'));
-        } else {
-            this._inventory.addItem(Game.ItemRepository.create('curvedsword'));
-        }
-    }
 };
 
 Game.Tile.prototype.isWalkable = function() {
@@ -40,6 +33,10 @@ Game.Tile.prototype.isOccupied = function() {
     }
 
     return false;
+};
+
+Game.Tile.prototype.placeItem = function(item) {
+    this._inventory.addItem(item);
 };
 
 Game.Tile.prototype.getGlyph = function() {
