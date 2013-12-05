@@ -50,6 +50,7 @@ Game.Screen.startScreen = {
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
         if (inputData.keyCode === ROT.VK_RETURN) {
+            Game.Screen.playScreen.setup();
             Game.switchScreen(Game.Screen.playScreen);
         }
     }
@@ -69,13 +70,14 @@ Game.Screen.deathScreen = {
 // Define our playing screen
 Game.Screen.playScreen = {
     _level: null,
-    enter: function() {
-        console.log("Entered play screen.");
+    setup: function() {
         console.log("Generating level...");
-
         this._player = Game.DudeRepository.create('player');
         this._level = new Game.Level(this._player);
         this._level.start();
+    },
+    enter: function() {
+        console.log("Entered play screen.");
     },
     exit: function() {
         console.log("Exited play screen.");
@@ -98,13 +100,13 @@ Game.Screen.playScreen = {
             for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
                 // Fetch the glyph for the tile and render it to the screen
                 // at the offset position.
-                var tile = this._level.getTileAt(x, y);
+                var glyph = this._level.getTileAt(x, y).getGlyph();
                 display.draw(
                     x - topLeftX,
                     y - topLeftY,
-                    tile.getGlyph().getChar(),
-                    tile.getGlyph().getForeground(),
-                    tile.getGlyph().getBackground());
+                    glyph.getChar(),
+                    glyph.getForeground(),
+                    glyph.getBackground());
             }
         }
 
@@ -160,6 +162,9 @@ Game.Screen.playScreen = {
             ok = this.move(0, 1);
         } else if (inputData.keyCode == ROT.VK_G) {
             ok = this.getItemHere();
+        } else if (inputData.keyCode == ROT.VK_I) {
+            Game.Screen.InventoryScreen.setup(this._player);
+            Game.switchScreen(Game.Screen.InventoryScreen);
         } else {
             ok = false;
         }
@@ -169,3 +174,43 @@ Game.Screen.playScreen = {
         this._level.getEngine().unlock();
     }
 };
+
+Game.Screen.ItemListScreen = function(template) {
+    this._caption = template.caption;
+    this._okFunction = template.ok || function() {};
+    this._player = null;
+};
+
+Game.Screen.ItemListScreen.prototype.setup = function(player) {
+    this._player = player;
+};
+
+Game.Screen.ItemListScreen.prototype.enter = function() {
+};
+
+Game.Screen.ItemListScreen.prototype.exit = function() {
+};
+
+Game.Screen.ItemListScreen.prototype.render = function(display) {
+    var itemsMap = this._player.getInventory().getItemMap(),
+        row = 2, glyph = null;
+    display.drawText(0, 0, this._caption);
+
+    _.forEach(itemsMap, function(item, slotLetter) {
+        glyph = item.getGlyph();
+        display.drawText(2, row, "%s)    %s".format(slotLetter, item.getName()));
+        display.draw(5, row,
+            glyph.getChar(), glyph.getForeground(), glyph.getBackground());
+        row++;
+    });
+};
+
+Game.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputData) {
+    if (inputData.keyCode === ROT.VK_ESCAPE || inputData.keyCode === ROT.VK_RETURN) {
+        Game.switchScreen(Game.Screen.playScreen);
+    }
+};
+
+Game.Screen.InventoryScreen = new Game.Screen.ItemListScreen({
+    caption: "Inventory"
+});

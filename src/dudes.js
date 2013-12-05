@@ -165,6 +165,10 @@ Game.Mixins.ItemHolder = {
         this._inventory = properties.inventory || new Game.Inventory();
     },
 
+    getInventory: function() {
+        return this._inventory;
+    },
+
     tryGetItemFromTile: function(tile) {
         var item = tile.getTopItem();
         if (item === null) {
