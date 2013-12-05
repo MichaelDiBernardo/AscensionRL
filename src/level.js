@@ -153,7 +153,7 @@ Game.Level.prototype._placeMonsters = function() {
 };
 
 Game.Level.prototype._placeItems = function() {
-    var itemCount = ROT.RNG.getUniformInt(15, 30),
+    var itemCount = ROT.RNG.getUniformInt(150, 200),
         item = null;
     for (var i = 0; i < itemCount; i++) {
         item = Game.ItemRepository.createRandom();

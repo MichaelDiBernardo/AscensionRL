@@ -21,5 +21,8 @@ Game.EntityRepository.prototype.create = function(entityTag) {
 Game.EntityRepository.prototype.createRandom = function() {
     var randomKey = _.keys(this._templates).random(),
         template = Object.create(this._templates[randomKey]);
+    if (template.generate !== undefined && !template.generate) {
+        return this.createRandom();
+    }
     return new Game.Entity(template);
 };

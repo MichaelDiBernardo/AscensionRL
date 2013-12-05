@@ -120,6 +120,50 @@ Game.ItemRepository.define('leather', {
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
 });
 
+Game.ItemRepository.define('roundshield', {
+    name: "Round Shield",
+    glyph: new Game.Glyph({
+        character: ")",
+        foreground: "white",
+        background: "black",
+    }),
+    protectionDice: 1,
+    protectionSides: 3,
+    evasionBonus: 0,
+    weight: 30,
+    slotType: SLOT_OFFHAND,
+    itemType: IT_SHIELD,
+    mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
+});
+
+Game.ItemRepository.define('cloak', {
+    name: "Cloak",
+    glyph: new Game.Glyph({
+        character: "(",
+        foreground: "green",
+        background: "black",
+    }),
+    evasionBonus: 1,
+    weight: 15,
+    slotType: SLOT_CLOAK,
+    itemType: IT_CLOAK,
+    mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
+});
+
+Game.ItemRepository.define('gloves', {
+    name: "Gloves",
+    glyph: new Game.Glyph({
+        character: "]",
+        foreground: "brown",
+        background: "black",
+    }),
+    evasionBonus: 1,
+    weight: 15,
+    slotType: SLOT_GLOVES,
+    itemType: IT_GLOVES,
+    mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
+});
+
 Game.ItemRepository.define('bustersword', {
     name: "Buster Sword",
     glyph: new Game.Glyph({
@@ -134,6 +178,7 @@ Game.ItemRepository.define('bustersword', {
     weight: 70,
     slotType: SLOT_WEAPON,
     itemType: IT_SWORD,
+    hands: HANDS_2H,
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
 });
 

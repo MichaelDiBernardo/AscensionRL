@@ -10,6 +10,7 @@ IT_POLEARM = iota.val();
 IT_ARMOR = iota.val();
 IT_GLOVES = iota.val();
 IT_HELM = iota.val();
+IT_CLOAK = iota.val();
 
 /**
  * Equipment slot types
