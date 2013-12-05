@@ -1,6 +1,6 @@
 Game.Inventory = function(properties) {
     properties = properties || {};
-    this._slotChars = "abcdefghijklmnopqrstuvw";
+    this._slotChars = Utils.alphabet;
     if (properties.capacity === undefined) {
         this._capacity = INV_CAPACITY;
     } else {

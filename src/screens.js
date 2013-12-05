@@ -226,7 +226,7 @@ Game.Screen.equipScreen = {
             slots = equipment.getSlotTypes(),
             row = 2,
             // HACK
-            chars = "abcdefghijklmnopqrstuvwxyz",
+            chars = Utils.alphabet,
             slotLetter = null,
             equip = null;
 

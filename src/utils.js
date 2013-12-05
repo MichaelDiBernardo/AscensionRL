@@ -1,5 +1,7 @@
 Utils = {};
 
+Utils.alphabet = "abcdefghijklmnopqrstuvwxyz";
+
 Utils.Iota = function() {
     this.ctr = 0;
 };
