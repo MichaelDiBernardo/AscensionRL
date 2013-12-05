@@ -163,8 +163,11 @@ Game.Screen.playScreen = {
         } else if (inputData.keyCode == ROT.VK_G) {
             ok = this.getItemHere();
         } else if (inputData.keyCode == ROT.VK_I) {
-            Game.Screen.InventoryScreen.setup(this._player);
-            Game.switchScreen(Game.Screen.InventoryScreen);
+            Game.Screen.inventoryScreen.setup(this._player);
+            Game.switchScreen(Game.Screen.inventoryScreen);
+        } else if (inputData.keyCode == ROT.VK_E) {
+            Game.Screen.equipScreen.setup(this._player);
+            Game.switchScreen(Game.Screen.equipScreen);
         } else {
             ok = false;
         }
@@ -175,42 +178,74 @@ Game.Screen.playScreen = {
     }
 };
 
-Game.Screen.ItemListScreen = function(template) {
-    this._caption = template.caption;
-    this._okFunction = template.ok || function() {};
-    this._player = null;
-};
+Game.Screen.inventoryScreen = {
+    setup: function(player) {
+        this._player = player;
+        this._caption = "Inventory";
+    },
+    enter: function() {
+    },
 
-Game.Screen.ItemListScreen.prototype.setup = function(player) {
-    this._player = player;
-};
+    exit: function() {
+    },
 
-Game.Screen.ItemListScreen.prototype.enter = function() {
-};
+    render: function(display) {
+        var itemsMap = this._player.getInventory().getItemMap(),
+            row = 2, glyph = null;
+        display.drawText(0, 0, this._caption);
 
-Game.Screen.ItemListScreen.prototype.exit = function() {
-};
+        _.forEach(itemsMap, function(item, slotLetter) {
+            glyph = item.getGlyph();
+            display.drawText(2, row, "%s)    %s".format(slotLetter, item.getName()));
+            display.draw(5, row,
+                glyph.getChar(), glyph.getForeground(), glyph.getBackground());
+            row++;
+        });
+    },
 
-Game.Screen.ItemListScreen.prototype.render = function(display) {
-    var itemsMap = this._player.getInventory().getItemMap(),
-        row = 2, glyph = null;
-    display.drawText(0, 0, this._caption);
-
-    _.forEach(itemsMap, function(item, slotLetter) {
-        glyph = item.getGlyph();
-        display.drawText(2, row, "%s)    %s".format(slotLetter, item.getName()));
-        display.draw(5, row,
-            glyph.getChar(), glyph.getForeground(), glyph.getBackground());
-        row++;
-    });
-};
-
-Game.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputData) {
-    if (inputData.keyCode === ROT.VK_ESCAPE || inputData.keyCode === ROT.VK_RETURN) {
-        Game.switchScreen(Game.Screen.playScreen);
+    handleInput: function(inputType, inputData) {
+        if (inputData.keyCode === ROT.VK_ESCAPE || inputData.keyCode === ROT.VK_RETURN) {
+            Game.switchScreen(Game.Screen.playScreen);
+        }
     }
 };
 
-Game.Screen.InventoryScreen = new Game.Screen.ItemListScreen({
-    caption: "Inventory"
-});
+Game.Screen.equipScreen = {
+    setup: function(player) {
+        this._player = player;
+        this._caption = "Equipment";
+    },
+    enter: function() {
+    },
+
+    exit: function() {
+    },
+
+    render: function(display) {
+        var equipment = this._player.sheet().getEquipment(),
+            slots = equipment.getSlotTypes(),
+            row = 2,
+            // HACK
+            chars = "abcdefghijklmnopqrstuvwxyz",
+            slotLetter = null,
+            equip = null;
+
+        display.drawText(0, 0, this._caption);
+
+        _.forEach(slots, function(slot) {
+            equip = equipment.getWearableInSlot(slot);
+            glyph = equip.getGlyph();
+            slotLetter = chars[row-2];
+            display.drawText(2, row, "%s)    %s".format(slotLetter, equip.getName()));
+            display.draw(5, row,
+                glyph.getChar(), glyph.getForeground(), glyph.getBackground());
+            row++;
+        });
+    },
+
+    handleInput: function(inputType, inputData) {
+        if (inputData.keyCode === ROT.VK_ESCAPE || inputData.keyCode === ROT.VK_RETURN) {
+            Game.switchScreen(Game.Screen.playScreen);
+        }
+    }
+};

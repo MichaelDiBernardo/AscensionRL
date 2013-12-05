@@ -68,6 +68,11 @@ Game.Mixins.Armor = {
 
 Game.ItemRepository.define('fist', {
     name: "(none)",
+    glyph: new Game.Glyph({
+        character: " ",
+        foreground: "black",
+        background: "black",
+    }),
     damageDice: 1,
     damageSides: 4,
     meleeBonus: 0,
@@ -81,6 +86,11 @@ Game.ItemRepository.define('fist', {
 
 Game.ItemRepository.define('skin', {
     name: "(none)",
+    glyph: new Game.Glyph({
+        character: " ",
+        foreground: "black",
+        background: "black",
+    }),
     protectionDice: 0,
     protectionSides: 0,
     meleeBonus: 0,

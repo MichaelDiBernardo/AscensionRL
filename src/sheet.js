@@ -81,6 +81,11 @@ Game.Sheet.prototype.damroll = function(residual, accumulator) {
 
     return roll;
 };
+
 Game.Sheet.prototype.protectionRoll = function() {
     return this._equipment.protectionRoll();
+};
+
+Game.Sheet.prototype.getEquipment = function() {
+    return this._equipment;
 };

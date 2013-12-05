@@ -17,7 +17,6 @@ Game.Equipment.SlotTypes = [
     SLOT_BOOTS
 ];
 
-// TODO: use _onAllSlots as a generic fn for these three :/
 Game.Equipment.prototype.protectionRoll = function() {
     var armor = _.filter(this._slots, function(slot) {
             return slot.isRealThing() && slot.getSlotType() != SLOT_WEAPON;
@@ -44,14 +43,6 @@ Game.Equipment.prototype.damroll = function(properties) {
      properties.isTwoHanded = isTwoHanded;
      return weapon.damroll(properties);
 };
-
-//Game.Equipment.prototype._onAllSlots = function(reducer, filter) {
-//    var f = filter || function() { return true; },
-//        slotValues = _.map(this._slots, function(v) { return v; }),
-//        filtered = _.filter(slotValues, f),
-//        toReturn = _.reduce(filtered, reducer);
-//    return toReturn;
-//}
 
 Game.Equipment.prototype.getSlotTypes = function() {
     return Game.Equipment.SlotTypes;
