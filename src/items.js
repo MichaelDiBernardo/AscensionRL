@@ -9,6 +9,12 @@ Game.Mixins.Item = {
 
         this.weight = properties.weight || 1;
         this.itemType = properties.itemType;
+
+        if (properties.generate === undefined) {
+            this.generate = true;
+        } else {
+            this.generate = properties.generate;
+        }
     },
     isRealThing: function() {
         return this.itemType != IT_NULLOBJ;

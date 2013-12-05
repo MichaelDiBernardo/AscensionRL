@@ -11,6 +11,7 @@ Game.Equipment.SlotTypes = [
     SLOT_AMULET,
     SLOT_LIGHT,
     SLOT_BODY,
+    SLOT_CLOAK,
     SLOT_OFFHAND,
     SLOT_HELM,
     SLOT_GLOVES,

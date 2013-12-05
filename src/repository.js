@@ -14,3 +14,12 @@ Game.EntityRepository.prototype.create = function(entityTag) {
     var template = Object.create(this._templates[entityTag]);
     return new Game.Entity(template);
 };
+
+/**
+ * util / debug for now.
+ */
+Game.EntityRepository.prototype.createRandom = function() {
+    var randomKey = _.keys(this._templates).random(),
+        template = Object.create(this._templates[randomKey]);
+    return new Game.Entity(template);
+};

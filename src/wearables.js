@@ -81,6 +81,7 @@ Game.ItemRepository.define('fist', {
     hands: HANDS_1H,
     slotType: SLOT_ANY,
     itemType: IT_NULLOBJ,
+    generate: false,
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Weapon]
 });
 
@@ -98,6 +99,7 @@ Game.ItemRepository.define('skin', {
     weight: 0,
     slotType: SLOT_ANY,
     itemType: IT_NULLOBJ,
+    generate: false,
     mixins: [Game.Mixins.Item, Game.Mixins.Wearable, Game.Mixins.Armor]
 });
 

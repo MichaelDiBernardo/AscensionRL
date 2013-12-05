@@ -23,6 +23,7 @@ SLOT_RIGHT_RING = iota.val();
 SLOT_AMULET = iota.val();
 SLOT_LIGHT = iota.val();
 SLOT_BODY = iota.val();
+SLOT_CLOAK = iota.val();
 SLOT_OFFHAND = iota.val();
 SLOT_HELM = iota.val();
 SLOT_GLOVES = iota.val();

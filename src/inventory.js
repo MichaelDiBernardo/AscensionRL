@@ -46,8 +46,13 @@ Game.Inventory.prototype.addItemsUntilFull = function(items) {
 };
 
 Game.Inventory.prototype.getItemBySlot = function(slotKey) {
-    var slotIndex = this._slotChars.indexOf(slotKey);
-    return this._items[slotIndex];
+    var slotIndex = this._slotChars.indexOf(slotKey),
+        item = this._items[slotIndex];
+
+    if (item === undefined) {
+        throw new Error("No item in slot " + slotKey);
+    }
+    return item;
 };
 
 Game.Inventory.prototype.getFirstItem = function() {

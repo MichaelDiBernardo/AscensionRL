@@ -206,6 +206,44 @@ Game.Mixins.ItemHolder = {
     }
 };
 
+/**
+ * Requires InventoryHolder and Fighter as other mixins.
+ **/
+Game.Mixins.Equipper = {
+    name: "Equipper",
+    groupName: "Equipper",
+    init: function(properties) {
+    },
+    equipFromSlot: function(slotLetter) {
+        var inventory = this.getInventory(),
+            equipment = this.sheet().getEquipment(),
+            itemToEquip = null;
+
+        try {
+            itemToEquip = inventory.getItemBySlot(slotLetter);
+        } catch (e) {
+            Game.Message.Router.sendMessage(
+                Game.Message.Channel.STATUS,
+                "No such item."
+            );
+            return false;
+        }
+
+        inventory.removeItemBySlot(slotLetter);
+        var displaced = equipment.equip(itemToEquip),
+            leftOvers = inventory.addItemsUntilFull(displaced);
+
+        // We need the floor tile! For now just obliterate.
+        _.forEach(leftOvers, function(w) {
+            Game.Message.Router.sendMessage(
+                Game.Message.Channel.STATUS,
+                "The %s disappears into the ether.".format(w.getName())
+            );
+        });
+        return true;
+    }
+};
+
 Game.DudeRepository = new Game.EntityRepository();
 
 Game.DudeRepository.define('player', {
@@ -231,7 +269,7 @@ Game.DudeRepository.define('player', {
             Game.ItemRepository.create('leather')
         ]),
     }),
-    mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor, Game.Mixins.Fighter, Game.Mixins.ItemHolder]
+    mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor, Game.Mixins.Fighter, Game.Mixins.ItemHolder, Game.Mixins.Equipper]
 });
 
 Game.DudeRepository.define('orc', {

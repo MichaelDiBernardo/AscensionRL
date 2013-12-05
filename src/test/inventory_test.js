@@ -83,6 +83,16 @@
         equal(sut.getItemBySlot("c").getName(), "Sword3");
     });
 
+    test("Get item from nonexistent slot", function() {
+        sut.addItem(fakeRepo.create("sword"));
+
+        throws(function() {
+                sut.getItemBySlot("b");
+            },
+            "No exception raised for pulling from empty slot."
+        );
+    });
+
     test("Drop/remove item by slot.", function() {
         sut.addItem(fakeRepo.create("sword"));
 
