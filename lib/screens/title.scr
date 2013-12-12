@@ -3,10 +3,10 @@
                              %c{red}ASCENSION ROGUELIKE %c{}
 %c{blue}*******************************************************************************
 
-
-
-
-
+                             g - get item
+                             i - see inventory
+                             e - see equipment
+                             w - wear equipment 
 
 
                             %c{#FFFFFF}Press ENTER to start.

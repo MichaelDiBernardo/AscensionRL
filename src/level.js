@@ -145,9 +145,11 @@ Game.Level.prototype._generateRandomLevel = function(player) {
 };
 
 Game.Level.prototype._placeMonsters = function() {
-    var monsterCount = ROT.RNG.getUniformInt(15, 30);
+    var monsterCount = ROT.RNG.getUniformInt(15, 30),
+        newMonster = null;
     for (var i = 0; i < monsterCount; i++) {
-        var newMonster = Game.DudeRepository.create("orc");
+        newMonster = Die.ndx(1, 2) === 1 ? Game.DudeRepository.create("orc") :
+            Game.DudeRepository.create("pinkpony");
         this.placeAtRandomSquare(newMonster);
     }
 };

@@ -313,3 +313,22 @@ Game.DudeRepository.define('orc', {
     }),
     mixins: [Game.Mixins.Moveable, Game.Mixins.WanderingActor, Game.Mixins.Fighter]
 });
+
+Game.DudeRepository.define('pinkpony', {
+    name: "Pink Pony",
+    glyph: new Game.Glyph({
+        character: "p",
+        foreground: "magenta",
+        background: "black"
+    }),
+    sheet: new Game.Sheet({
+        skills: new Game.Skills({
+            melee: 1,
+            evasion: 3
+        }),
+        equipment: new Game.Equipment([
+            Game.ItemRepository.create('bustersword')
+        ]),
+    }),
+    mixins: [Game.Mixins.Moveable, Game.Mixins.WanderingActor, Game.Mixins.Fighter]
+});
