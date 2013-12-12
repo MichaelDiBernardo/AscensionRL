@@ -1,3 +1,2 @@
-- Actually use the inventory and equipment things on dudes
-- start generating items on the floor and allow pickup
-- screens for these
+- Look in git log
+- Also look into why displacing sword/shield and combos thereof when putting on 2H weapon is so buggy.

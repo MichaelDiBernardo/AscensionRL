@@ -63,27 +63,35 @@ Game.Equipment.prototype.equip = function(wearable) {
     }
 
     var slot = wearable.getSlotType();
+
     if ($.inArray(slot, this.getSlotTypes()) == -1) {
         throw "Slot %s is not a valid slot!".format(slot);
     }
 
-    var displacedItems = [],
+    var equippingWeapon = (slot === SLOT_WEAPON),
+        equippingOffhand = (slot === SLOT_OFFHAND),
+        equipping2H = equippingWeapon && wearable.hands === HANDS_2H,
+        holding2H = this._slots[SLOT_WEAPON].hands === HANDS_2H,
+        is2HJuggle = equipping2H || (holding2H && (equippingWeapon || equippingOffhand)),
+        displacedItems = [],
+        displacedItem = null;
+
+    if (is2HJuggle) {
+        _.forEach([SLOT_WEAPON, SLOT_OFFHAND], function(handSlot) {
+            displacedItem = this._slots[handSlot];
+            if (displacedItem.isRealThing()) {
+                displacedItems.push(displacedItem);
+                this._slots[handSlot] = Game.ItemRepository.create('skin');
+            }
+        }, this);
+    } else {
         displacedItem = this._slots[slot];
-
-    this._slots[slot] = wearable;
-
-    if (displacedItem.isRealThing()) {
-        displacedItems.push(displacedItem);
-    }
-
-    // If it's a 2-handed weapon, we need to displace the shield slot also.
-    if (wearable.hasMixin("Weapon") && wearable.hands === HANDS_2H) {
-        displacedItem = this._slots[SLOT_OFFHAND];
         if (displacedItem.isRealThing()) {
             displacedItems.push(displacedItem);
         }
     }
 
+    this._slots[slot] = wearable;
     return displacedItems;
 };
 
@@ -105,7 +113,7 @@ Game.Equipment.prototype._initSlots = function(givenWearables) {
     for (i = 0; i < givenWearables.length; i++) {
         var displaced = this.equip(givenWearables[i]);
         if (displaced.length > 0) {
-            throw new Error("Multiple wearables given for slot " + i);
+            throw new Error("Multiple wearables given for slot " + i + ": " + _.invoke(displaced, "getName"));
         }
     }
 };
