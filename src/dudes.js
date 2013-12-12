@@ -233,13 +233,36 @@ Game.Mixins.Equipper = {
         var displaced = equipment.equip(itemToEquip),
             leftOvers = inventory.addItemsUntilFull(displaced);
 
+        _.forEach(displaced, function(wearable) {
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                this,
+                "You remove %s.".format(wearable.getName()),
+                "The %s removes %s.".format(this.getName(), wearable.getName())
+            );
+        }, this);
+
         // We need the floor tile! For now just obliterate.
         _.forEach(leftOvers, function(w) {
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                "You have nowhere to put %s! You drop it.".format(w.getName()),
+                "The %s has nowhere to put %s! It falls to the floor.".format(this.getName(), w.getName())
+            );
+
             Game.Message.Router.sendMessage(
                 Game.Message.Channel.STATUS,
                 "The %s disappears into the ether.".format(w.getName())
             );
-        });
+        }, this);
+
+        Game.Message.Router.selectMessage(
+            Game.Message.Channel.STATUS,
+            this,
+            "You equip %s.".format(itemToEquip.getName()),
+            "The %s equips %s.".format(this.getName(), itemToEquip.getName())
+        );
+
         return true;
     }
 };
