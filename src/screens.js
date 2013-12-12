@@ -152,23 +152,23 @@ Game.Screen.playScreen = {
     handleInput: function(inputType, inputData) {
         // Movement
         var ok = true;
-        if (inputData.keyCode === ROT.VK_LEFT) {
+        if (inputData.keyCode === ROT.VK_LEFT || inputData.keyCode === ROT.VK_H) {
             ok = this.move(-1, 0);
-        } else if (inputData.keyCode === ROT.VK_RIGHT) {
+        } else if (inputData.keyCode === ROT.VK_RIGHT || inputData.keyCode === ROT.VK_L) {
             ok = this.move(1, 0);
-        } else if (inputData.keyCode === ROT.VK_UP) {
+        } else if (inputData.keyCode === ROT.VK_UP || inputData.keyCode === ROT.VK_K) {
             ok = this.move(0, -1);
-        } else if (inputData.keyCode === ROT.VK_DOWN) {
+        } else if (inputData.keyCode === ROT.VK_DOWN || inputData.keyCode === ROT.VK_J) {
             ok = this.move(0, 1);
-        } else if (inputData.keyCode == ROT.VK_G) {
+        } else if (inputData.keyCode === ROT.VK_G) {
             ok = this.getItemHere();
-        } else if (inputData.keyCode == ROT.VK_I) {
+        } else if (inputData.keyCode === ROT.VK_I) {
             Game.Screen.inventoryScreen.setup(this._player);
             Game.switchScreen(Game.Screen.inventoryScreen);
-        } else if (inputData.keyCode == ROT.VK_E) {
+        } else if (inputData.keyCode === ROT.VK_E) {
             Game.Screen.equipScreen.setup(this._player);
             Game.switchScreen(Game.Screen.equipScreen);
-        } else if (inputData.keyCode == ROT.VK_W) {
+        } else if (inputData.keyCode === ROT.VK_W) {
             Game.Screen.wieldScreen.setup(this._player);
             Game.switchScreen(Game.Screen.wieldScreen);
         } else {
