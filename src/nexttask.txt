@@ -1,2 +1,8 @@
-- Look in git log
-- Also look into why displacing sword/shield and combos thereof when putting on 2H weapon is so buggy.
+- Add drop screen
+- Add inspection screen?
+- Should really add tests for sprintfing oneliners
+- Refactor screens to reuse code
+- Have weights line up on menu screens
+- Overflowing or dropping items stacks them on the floor
+- Bring up a menu screen when > 1 item on floor tile?
+- item stacking???? (I think that should be later)

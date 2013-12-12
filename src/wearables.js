@@ -50,6 +50,20 @@ Game.Mixins.Weapon = {
         // All attacks must have at least one damage side. This is carried over
         // from Sil.
         return Math.max(1, this.damageSides + sidesDelta);
+    },
+
+    getOneliner: function() {
+        if (!this.isRealThing()) {
+            return this.getName();
+        }
+        var mBonus = this.meleeBonus,
+            eBonus = this.evasionBonus ? sprintf("[%+d] ", this.evasionBonus) : "",
+            dd = this.damageDice,
+            ds = this.damageSides,
+            w = this.getWeightInLbs();
+
+        return sprintf("%s (%+d,%sd%s) %s(%.1f lb)", this.getName(), mBonus, dd, ds,
+                eBonus, w);
     }
 };
 
@@ -61,8 +75,25 @@ Game.Mixins.Armor = {
         this.protectionDice = properties.protectionDice || 0;
         this.protectionSides = properties.protectionSides || 0;
     },
+
     protectionRoll: function() {
         return new Die.Roll(this.protectionDice, this.protectionSides);
+    },
+
+    getOneliner: function() {
+        if (!this.isRealThing()) {
+            return this.getName();
+        }
+
+        var mBonus = this.meleeBonus ? sprintf("(%+d) ", this.meleeBonus) : "",
+            eBonus = this.evasionBonus,
+            pd = this.protectionDice,
+            ps = this.protectionSides,
+            armorDice = pd && ps ? sprintf(",%sd%s", pd, ps) : "",
+            w = this.getWeightInLbs();
+
+        return sprintf("%s %s[%+d%s] (%.1f lb)", this.getName(), mBonus,
+                eBonus, armorDice, w);
     }
 };
 

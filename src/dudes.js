@@ -181,7 +181,7 @@ Game.Mixins.ItemHolder = {
             return false;
         }
 
-        var itemName = item.getName();
+        var itemName = item.getOneliner();
 
         if (this._inventory.isFull()) {
             Game.Message.Router.selectMessage(
@@ -237,8 +237,8 @@ Game.Mixins.Equipper = {
             Game.Message.Router.selectMessage(
                 Game.Message.Channel.STATUS,
                 this,
-                "You remove %s.".format(wearable.getName()),
-                "The %s removes %s.".format(this.getName(), wearable.getName())
+                "You remove %s.".format(wearable.getOneliner()),
+                "The %s removes %s.".format(this.getName(), wearable.getOneliner())
             );
         }, this);
 
@@ -246,21 +246,22 @@ Game.Mixins.Equipper = {
         _.forEach(leftOvers, function(w) {
             Game.Message.Router.selectMessage(
                 Game.Message.Channel.STATUS,
-                "You have nowhere to put %s! You drop it.".format(w.getName()),
-                "The %s has nowhere to put %s! It falls to the floor.".format(this.getName(), w.getName())
+                this,
+                "You have nowhere to put %s! You drop it.".format(w.getOneliner()),
+                "The %s has nowhere to put %s! It falls to the floor.".format(this.getName(), w.getOneliner())
             );
 
             Game.Message.Router.sendMessage(
                 Game.Message.Channel.STATUS,
-                "The %s disappears into the ether.".format(w.getName())
+                "The %s disappears into the ether.".format(w.getOneliner())
             );
         }, this);
 
         Game.Message.Router.selectMessage(
             Game.Message.Channel.STATUS,
             this,
-            "You equip %s.".format(itemToEquip.getName()),
-            "The %s equips %s.".format(this.getName(), itemToEquip.getName())
+            "You equip %s.".format(itemToEquip.getOneliner()),
+            "The %s equips %s.".format(this.getName(), itemToEquip.getOneliner())
         );
 
         return true;

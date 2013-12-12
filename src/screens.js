@@ -199,7 +199,7 @@ Game.Screen.inventoryScreen = {
 
         _.forEach(itemsMap, function(item, slotLetter) {
             glyph = item.getGlyph();
-            display.drawText(2, row, "%s)    %s".format(slotLetter, item.getName()));
+            display.drawText(2, row, "%s)    %s".format(slotLetter, item.getOneliner()));
             display.draw(5, row,
                 glyph.getChar(), glyph.getForeground(), glyph.getBackground());
             row++;
@@ -231,7 +231,7 @@ Game.Screen.wieldScreen = {
 
         _.forEach(itemsMap, function(item, slotLetter) {
             glyph = item.getGlyph();
-            display.drawText(2, row, "%s)    %s".format(slotLetter, item.getName()));
+            display.drawText(2, row, "%s)    %s".format(slotLetter, item.getOneliner()));
             display.draw(5, row,
                 glyph.getChar(), glyph.getForeground(), glyph.getBackground());
             row++;
@@ -277,7 +277,7 @@ Game.Screen.equipScreen = {
             equip = equipment.getWearableInSlot(slot);
             glyph = equip.getGlyph();
             slotLetter = chars[row-2];
-            display.drawText(2, row, "%s)    %s".format(slotLetter, equip.getName()));
+            display.drawText(2, row, "%s)    %s".format(slotLetter, equip.getOneliner()));
             display.draw(5, row,
                 glyph.getChar(), glyph.getForeground(), glyph.getBackground());
             row++;

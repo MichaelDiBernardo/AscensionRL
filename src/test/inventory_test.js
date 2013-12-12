@@ -45,7 +45,7 @@
     test("Adding an item increases itemcount and reduces capacity.", function() {
         sut.addItem(fakeRepo.create("sword"));
         equal(sut.itemCount(), 1);
-        equal(sut.roomLeft(), 22);
+        equal(sut.roomLeft(), INV_CAPACITY - 1);
     });
 
     test("Adding something that's not an item throws exception.", function() {

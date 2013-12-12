@@ -41,4 +41,4 @@ HANDS_2H = iota.val();
 /**
  * Inventory stuff.
  */
-INV_CAPACITY = 23;
+INV_CAPACITY = 20;
