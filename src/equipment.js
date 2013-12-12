@@ -74,22 +74,16 @@ Game.Equipment.prototype.equip = function(wearable) {
         holding2H = this._slots[SLOT_WEAPON].hands === HANDS_2H,
         is2HJuggle = equipping2H || (holding2H && (equippingWeapon || equippingOffhand)),
         displacedItems = [],
-        displacedItem = null;
+        displacedItem = null,
+        slotsToCheck = is2HJuggle ? [SLOT_WEAPON, SLOT_OFFHAND] : [slot];
 
-    if (is2HJuggle) {
-        _.forEach([SLOT_WEAPON, SLOT_OFFHAND], function(handSlot) {
-            displacedItem = this._slots[handSlot];
-            if (displacedItem.isRealThing()) {
-                displacedItems.push(displacedItem);
-                this._slots[handSlot] = Game.ItemRepository.create('skin');
-            }
-        }, this);
-    } else {
-        displacedItem = this._slots[slot];
+    _.forEach(slotsToCheck, function(currentSlot) {
+        displacedItem = this._slots[currentSlot];
         if (displacedItem.isRealThing()) {
             displacedItems.push(displacedItem);
+            this._slots[currentSlot] = this._getNullObjForSlot(currentSlot);
         }
-    }
+    }, this);
 
     this._slots[slot] = wearable;
     return displacedItems;
@@ -101,12 +95,7 @@ Game.Equipment.prototype._initSlots = function(givenWearables) {
 
     for (var i = 0; i < length; i++) {
         var slot = slotTypes[i];
-
-        if (slot === SLOT_WEAPON) {
-            this._slots[slot] = Game.ItemRepository.create('fist');
-        } else {
-            this._slots[slot] = Game.ItemRepository.create('skin');
-        }
+        this._slots[slot] = this._getNullObjForSlot(slot);
     }
 
     length = givenWearables.length;
@@ -115,5 +104,13 @@ Game.Equipment.prototype._initSlots = function(givenWearables) {
         if (displaced.length > 0) {
             throw new Error("Multiple wearables given for slot " + i + ": " + _.invoke(displaced, "getName"));
         }
+    }
+};
+
+Game.Equipment.prototype._getNullObjForSlot = function(slot) {
+    if (slot === SLOT_WEAPON) {
+        return Game.ItemRepository.create('fist');
+    } else {
+        return Game.ItemRepository.create('skin');
     }
 };
