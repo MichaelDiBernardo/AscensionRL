@@ -76,3 +76,6 @@ Game.Entity.prototype.setLevel = function(level) {
 Game.Entity.prototype.getLevel = function() {
     return this._level;
 };
+Game.Entity.prototype.getTileBeneath = function() {
+    return this._level.getTileAt(this._x, this._y);
+};

@@ -203,6 +203,27 @@ Game.Mixins.ItemHolder = {
             "The %s gets a %s.".format(this.getName(), item.getName())
         );
         return true;
+    },
+    tryDropItemOnTile: function(slotLetter) {
+        var tile = this.getTileBeneath(),
+            item = this._inventory.removeItemBySlot(slotLetter);
+
+        if (!item) {
+            Game.Message.Router.sendMessage(
+                Game.Message.Channel.STATUS,
+                "No such item."
+            );
+            return;
+        }
+
+        Game.Message.Router.selectMessage(
+            Game.Message.Channel.STATUS,
+            this,
+            "You drop the %s".format(item.getOneliner()),
+            "The %s drops the %s".format(this.getName(), item.getOneliner())
+        );
+
+        tile.placeItem(item);
     }
 };
 
@@ -269,7 +290,7 @@ Game.Mixins.Equipper = {
             removedEquip = equipment.unequipItemBySlotLetter(slotLetter);
 
         if (removedEquip === null) {
-            Game.Message.Router.sendMessage(
+            eame.Message.Router.sendMessage(
                 Game.Message.Channel.STATUS,
                 "Nothing to unequip from that slot."
             );
