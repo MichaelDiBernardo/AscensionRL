@@ -184,196 +184,116 @@ Game.Screen.playScreen = {
     }
 };
 
-Game.Screen.inventoryScreen = {
-    setup: function(player) {
-        this._player = player;
-        this._caption = "Inventory";
-    },
-    enter: function() {
-    },
+/**
+ * Base screen type for equipment and item menus.
+ */
+Game.Screen.ItemMenuScreen = function(properties) {
+    this.render = properties.renderer;
+    this.handleInput = properties.inputHandler;
+    this._caption = properties.caption;
+};
 
-    exit: function() {
-    },
+Game.Screen.ItemMenuScreen.prototype.setup = function(player) {
+    this._player = player;
+};
 
-    render: function(display) {
-        var itemsMap = this._player.getInventory().getItemMap(),
-            row = 2, glyph = null;
-        display.drawText(0, 0, this._caption);
+Game.Screen.ItemMenuScreen.prototype.enter = function() {
+};
 
-        _.forEach(itemsMap, function(item, slotLetter) {
-            glyph = item.getGlyph();
-            display.drawText(2, row, "%s)    %s".format(slotLetter, item.getOneliner()));
-            display.draw(5, row,
-                glyph.getChar(), glyph.getForeground(), glyph.getBackground());
-            row++;
-        });
-    },
+Game.Screen.ItemMenuScreen.prototype.exit = function() {
+};
 
-    handleInput: function(inputType, inputData) {
-        if (inputData.keyCode === ROT.VK_ESCAPE || inputData.keyCode === ROT.VK_RETURN) {
+/**
+ * Base renderers for configuring item screens.
+ */
+Game.Screen.Renderer.inventoryItemRenderer = function(display) {
+    var itemsMap = this._player.getInventory().getItemMap(),
+        row = 2, glyph = null;
+    display.drawText(0, 0, this._caption);
+
+    _.forEach(itemsMap, function(item, slotLetter) {
+        glyph = item.getGlyph();
+        display.drawText(2, row, "%s)    %s".format(slotLetter, item.getOneliner()));
+        display.draw(5, row,
+            glyph.getChar(), glyph.getForeground(), glyph.getBackground());
+        row++;
+    });
+};
+
+Game.Screen.Renderer.equipmentItemRenderer = function(display) {
+    var equipment = this._player.sheet().getEquipment(),
+        slots = equipment.getSlotTypes(),
+        row = 2,
+        // HACK
+        chars = Utils.alphabet,
+        slotLetter = null,
+        equip = null;
+
+    display.drawText(0, 0, this._caption);
+
+    _.forEach(slots, function(slot) {
+        equip = equipment.getWearableInSlot(slot);
+        glyph = equip.getGlyph();
+        slotLetter = chars[row-2];
+        display.drawText(2, row, "%s)    %s".format(slotLetter, equip.getOneliner()));
+        display.draw(5, row,
+            glyph.getChar(), glyph.getForeground(), glyph.getBackground());
+        row++;
+    });
+};
+
+/**
+ * Screen definitions.
+ */
+
+Game.Screen.inventoryScreen = new Game.Screen.ItemMenuScreen({
+    renderer: Game.Screen.Renderer.inventoryItemRenderer,
+    inputHandler: function(inputType, inputData) {
+        var kc = inputData.keyCode;
+        if (kc === ROT.VK_ESCAPE || kc === ROT.VK_RETURN) {
             Game.switchScreen(Game.Screen.playScreen);
         }
-    }
-};
-
-Game.Screen.wieldScreen = {
-    setup: function(player) {
-        this._player = player;
-        this._caption = "Wield Item";
     },
-    enter: function() {
-    },
+    caption: "Inventory"
+});
 
-    exit: function() {
-    },
+Game.Screen.wieldScreen = new Game.Screen.ItemMenuScreen({
+    renderer: Game.Screen.Renderer.inventoryItemRenderer,
+    inputHandler: function(inputType, inputData) {
+        var kc = inputData.keyCode;
+        if (kc >= ROT.VK_A && kc <= ROT.VK_L) {
+            var itemIndex = kc - ROT.VK_A,
+                slotLetter = Utils.alphabet[itemIndex];
 
-    render: function(display) {
-        var itemsMap = this._player.getInventory().getItemMap(),
-            row = 2, glyph = null;
-        display.drawText(0, 0, this._caption);
-
-        _.forEach(itemsMap, function(item, slotLetter) {
-            glyph = item.getGlyph();
-            display.drawText(2, row, "%s)    %s".format(slotLetter, item.getOneliner()));
-            display.draw(5, row,
-                glyph.getChar(), glyph.getForeground(), glyph.getBackground());
-            row++;
-        });
-    },
-
-    handleInput: function(inputType, inputData) {
-        if (inputData.keyCode >= ROT.VK_A && inputData.keyCode <= ROT.VK_L) {
-            this.processCommand(inputData.keyCode - ROT.VK_A);
+            this._player.equipFromSlot(slotLetter);
         }
         Game.switchScreen(Game.Screen.playScreen);
     },
+    caption: "Wield Item"
+});
 
-    processCommand: function(itemIndex) {
-        var slotLetter = Utils.alphabet[itemIndex];
-        this._player.equipFromSlot(slotLetter);
-    }
-};
+Game.Screen.unwieldScreen = new Game.Screen.ItemMenuScreen({
+    renderer: Game.Screen.Renderer.equipmentItemRenderer,
+    inputHandler: function(inputType, inputData) {
+        var kc = inputData.keyCode;
+        if (kc >= ROT.VK_A && kc <= ROT.VK_L) {
+            var itemIndex = kc - ROT.VK_A,
+                slotLetter = Utils.alphabet[itemIndex];
 
-Game.Screen.unwieldScreen = {
-    setup: function(player) {
-        this._player = player;
-        this._caption = "Unwield Item";
-    },
-    enter: function() {
-    },
-
-    exit: function() {
-    },
-
-    render: function(display) {
-        var equipment = this._player.sheet().getEquipment(),
-            slots = equipment.getSlotTypes(),
-            row = 2,
-            // HACK
-            chars = Utils.alphabet,
-            slotLetter = null,
-            equip = null;
-
-        display.drawText(0, 0, this._caption);
-
-        _.forEach(slots, function(slot) {
-            equip = equipment.getWearableInSlot(slot);
-            glyph = equip.getGlyph();
-            slotLetter = chars[row-2];
-            display.drawText(2, row, "%s)    %s".format(slotLetter, equip.getOneliner()));
-            display.draw(5, row,
-                glyph.getChar(), glyph.getForeground(), glyph.getBackground());
-            row++;
-        });
-    },
-
-    handleInput: function(inputType, inputData) {
-        if (inputData.keyCode >= ROT.VK_A && inputData.keyCode <= ROT.VK_L) {
-            this.processCommand(inputData.keyCode - ROT.VK_A);
+            this._player.unequipFromSlot(slotLetter);
         }
         Game.switchScreen(Game.Screen.playScreen);
     },
+    caption: "Unwield Item"
+});
 
-    processCommand: function(itemIndex) {
-        var slotLetter = Utils.alphabet[itemIndex];
-        this._player.unequipFromSlot(slotLetter);
-    }
-};
-
-Game.Screen.removeScreen = {
-    setup: function(player) {
-        this._player = player;
-        this._caption = "Remove Item";
-    },
-    enter: function() {
-    },
-
-    exit: function() {
-    },
-
-    render: function(display) {
-        var itemsMap = this._player.getInventory().getItemMap(),
-            row = 2, glyph = null;
-        display.drawText(0, 0, this._caption);
-
-        _.forEach(itemsMap, function(item, slotLetter) {
-            glyph = item.getGlyph();
-            display.drawText(2, row, "%s)    %s".format(slotLetter, item.getOneliner()));
-            display.draw(5, row,
-                glyph.getChar(), glyph.getForeground(), glyph.getBackground());
-            row++;
-        });
-    },
-
-    handleInput: function(inputType, inputData) {
-        if (inputData.keyCode >= ROT.VK_A && inputData.keyCode <= ROT.VK_L) {
-            this.processCommand(inputData.keyCode - ROT.VK_A);
-        }
-        Game.switchScreen(Game.Screen.playScreen);
-    },
-
-    processCommand: function(itemIndex) {
-        var slotLetter = Utils.alphabet[itemIndex];
-        this._player.removeFromSlot(slotLetter);
-    }
-};
-
-Game.Screen.equipScreen = {
-    setup: function(player) {
-        this._player = player;
-        this._caption = "Equipment";
-    },
-    enter: function() {
-    },
-
-    exit: function() {
-    },
-
-    render: function(display) {
-        var equipment = this._player.sheet().getEquipment(),
-            slots = equipment.getSlotTypes(),
-            row = 2,
-            // HACK
-            chars = Utils.alphabet,
-            slotLetter = null,
-            equip = null;
-
-        display.drawText(0, 0, this._caption);
-
-        _.forEach(slots, function(slot) {
-            equip = equipment.getWearableInSlot(slot);
-            glyph = equip.getGlyph();
-            slotLetter = chars[row-2];
-            display.drawText(2, row, "%s)    %s".format(slotLetter, equip.getOneliner()));
-            display.draw(5, row,
-                glyph.getChar(), glyph.getForeground(), glyph.getBackground());
-            row++;
-        });
-    },
-
-    handleInput: function(inputType, inputData) {
-        if (inputData.keyCode === ROT.VK_ESCAPE || inputData.keyCode === ROT.VK_RETURN) {
+Game.Screen.equipScreen = new Game.Screen.ItemMenuScreen({
+    renderer: Game.Screen.Renderer.equipmentItemRenderer,
+    inputHandler: function(inputType, inputData) {
+        var kc = inputData.keyCode;
+        if (kc === ROT.VK_ESCAPE || kc === ROT.VK_RETURN) {
             Game.switchScreen(Game.Screen.playScreen);
         }
-    }
-};
+    },
+    caption: "Equipment"
+});
