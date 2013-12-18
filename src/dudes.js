@@ -266,6 +266,57 @@ Game.Mixins.Equipper = {
 
         return true;
     }
+//    removeFromSlot: function(slotLetter) {
+//        var inventory = this.getInventory(),
+//            equipment = this.sheet().getEquipment();
+//
+//        try {
+//            itemToEquip = inventory.getItemBySlot(slotLetter);
+//        } catch (e) {
+//            Game.Message.Router.sendMessage(
+//                Game.Message.Channel.STATUS,
+//                "No such item."
+//            );
+//            return false;
+//        }
+//
+//        inventory.removeItemBySlot(slotLetter);
+//        var displaced = equipment.equip(itemToEquip),
+//            leftOvers = inventory.addItemsUntilFull(displaced);
+//
+//        _.forEach(displaced, function(wearable) {
+//            Game.Message.Router.selectMessage(
+//                Game.Message.Channel.STATUS,
+//                this,
+//                "You remove %s.".format(wearable.getOneliner()),
+//                "The %s removes %s.".format(this.getName(), wearable.getOneliner())
+//            );
+//        }, this);
+//
+//        // We need the floor tile! For now just obliterate.
+//        _.forEach(leftOvers, function(w) {
+//            Game.Message.Router.selectMessage(
+//                Game.Message.Channel.STATUS,
+//                this,
+//                "You have nowhere to put %s! You drop it.".format(w.getOneliner()),
+//                "The %s has nowhere to put %s! It falls to the floor.".format(this.getName(), w.getOneliner())
+//            );
+//
+//            Game.Message.Router.sendMessage(
+//                Game.Message.Channel.STATUS,
+//                "The %s disappears into the ether.".format(w.getOneliner())
+//            );
+//        }, this);
+//
+//        Game.Message.Router.selectMessage(
+//            Game.Message.Channel.STATUS,
+//            this,
+//            "You equip %s.".format(itemToEquip.getOneliner()),
+//            "The %s equips %s.".format(this.getName(), itemToEquip.getOneliner())
+//        );
+//
+//        return true;
+//    },
 };
 
 Game.DudeRepository = new Game.EntityRepository();

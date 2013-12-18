@@ -155,6 +155,14 @@
         equal("Axe", sut.getWearableInSlot(SLOT_WEAPON).getName());
     });
 
+    test("Removing a piece of equipment.", function() {
+        sut.equip(fakeRepo.create("armor"));
+        var unequipped = sut.unequipItemBySlotLetter("g");
+
+        equal(unequipped.getName(), "Armor");
+        ok(!(sut.getWearableInSlot(SLOT_BODY).isRealThing()));
+    });
+
     test("Protection roll is sum of all rolls.", function() {
         sut.equip(fakeRepo.create("armor"));
         sut.equip(fakeRepo.create("helm"));

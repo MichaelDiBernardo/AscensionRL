@@ -18,6 +18,21 @@ Game.Equipment.SlotTypes = [
     SLOT_BOOTS
 ];
 
+Game.Equipment.LettersToSlots = {
+    "a" : SLOT_WEAPON,
+    "b" : SLOT_RANGED,
+    "c" : SLOT_LEFT_RING,
+    "d" : SLOT_RIGHT_RING,
+    "e" : SLOT_AMULET,
+    "f" : SLOT_LIGHT,
+    "g" : SLOT_BODY,
+    "h" : SLOT_CLOAK,
+    "i" : SLOT_OFFHAND,
+    "j": SLOT_HELM,
+    "k" : SLOT_GLOVES,
+    "l" : SLOT_BOOTS
+};
+
 Game.Equipment.prototype.protectionRoll = function() {
     var armor = _.filter(this._slots, function(slot) {
             return slot.isRealThing() && slot.getSlotType() != SLOT_WEAPON;
@@ -87,6 +102,15 @@ Game.Equipment.prototype.equip = function(wearable) {
 
     this._slots[slot] = wearable;
     return displacedItems;
+};
+
+Game.Equipment.prototype.unequipItemBySlotLetter = function(slotLetter) {
+    var equipSlotForLetter = Game.Equipment.LettersToSlots[slotLetter],
+        equipToReturn = this.getWearableInSlot(equipSlotForLetter);
+
+    this._slots[equipSlotForLetter] = this._getNullObjForSlot(equipSlotForLetter);
+
+    return equipToReturn;
 };
 
 Game.Equipment.prototype._initSlots = function(givenWearables) {
