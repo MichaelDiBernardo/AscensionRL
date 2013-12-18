@@ -143,11 +143,7 @@ Game.Screen.playScreen = {
         return this._player.tryMove(newX, newY, this._level);
     },
     getItemHere: function() {
-        var thisX = this._player.getX(),
-            thisY = this._player.getY(),
-            tile = this._level.getTileAt(thisX, thisY);
-
-        return this._player.tryGetItemFromTile(tile);
+        return this._player.getItemOnFloor();
     },
     handleInput: function(inputType, inputData) {
         // Movement
@@ -272,7 +268,7 @@ Game.Screen.inventoryScreen = new Game.Screen.ItemMenuScreen({
 Game.Screen.dropScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.inventoryItemRenderer,
     onSlotSelection: function(slotLetter) {
-        this._player.tryDropItemOnTile(slotLetter);
+        this._player.dropItemOnFloor(slotLetter);
     },
     caption: "Drop Item"
 });

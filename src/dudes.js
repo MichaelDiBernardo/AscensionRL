@@ -169,8 +169,9 @@ Game.Mixins.ItemHolder = {
         return this._inventory;
     },
 
-    tryGetItemFromTile: function(tile) {
-        var item = tile.getTopItem();
+    getItemOnFloor: function() {
+        var tile = this.getTileBeneath(),
+            item = tile.getTopItem();
         if (item === null) {
             Game.Message.Router.selectMessage(
                 Game.Message.Channel.STATUS,
@@ -204,7 +205,7 @@ Game.Mixins.ItemHolder = {
         );
         return true;
     },
-    tryDropItemOnTile: function(slotLetter) {
+    dropItemOnFloor: function(slotLetter) {
         var tile = this.getTileBeneath(),
             item = this._inventory.removeItemBySlot(slotLetter);
 
