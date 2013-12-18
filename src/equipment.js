@@ -110,6 +110,10 @@ Game.Equipment.prototype.unequipItemBySlotLetter = function(slotLetter) {
 
     this._nullifySlot(equipSlotForLetter);
 
+    if (!equipToReturn.isRealThing()) {
+        return null;
+    }
+
     return equipToReturn;
 };
 

@@ -171,6 +171,9 @@ Game.Screen.playScreen = {
         } else if (inputData.keyCode === ROT.VK_W) {
             Game.Screen.wieldScreen.setup(this._player);
             Game.switchScreen(Game.Screen.wieldScreen);
+        } else if (inputData.keyCode === ROT.VK_R) {
+            Game.Screen.unwieldScreen.setup(this._player);
+            Game.switchScreen(Game.Screen.unwieldScreen);
         } else {
             ok = false;
         }
@@ -248,6 +251,52 @@ Game.Screen.wieldScreen = {
     processCommand: function(itemIndex) {
         var slotLetter = Utils.alphabet[itemIndex];
         this._player.equipFromSlot(slotLetter);
+    }
+};
+
+Game.Screen.unwieldScreen = {
+    setup: function(player) {
+        this._player = player;
+        this._caption = "Unwield Item";
+    },
+    enter: function() {
+    },
+
+    exit: function() {
+    },
+
+    render: function(display) {
+        var equipment = this._player.sheet().getEquipment(),
+            slots = equipment.getSlotTypes(),
+            row = 2,
+            // HACK
+            chars = Utils.alphabet,
+            slotLetter = null,
+            equip = null;
+
+        display.drawText(0, 0, this._caption);
+
+        _.forEach(slots, function(slot) {
+            equip = equipment.getWearableInSlot(slot);
+            glyph = equip.getGlyph();
+            slotLetter = chars[row-2];
+            display.drawText(2, row, "%s)    %s".format(slotLetter, equip.getOneliner()));
+            display.draw(5, row,
+                glyph.getChar(), glyph.getForeground(), glyph.getBackground());
+            row++;
+        });
+    },
+
+    handleInput: function(inputType, inputData) {
+        if (inputData.keyCode >= ROT.VK_A && inputData.keyCode <= ROT.VK_L) {
+            this.processCommand(inputData.keyCode - ROT.VK_A);
+        }
+        Game.switchScreen(Game.Screen.playScreen);
+    },
+
+    processCommand: function(itemIndex) {
+        var slotLetter = Utils.alphabet[itemIndex];
+        this._player.unequipFromSlot(slotLetter);
     }
 };
 

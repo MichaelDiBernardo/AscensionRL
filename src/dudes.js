@@ -251,10 +251,7 @@ Game.Mixins.Equipper = {
                 "The %s has nowhere to put %s! It falls to the floor.".format(this.getName(), w.getOneliner())
             );
 
-            Game.Message.Router.sendMessage(
-                Game.Message.Channel.STATUS,
-                "The %s disappears into the ether.".format(w.getOneliner())
-            );
+            this.dropItemOnFloor(w);
         }, this);
 
         Game.Message.Router.selectMessage(
@@ -265,58 +262,46 @@ Game.Mixins.Equipper = {
         );
 
         return true;
+    },
+    unequipFromSlot: function(slotLetter) {
+        var inventory = this.getInventory(),
+            equipment = this.sheet().getEquipment(),
+            removedEquip = equipment.unequipItemBySlotLetter(slotLetter);
+
+        if (removedEquip === null) {
+            Game.Message.Router.sendMessage(
+                Game.Message.Channel.STATUS,
+                "Nothing to unequip from that slot."
+            );
+            return;
+        }
+
+        Game.Message.Router.selectMessage(
+            Game.Message.Channel.STATUS,
+            this,
+            "You remove %s".format(removedEquip.getOneliner()),
+            "The %s removes %s".format(this.getName(), removedEquip.getOneliner())
+        );
+
+        if (inventory.roomLeft()) {
+            inventory.addItem(removedEquip);
+        } else {
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                this,
+                "You have nowhere to put %s! You drop it.".format(removedEquip.getOneliner()),
+                "The %s has nowhere to put %s! It falls to the floor.".format(this.getName(), removedEquip.getOneliner())
+            );
+
+            this.dropItemOnFloor(removedEquip);
+        }
+    },
+    dropItemOnFloor: function(item) {
+        Game.Message.Router.sendMessage(
+            Game.Message.Channel.STATUS,
+            "The %s disappears into the ether.".format(item.getOneliner())
+        );
     }
-//    removeFromSlot: function(slotLetter) {
-//        var inventory = this.getInventory(),
-//            equipment = this.sheet().getEquipment();
-//
-//        try {
-//            itemToEquip = inventory.getItemBySlot(slotLetter);
-//        } catch (e) {
-//            Game.Message.Router.sendMessage(
-//                Game.Message.Channel.STATUS,
-//                "No such item."
-//            );
-//            return false;
-//        }
-//
-//        inventory.removeItemBySlot(slotLetter);
-//        var displaced = equipment.equip(itemToEquip),
-//            leftOvers = inventory.addItemsUntilFull(displaced);
-//
-//        _.forEach(displaced, function(wearable) {
-//            Game.Message.Router.selectMessage(
-//                Game.Message.Channel.STATUS,
-//                this,
-//                "You remove %s.".format(wearable.getOneliner()),
-//                "The %s removes %s.".format(this.getName(), wearable.getOneliner())
-//            );
-//        }, this);
-//
-//        // We need the floor tile! For now just obliterate.
-//        _.forEach(leftOvers, function(w) {
-//            Game.Message.Router.selectMessage(
-//                Game.Message.Channel.STATUS,
-//                this,
-//                "You have nowhere to put %s! You drop it.".format(w.getOneliner()),
-//                "The %s has nowhere to put %s! It falls to the floor.".format(this.getName(), w.getOneliner())
-//            );
-//
-//            Game.Message.Router.sendMessage(
-//                Game.Message.Channel.STATUS,
-//                "The %s disappears into the ether.".format(w.getOneliner())
-//            );
-//        }, this);
-//
-//        Game.Message.Router.selectMessage(
-//            Game.Message.Channel.STATUS,
-//            this,
-//            "You equip %s.".format(itemToEquip.getOneliner()),
-//            "The %s equips %s.".format(this.getName(), itemToEquip.getOneliner())
-//        );
-//
-//        return true;
-//    },
 };
 
 Game.DudeRepository = new Game.EntityRepository();
