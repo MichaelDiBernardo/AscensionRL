@@ -96,7 +96,7 @@ Game.Equipment.prototype.equip = function(wearable) {
         displacedItem = this._slots[currentSlot];
         if (displacedItem.isRealThing()) {
             displacedItems.push(displacedItem);
-            this._slots[currentSlot] = this._getNullObjForSlot(currentSlot);
+            this._nullifySlot(currentSlot);
         }
     }, this);
 
@@ -108,7 +108,7 @@ Game.Equipment.prototype.unequipItemBySlotLetter = function(slotLetter) {
     var equipSlotForLetter = Game.Equipment.LettersToSlots[slotLetter],
         equipToReturn = this.getWearableInSlot(equipSlotForLetter);
 
-    this._slots[equipSlotForLetter] = this._getNullObjForSlot(equipSlotForLetter);
+    this._nullifySlot(equipSlotForLetter);
 
     return equipToReturn;
 };
@@ -119,7 +119,7 @@ Game.Equipment.prototype._initSlots = function(givenWearables) {
 
     for (var i = 0; i < length; i++) {
         var slot = slotTypes[i];
-        this._slots[slot] = this._getNullObjForSlot(slot);
+        this._nullifySlot(slot);
     }
 
     length = givenWearables.length;
@@ -131,10 +131,9 @@ Game.Equipment.prototype._initSlots = function(givenWearables) {
     }
 };
 
-Game.Equipment.prototype._getNullObjForSlot = function(slot) {
-    if (slot === SLOT_WEAPON) {
-        return Game.ItemRepository.create('fist');
-    } else {
-        return Game.ItemRepository.create('skin');
-    }
+Game.Equipment.prototype._nullifySlot = function(slot) {
+    var nullObjTag = slot === SLOT_WEAPON ? "fist" : "skin",
+        nullObj = Game.ItemRepository.create(nullObjTag);
+
+    this._slots[slot] = nullObj;
 };
