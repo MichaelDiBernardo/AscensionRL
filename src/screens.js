@@ -106,7 +106,8 @@ Game.Screen.playScreen = {
                     y - topLeftY,
                     glyph.getChar(),
                     glyph.getForeground(),
-                    glyph.getBackground());
+                    glyph.getBackground()
+               );
             }
         }
 
@@ -290,6 +291,11 @@ Game.Screen.unwieldScreen = new Game.Screen.ItemMenuScreen({
 });
 
 Game.Screen.equipScreen = new Game.Screen.ItemMenuScreen({
+    renderer: Game.Screen.Renderer.equipmentItemRenderer,
+    caption: "Equipment"
+});
+
+Game.Screen.getFromFloorScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.equipmentItemRenderer,
     caption: "Equipment"
 });

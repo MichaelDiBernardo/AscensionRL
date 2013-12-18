@@ -56,11 +56,17 @@ Game.Tile.prototype.getGlyph = function() {
         return this.getOccupant().getGlyph();
     }
 
-    if (this._inventory.itemCount()) {
-        return this._inventory.getFirstItem().getGlyph();
-    }
+    var itemCount = this._inventory.itemCount();
 
-    return this._glyph;
+    if (itemCount === 0) {
+        return this._glyph;
+    }
+    else if (itemCount === 1) {
+        return this._inventory.getFirstItem().getGlyph();
+    } else {
+        return this._inventory.getFirstItem().getGlyph().withBackground("#444");
+    }
+    throw new Error("No glyph possible!");
 };
 
 // TODO: This will disappear when map templates declare their own tile

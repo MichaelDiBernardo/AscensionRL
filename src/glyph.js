@@ -8,12 +8,23 @@ Game.Glyph = function(properties) {
 Game.Glyph.prototype.getChar = function() {
     return this._char;
 };
+
 Game.Glyph.prototype.getBackground = function() {
     return this._background;
 };
+
 Game.Glyph.prototype.getForeground = function() {
     return this._foreground;
 };
+
+Game.Glyph.prototype.withBackground = function(background) {
+    return new Game.Glyph({
+        character: this._char,
+        foreground: this._foreground,
+        background: background
+    });
+};
+
 
 Game.Glyph.NullGlyph = new Game.Glyph({
     character: "N",
