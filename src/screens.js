@@ -189,7 +189,7 @@ Game.Screen.playScreen = {
  */
 Game.Screen.ItemMenuScreen = function(properties) {
     this.render = properties.renderer;
-    this.handleInput = properties.inputHandler;
+    this.onSlotSelection = properties.onSlotSelection || Utils.IdentityFunc;
     this._caption = properties.caption;
 };
 
@@ -201,6 +201,21 @@ Game.Screen.ItemMenuScreen.prototype.enter = function() {
 };
 
 Game.Screen.ItemMenuScreen.prototype.exit = function() {
+};
+
+Game.Screen.ItemMenuScreen.prototype.handleInput = function(inputType, inputData) {
+    var kc = inputData.keyCode,
+        isNotCloseCommand = kc !== ROT.VK_ESCAPE && kc !== ROT.VK_RETURN,
+        isGoodSlotSelection = kc >= ROT.VK_A && kc <= ROT.VK_L;
+
+    if (isNotCloseCommand && isGoodSlotSelection) {
+        var itemIndex = kc - ROT.VK_A,
+            slotLetter = Utils.alphabet[itemIndex];
+
+        this.onSlotSelection(slotLetter);
+    }
+
+    Game.switchScreen(Game.Screen.playScreen);
 };
 
 /**
@@ -243,57 +258,30 @@ Game.Screen.Renderer.equipmentItemRenderer = function(display) {
 };
 
 /**
- * Screen definitions.
+ * Item screen definitions.
  */
-
 Game.Screen.inventoryScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.inventoryItemRenderer,
-    inputHandler: function(inputType, inputData) {
-        var kc = inputData.keyCode;
-        if (kc === ROT.VK_ESCAPE || kc === ROT.VK_RETURN) {
-            Game.switchScreen(Game.Screen.playScreen);
-        }
-    },
     caption: "Inventory"
 });
 
 Game.Screen.wieldScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.inventoryItemRenderer,
-    inputHandler: function(inputType, inputData) {
-        var kc = inputData.keyCode;
-        if (kc >= ROT.VK_A && kc <= ROT.VK_L) {
-            var itemIndex = kc - ROT.VK_A,
-                slotLetter = Utils.alphabet[itemIndex];
-
-            this._player.equipFromSlot(slotLetter);
-        }
-        Game.switchScreen(Game.Screen.playScreen);
+    onSlotSelection: function(slotLetter) {
+        this._player.equipFromSlot(slotLetter);
     },
     caption: "Wield Item"
 });
 
 Game.Screen.unwieldScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.equipmentItemRenderer,
-    inputHandler: function(inputType, inputData) {
-        var kc = inputData.keyCode;
-        if (kc >= ROT.VK_A && kc <= ROT.VK_L) {
-            var itemIndex = kc - ROT.VK_A,
-                slotLetter = Utils.alphabet[itemIndex];
-
-            this._player.unequipFromSlot(slotLetter);
-        }
-        Game.switchScreen(Game.Screen.playScreen);
+    onSlotSelection: function(slotLetter) {
+        this._player.unequipFromSlot(slotLetter);
     },
     caption: "Unwield Item"
 });
 
 Game.Screen.equipScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.equipmentItemRenderer,
-    inputHandler: function(inputType, inputData) {
-        var kc = inputData.keyCode;
-        if (kc === ROT.VK_ESCAPE || kc === ROT.VK_RETURN) {
-            Game.switchScreen(Game.Screen.playScreen);
-        }
-    },
     caption: "Equipment"
 });

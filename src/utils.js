@@ -20,4 +20,7 @@ Utils.Iota.prototype.start = function(val) {
     }
 };
 
+Utils.IdentityFunc = function() {
+};
+
 iota = new Utils.Iota();
