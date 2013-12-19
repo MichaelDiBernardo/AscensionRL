@@ -325,5 +325,8 @@ Game.Screen.equipScreen = new Game.Screen.ItemMenuScreen({
 Game.Screen.getFromFloorScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.inventoryItemRenderer,
     containerSelector: Game.Screen.ItemMenuScreen.floorStackSelector,
+    onSlotSelection: function(slotLetter) {
+        this._player.getItemOnFloor(slotLetter);
+    },
     caption: "On Floor"
 });

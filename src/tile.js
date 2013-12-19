@@ -39,14 +39,6 @@ Game.Tile.prototype.placeItem = function(item) {
     this._inventory.addItem(item);
 };
 
-Game.Tile.prototype.getTopItem = function() {
-    if (this._inventory.itemCount()) {
-        return this._inventory.getItemBySlot("a");
-    } else {
-        return null;
-    }
-};
-
 Game.Tile.prototype.removeTopItem = function() {
     return this._inventory.removeItemBySlot("a");
 };

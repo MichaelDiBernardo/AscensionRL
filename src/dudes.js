@@ -169,21 +169,7 @@ Game.Mixins.ItemHolder = {
         return this._inventory;
     },
 
-    getItemOnFloor: function() {
-        var tile = this.getTileBeneath(),
-            item = tile.getTopItem();
-        if (item === null) {
-            Game.Message.Router.selectMessage(
-                Game.Message.Channel.STATUS,
-                this,
-                "Nothing to pick up!",
-                ""
-            );
-            return false;
-        }
-
-        var itemName = item.getOneliner();
-
+    getItemOnFloor: function(slotLetter) {
         if (this._inventory.isFull()) {
             Game.Message.Router.selectMessage(
                 Game.Message.Channel.STATUS,
@@ -194,14 +180,34 @@ Game.Mixins.ItemHolder = {
             return false;
         }
 
-        tile.removeTopItem();
+        var tile = this.getTileBeneath(),
+            item = null;
+
+        if (slotLetter) {
+            item = tile.getItemStack().removeItemBySlot(slotLetter);
+        } else {
+            item = tile.removeTopItem();
+        }
+
+        if (!item) {
+            Game.Message.Router.selectMessage(
+                Game.Message.Channel.STATUS,
+                this,
+                slotLetter ? "No such item." : "Nothing to pick up!",
+                ""
+            );
+            return false;
+        }
+
         this._inventory.addItem(item);
+
+        var itemName = item.getOneliner();
 
         Game.Message.Router.selectMessage(
             Game.Message.Channel.STATUS,
             this,
             "You get %s.".format(itemName),
-            "The %s gets a %s.".format(this.getName(), item.getName())
+            "The %s gets a %s.".format(this.getName(), itemName)
         );
         return true;
     },
