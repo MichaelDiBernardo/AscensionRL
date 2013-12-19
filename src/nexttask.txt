@@ -1,8 +1,7 @@
-- Add drop screen
+- When switching 2H weapons, send overflow to floor.
+- What happens when floor stack is full? When you drop or when your hands overflow?
+- Right now getting seems to be broken when inventory is full (message isn't displaying anymore)
+- There should be some message when you walk over a stack / floor item.
+- HUD
 - Add inspection screen?
-- Should really add tests for sprintfing oneliners
-- Refactor screens to reuse code
 - Have weights line up on menu screens
-- Overflowing or dropping items stacks them on the floor
-- Bring up a menu screen when > 1 item on floor tile?
-- item stacking???? (I think that should be later)
