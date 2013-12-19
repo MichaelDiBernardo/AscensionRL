@@ -59,7 +59,7 @@ Die.AggregateRoll.prototype.maxValue = function() {
 };
 
 Die.AggregateRoll.prototype.toString = function() {
-    return "[%s-%s]".format(this.minValue(), this.maxValue());
+    return "%s-%s".format(this.minValue(), this.maxValue());
 };
 
 Die.AggregateRoll.prototype.roll = function() {

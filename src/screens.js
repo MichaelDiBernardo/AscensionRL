@@ -131,19 +131,30 @@ Game.Screen.playScreen = {
 
         var sheet = this._player.sheet();
         display.drawText(0, 1,
-            '%c{blue}%b{black}' + this._player.getName());
+            "%c{blue}%b{black}" + this._player.getName());
 
         display.drawText(0, 3,
-            '%c{white}%b{black}Str   %c{green}' + sheet.str());
+            "%c{white}%b{black}Str   %c{green}" + sheet.str());
         display.drawText(0, 4,
-            '%c{white}%b{black}Dex   %c{green}' + sheet.dex());
+            "%c{white}%b{black}Dex   %c{green}" + sheet.dex());
         display.drawText(0, 5,
-            '%c{white}%b{black}Con   %c{green}' + sheet.con());
+            "%c{white}%b{black}Con   %c{green}" + sheet.con());
         display.drawText(0, 6,
-            '%c{white}%b{black}Gra   %c{green}' + sheet.gra());
+            "%c{white}%b{black}Gra   %c{green}" + sheet.gra());
 
         display.drawText(0, 8,
-            '%c{white}%b{black}HP   %c{green}' + sheet.curHP() + "/" + sheet.maxHP());
+            "%c{white}%b{black}HP    %c{green}" + sheet.curHP() + "/" + sheet.maxHP());
+
+
+        var damroll = sheet.damroll(0),
+            attackSummary = sprintf("(%+d,%s)", sheet.melee(), damroll.toString()),
+            protroll = sheet.protectionRoll(),
+            defenseSummary = sprintf("[%+d,%s]", sheet.evasion(), protroll.toString());
+        display.drawText(3, 10,
+            "%c{white}%b{black}" + attackSummary);
+        display.drawText(3, 12,
+            "%c{white}%b{black}" + defenseSummary);
+
     },
 
     _renderMessages: function(display) {
