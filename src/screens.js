@@ -143,8 +143,13 @@ Game.Screen.playScreen = {
         // Try to move to the new cell
         return this._player.tryMove(newX, newY, this._level);
     },
-    getItemHere: function() {
-        return this._player.getItemOnFloor();
+    handleGetFromFloor: function() {
+        if (this._player.getTileBeneath().hasMultipleItems()) {
+            Game.Screen.getFromFloorScreen.setup(this._player);
+            Game.switchScreen(Game.Screen.getFromFloorScreen);
+        } else {
+            this._player.getItemOnFloor();
+        }
     },
     handleInput: function(inputType, inputData) {
         // Movement
@@ -159,7 +164,7 @@ Game.Screen.playScreen = {
         } else if (kc === ROT.VK_DOWN || kc === ROT.VK_J) {
             ok = this.move(0, 1);
         } else if (kc === ROT.VK_G) {
-            ok = this.getItemHere();
+            ok = this.handleGetFromFloor();
         } else if (kc === ROT.VK_I) {
             Game.Screen.inventoryScreen.setup(this._player);
             Game.switchScreen(Game.Screen.inventoryScreen);
@@ -190,6 +195,7 @@ Game.Screen.playScreen = {
  */
 Game.Screen.ItemMenuScreen = function(properties) {
     this.render = properties.renderer;
+    this.selectContainer = properties.containerSelector;
     this.onSlotSelection = properties.onSlotSelection || Utils.IdentityFunc;
     this._caption = properties.caption;
 };
@@ -219,11 +225,12 @@ Game.Screen.ItemMenuScreen.prototype.handleInput = function(inputType, inputData
     Game.switchScreen(Game.Screen.playScreen);
 };
 
+
 /**
  * Base renderers for configuring item screens.
  */
 Game.Screen.Renderer.inventoryItemRenderer = function(display) {
-    var itemsMap = this._player.getInventory().getItemMap(),
+    var itemsMap = this.selectContainer().getItemMap(),
         row = 2, glyph = null;
     display.drawText(0, 0, this._caption);
 
@@ -237,7 +244,7 @@ Game.Screen.Renderer.inventoryItemRenderer = function(display) {
 };
 
 Game.Screen.Renderer.equipmentItemRenderer = function(display) {
-    var equipment = this._player.sheet().getEquipment(),
+    var equipment = this.selectContainer(),
         slots = equipment.getSlotTypes(),
         row = 2,
         // HACK
@@ -259,15 +266,32 @@ Game.Screen.Renderer.equipmentItemRenderer = function(display) {
 };
 
 /**
+ * Container selectors (i.e. picking which container of things to render.)
+ */
+Game.Screen.ItemMenuScreen.inventorySelector = function() {
+    return this._player.getInventory();
+};
+
+Game.Screen.ItemMenuScreen.equipmentSelector = function() {
+    return this._player.sheet().getEquipment();
+};
+
+Game.Screen.ItemMenuScreen.floorStackSelector = function() {
+    return this._player.getTileBeneath().getItemStack();
+};
+
+/**
  * Item screen definitions.
  */
 Game.Screen.inventoryScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.inventoryItemRenderer,
+    containerSelector: Game.Screen.ItemMenuScreen.inventorySelector,
     caption: "Inventory"
 });
 
 Game.Screen.dropScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.inventoryItemRenderer,
+    containerSelector: Game.Screen.ItemMenuScreen.inventorySelector,
     onSlotSelection: function(slotLetter) {
         this._player.dropItemOnFloor(slotLetter);
     },
@@ -276,6 +300,7 @@ Game.Screen.dropScreen = new Game.Screen.ItemMenuScreen({
 
 Game.Screen.wieldScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.inventoryItemRenderer,
+    containerSelector: Game.Screen.ItemMenuScreen.inventorySelector,
     onSlotSelection: function(slotLetter) {
         this._player.equipFromSlot(slotLetter);
     },
@@ -284,6 +309,7 @@ Game.Screen.wieldScreen = new Game.Screen.ItemMenuScreen({
 
 Game.Screen.unwieldScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.equipmentItemRenderer,
+    containerSelector: Game.Screen.ItemMenuScreen.equipmentSelector,
     onSlotSelection: function(slotLetter) {
         this._player.unequipFromSlot(slotLetter);
     },
@@ -292,10 +318,12 @@ Game.Screen.unwieldScreen = new Game.Screen.ItemMenuScreen({
 
 Game.Screen.equipScreen = new Game.Screen.ItemMenuScreen({
     renderer: Game.Screen.Renderer.equipmentItemRenderer,
+    containerSelector: Game.Screen.ItemMenuScreen.equipmentSelector,
     caption: "Equipment"
 });
 
 Game.Screen.getFromFloorScreen = new Game.Screen.ItemMenuScreen({
-    renderer: Game.Screen.Renderer.equipmentItemRenderer,
-    caption: "Equipment"
+    renderer: Game.Screen.Renderer.inventoryItemRenderer,
+    containerSelector: Game.Screen.ItemMenuScreen.floorStackSelector,
+    caption: "On Floor"
 });

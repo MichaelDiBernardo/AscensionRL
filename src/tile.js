@@ -51,6 +51,14 @@ Game.Tile.prototype.removeTopItem = function() {
     return this._inventory.removeItemBySlot("a");
 };
 
+Game.Tile.prototype.getItemStack = function() {
+    return this._inventory;
+};
+
+Game.Tile.prototype.hasMultipleItems = function() {
+    return this._inventory.itemCount() > 1;
+};
+
 Game.Tile.prototype.getGlyph = function() {
     if (this._occupant) {
         return this.getOccupant().getGlyph();

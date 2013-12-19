@@ -205,6 +205,7 @@ Game.Mixins.ItemHolder = {
         );
         return true;
     },
+
     dropItemOnFloor: function(slotLetter) {
         var tile = this.getTileBeneath(),
             item = this._inventory.removeItemBySlot(slotLetter);
