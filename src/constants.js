@@ -42,3 +42,10 @@ HANDS_2H = iota.val();
  * Inventory stuff.
  */
 INV_CAPACITY = 20;
+
+/**
+ * Main UI settings.
+ */
+UI_SCREEN_HEIGHT = 24;
+UI_SCREEN_WIDTH = 80;
+UI_HUD_WIDTH = 12;

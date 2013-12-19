@@ -76,28 +76,35 @@ Game.Screen.playScreen = {
         this._level = new Game.Level(this._player);
         this._level.start();
     },
+
     enter: function() {
         console.log("Entered play screen.");
     },
+
     exit: function() {
         console.log("Exited play screen.");
         this._level.getEngine().lock();
     },
+
     render: function(display) {
-        var screenWidth = Game.getScreenWidth();
-        var screenHeight = Game.getScreenHeight();
+        this._renderMap(display);
+        this._renderHUD(display);
+        this._renderMessages(display);
+    },
+
+    _renderMap: function(display) {
         // Make sure the x-axis doesn"t go to the left of the left bound
-        var topLeftX = Math.max(0, this._player.getX() - (screenWidth / 2));
+        var topLeftX = Math.max(UI_HUD_WIDTH, this._player.getX() - (UI_SCREEN_WIDTH / 2));
         // Make sure we still have enough space to fit an entire game screen
-        topLeftX = Math.min(topLeftX, this._level.getWidth() - screenWidth);
+        topLeftX = Math.min(topLeftX, this._level.getWidth() - UI_SCREEN_WIDTH);
         // Make sure the y-axis doesn"t above the top bound
-        var topLeftY = Math.max(0, this._player.getY() - (screenHeight / 2));
+        var topLeftY = Math.max(0, this._player.getY() - (UI_SCREEN_HEIGHT / 2));
         // Make sure we still have enough space to fit an entire game screen
-        topLeftY = Math.min(topLeftY, this._level.getHeight() - screenHeight);
+        topLeftY = Math.min(topLeftY, this._level.getHeight() - UI_SCREEN_HEIGHT);
 
         // Iterate through all visible level cells
-        for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
-            for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
+        for (var x = topLeftX; x < topLeftX + UI_SCREEN_WIDTH; x++) {
+            for (var y = topLeftY; y < topLeftY + UI_SCREEN_HEIGHT; y++) {
                 // Fetch the glyph for the tile and render it to the screen
                 // at the offset position.
                 var glyph = this._level.getTileAt(x, y).getGlyph();
@@ -107,14 +114,45 @@ Game.Screen.playScreen = {
                     glyph.getChar(),
                     glyph.getForeground(),
                     glyph.getBackground()
-               );
+                );
+            }
+        }
+    },
+
+    _renderHUD: function(display) {
+        // Iterate through all visible level cells
+        for (var x = 0; x < UI_HUD_WIDTH; x++) {
+            for (var y = 0; y < UI_SCREEN_HEIGHT; y++) {
+                display.draw(
+                    x, y, " ", "black", "black"
+                );
             }
         }
 
+        var sheet = this._player.sheet();
+        display.drawText(0, 1,
+            '%c{blue}%b{black}' + this._player.getName());
+
+        display.drawText(0, 3,
+            '%c{white}%b{black}Str   %c{green}' + sheet.str());
+        display.drawText(0, 4,
+            '%c{white}%b{black}Dex   %c{green}' + sheet.dex());
+        display.drawText(0, 5,
+            '%c{white}%b{black}Con   %c{green}' + sheet.con());
+        display.drawText(0, 6,
+            '%c{white}%b{black}Gra   %c{green}' + sheet.gra());
+
+        display.drawText(0, 8,
+            '%c{white}%b{black}HP   %c{green}' + sheet.curHP() + "/" + sheet.maxHP());
+    },
+
+    _renderMessages: function(display) {
         var statusMessages =
             Game.Message.Router.getMessages(Game.Message.Channel.STATUS),
-            messageY = 0;
-            length = statusMessages.length;
+            messageY = 0,
+            length = statusMessages.length,
+            i;
+
         for (i = 0; i < length; i++) {
             var currentMessage = statusMessages[i];
             if (!currentMessage) {
@@ -122,7 +160,7 @@ Game.Screen.playScreen = {
             }
 
             messageY += display.drawText(
-                0,
+                UI_HUD_WIDTH,
                 messageY,
                 '%c{white}%b{black}' + statusMessages[i]
             );
@@ -131,18 +169,21 @@ Game.Screen.playScreen = {
         var combatMessages =
             Game.Message.Router.getMessages(Game.Message.Channel.COMBAT);
             length = combatMessages.length;
+
         for (i = 0; i < length; i++) {
             console.log(combatMessages[i]);
         }
 
         Game.Message.Router.clearMessages();
     },
+
     move: function(dX, dY) {
         var newX = this._player.getX() + dX,
             newY = this._player.getY() + dY;
         // Try to move to the new cell
         return this._player.tryMove(newX, newY, this._level);
     },
+
     handleGetFromFloor: function() {
         if (this._player.getTileBeneath().hasMultipleItems()) {
             Game.Screen.getFromFloorScreen.setup(this._player);
@@ -151,6 +192,7 @@ Game.Screen.playScreen = {
             this._player.getItemOnFloor();
         }
     },
+
     handleInput: function(inputType, inputData) {
         // Movement
         var ok = true,

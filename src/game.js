@@ -7,13 +7,11 @@
 var Game = {
     _display: null,
     _currentScreen: null,
-    _screenWidth: 80,
-    _screenHeight: 24,
 
     init: function() {
         this._display = new ROT.Display({
-            width: this._screenWidth,
-            height: this._screenHeight,
+            width: UI_SCREEN_WIDTH,
+            height: UI_SCREEN_HEIGHT,
             fontSize: 24,
             fontStyle: "bold"
         });
@@ -54,10 +52,4 @@ var Game = {
             this.refresh();
         }
     },
-    getScreenWidth: function() {
-        return this._screenWidth;
-    },
-    getScreenHeight: function() {
-        return this._screenHeight;
-    }
 };

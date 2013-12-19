@@ -10,6 +10,22 @@ Game.Sheet.prototype.baseSkills = function() {
     return this._skills;
 };
 
+Game.Sheet.prototype.str = function() {
+    return this._stats.str();
+};
+
+Game.Sheet.prototype.dex = function() {
+    return this._stats.dex();
+};
+
+Game.Sheet.prototype.con = function() {
+    return this._stats.con();
+};
+
+Game.Sheet.prototype.gra = function() {
+    return this._stats.gra();
+};
+
 Game.Sheet.prototype.melee = function() {
     return this.baseSkills().melee() + this.meleeBonus();
 };
