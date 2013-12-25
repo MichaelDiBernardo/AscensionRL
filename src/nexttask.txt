@@ -5,3 +5,8 @@
 - HUD
 - Add inspection screen?
 - Have weights line up on menu screens
+
+FOV: 
+    - Why is render being called 3 times on map?
+    - Make sight radius dependent on light in hand
+    - Make map memory

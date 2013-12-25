@@ -100,7 +100,7 @@
 
         equal(roll.minValue(), 0);
         equal(roll.maxValue(), 0);
-        equal(roll.toString(), "[0-0]");
+        equal(roll.toString(), "0-0");
     });
 
     test("Empty equipment has none in all slots.", function() {
@@ -170,7 +170,7 @@
 
         equal(roll.minValue(), 2);
         equal(roll.maxValue(), 6);
-        equal(roll.toString(), "[2-6]");
+        equal(roll.toString(), "2-6");
     });
 
     test("Melee bonus is sum of all melee bonuses.", function() {

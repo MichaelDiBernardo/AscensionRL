@@ -1,7 +1,7 @@
 Game.Tile = function(properties) {
     properties = properties || {};
     this._isWalkable = properties.isWalkable || false;
-    this._isDiggable = properties.isDiggable || false;
+    this._isOpaque = properties.isOpaque || false;
     this._occupant = null;
     this._inventory = new Game.Inventory({ capacity: 32 });
     this._glyph = properties.glyph || Game.Glyph.NullGlyph;
@@ -11,8 +11,8 @@ Game.Tile.prototype.isWalkable = function() {
     return this._isWalkable && !this.isOccupied();
 };
 
-Game.Tile.prototype.isDiggable = function() {
-    return this._isDiggable;
+Game.Tile.prototype.isOpaque = function() {
+    return this._isOpaque;
 };
 
 Game.Tile.prototype.onEntityEntered = function(entity) {
@@ -86,7 +86,7 @@ Game.Tile.create = function(kind) {
                     character: "#",
                     foreground: "goldenrod",
                 }),
-                isDiggable: true
+                isOpaque: true
             });
         case Game.Tile.Tiles.FLOOR:
             return new Game.Tile({
@@ -94,7 +94,8 @@ Game.Tile.create = function(kind) {
                     character: ".",
                     foreground: "grey"
                 }),
-                isWalkable: true
+                isWalkable: true,
+                isOpaque: false
             });
         case Game.Tile.Tiles.DOOR:
             return new Game.Tile({
@@ -102,7 +103,8 @@ Game.Tile.create = function(kind) {
                     character: "+",
                     foreground: "red"
                 }),
-                isWalkable: true
+                isWalkable: true,
+                isOpaque: true
             });
         default:
             return new Game.Tile();

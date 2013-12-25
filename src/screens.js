@@ -75,6 +75,10 @@ Game.Screen.playScreen = {
         this._player = Game.DudeRepository.create('player');
         this._level = new Game.Level(this._player);
         this._level.start();
+        var level = this._level;
+        this._fov = new ROT.FOV.PreciseShadowcasting(function(x, y) {
+            return !level.getTileAt(x, y).isOpaque();
+        });
     },
 
     enter: function() {
@@ -93,6 +97,14 @@ Game.Screen.playScreen = {
     },
 
     _renderMap: function(display) {
+        var visibleCells = {};
+        this._fov.compute(
+            this._player.getX(), this._player.getY(), 4,
+            function(x, y, radius, visibility) {
+                visibleCells[x + "," + y] = visibility;
+            }
+        );
+
         // Make sure the x-axis doesn"t go to the left of the left bound
         var topLeftX = Math.max(UI_HUD_WIDTH, this._player.getX() - (UI_SCREEN_WIDTH / 2));
         // Make sure we still have enough space to fit an entire game screen
@@ -105,6 +117,13 @@ Game.Screen.playScreen = {
         // Iterate through all visible level cells
         for (var x = topLeftX; x < topLeftX + UI_SCREEN_WIDTH; x++) {
             for (var y = topLeftY; y < topLeftY + UI_SCREEN_HEIGHT; y++) {
+                var cellVisValue = visibleCells[x + "," + y],
+                    isDark = cellVisValue === undefined || cellVisValue <= 0;
+
+                if (isDark) {
+                    continue;
+                }
+
                 // Fetch the glyph for the tile and render it to the screen
                 // at the offset position.
                 var glyph = this._level.getTileAt(x, y).getGlyph();

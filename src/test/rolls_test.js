@@ -25,7 +25,7 @@ test("Aggregate die roll values.", function() {
 
     equal(sut.minValue(), 4);
     equal(sut.maxValue(), 14);
-    equal(sut.toString(), "[4-14]");
+    equal(sut.toString(), "4-14");
 });
 
 test("Aggregate die roll.", function() {
